@@ -1,0 +1,19 @@
+== Customer Statement Enquiry
+=== Overview
+* Display the contents of statements sent to a customer
+* Print the statement
+* Link back to customer enquiry
+* Link to underlying document display
+=== Description
+This enquiry facility allows you to select which statement you wish to display. Initailly the display is set to
+show the last statement sent to the customer, but you may choose a different one (if available) from the drop-down
+list followed by clicking the Enquire button. Note that your company administrator will have set a number of months
+of statement history to retain and therefore statements older than this will be automatically removed from the
+system.
+
+Be aware that values on statements are always shown in cutomer account currency and that dates and values are
+formatted for the customer's locale - which may be different from yours. This is how the information is printed
+on an actual statement sent to a customer and so it is displayed the same way on this enquiry screen.
+
+To return to the customer enquiry display, click on the customer code in the header portion of the screen. To display
+the details of an underlying document, click on that document's code in the body of the statement.

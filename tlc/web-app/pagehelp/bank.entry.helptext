@@ -1,0 +1,43 @@
+== Bank Payment/Receipt Entry
+=== Overview
+* Enter bank payments and receipts either as lists or individual transactions
+* Analyze transactions to any ledger (GL, AR and/or AP) in any combination
+* Automatic document number generation depending on configuration
+* For AR or AP transactions, auto-allocate the amounts, or not
+=== Description
+The bank payment/receipt entry system uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. For example, as you enter a supplier code and then press Tab,
+the system contacts the server to verify the account exists and to display the supplier name as confirmation. The system
+is therefore sensitive to the performance of your server and the communications between your server and your browser. A
+company's own server and intranet should provide high performance, the public Internet using a shared server much less so.
+
+The bank payments and receipt entry system can be used in two main ways: single transaction or transaction list approaches.
+For example, a cheque payment would be entered using the single transaction approach so that the reference number on our
+document can be used to hold the cheque number (the document //code// is our internal document number //not// the cheque
+number). Other payments, however, may take the form of a list where your bank accepts the list and makes multiple payments
+from it - usually by electronic transfer. Which approach to use can usually be determined by how the transaction will
+appear on your bank statement since it will be easier to reconcile the bank statement if there is a direct one-to-one
+relationship between entries on the bank statement and those displayed by the system.
+
+It is possible to post a payment or receipt to any ledger (GL, AR and AP) in any combination. This can be useful where
+there is to be a set-off between a customer and supplier account or where, for example, a group of suppliers are to be
+paid by a single transaction. The ability to post a transaction to the General Ledger is useful in such situations as
+transferring money between bank accounts, accepting loan or share capital, processing recurring payments or receipts etc
+where no customer or supplier invoice is involved.
+
+Just before the detailed line by line analysis section of the screen, you must enter a total value for this payment or
+receipt so that the system can verify that the lines on the document add up to the expected total.
+
+The line by line analysis area contains a scrolling list of lines for you to enter data in to. Should you require more
+lines, click the 'More Lines' button at the bottom of the page. You will not lose any data you have already entered by
+doing this.
+[[
+{{info}} Any blank analysis lines will be ignored for posting purposes as will any line without an account code -
+even if there is other data on the line.
+]]
+When you have finished entering your data, either click the Auto Allocation button or the No Allocation button. If there
+are no lines on the document to be posted to sub-ledger accounts (AR or AP) then using either button has the same effect
+since all the document lines are General Ledger lines (which are not subject to allocation). If the document //does//
+contain lines to be posted to sub-ledger accounts, however, then clicking the Auto Allocation button will set off open items
+within each sub-ledger account against one another on a simple 'order of data entry' basis. Clicking the No Allocation
+button, by contrast, performs no such allocations within sub-ledger accounts.

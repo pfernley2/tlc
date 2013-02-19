@@ -1,0 +1,33 @@
+== Your Browser
+
+=== Javascript
+Your browser should have JavaScript enabled. Browsers usually have this enabled by default.
+
+=== Locales
+When you are on the home page of the system or are on the login or registration pages, what
+language you see will depend upon two things: 1) What language transalations we have available
+and 2) The locale (i.e. language and country) setting of your browser. If you are unsure as to
+whether the locale is set correctly in your browser, the following list may be useful for the
+more popular browsers at the time of writing:
+
+* **Microsoft Internet Explorer 10.** Under Tools, Internet Options click the Languages button on the General tab and set the language preference you require.
+* **Mozilla Firefox 17.** Install the Quick Locale Switcher add-on and you can then quickly change between locales.
+* **Google Chrome 23.** Click the menu button and select Settings. Click the 'Show advanced settings' link. Click the 'Languages and spellchecker settings' button. Choose the required language.
+* **Opera 12.** Under Settings, Preferences the General tab has a drop down list of the languages available. On Apple computers you may need to download and install languages files instead.
+* **Apple Safari 5.** There is currently no easy way to do this.
+
+Once you are logged in to the system, however, the language and country settings of your user profile
+take over the role of controlling formatting and text translations.
+
+=== The Back Button
+Our system is tolerant of you using the Back button on your browser but, nevertheless, it's usually
+better to use the facilities of our software to navigate around the system.
+
+=== Tabs and Windows
+If you use multiple tabs within a browser window or multiple browser windows to access our system
+you will, sooner or later, confuse yourself and, ultimately, the system - although no harm can be
+done. The reason for this is that modern browsers when talking to a server use the same 'session'
+for all tabs and all windows. Should you wish to have more than one session in to our system at the
+same time, the only totally safe way is to use two (or more) different brands of browser. For example,
+if you mainly use Microsoft Internet Explorer, also have Firefox available, or, if you use Firefox
+try Chrome etc.

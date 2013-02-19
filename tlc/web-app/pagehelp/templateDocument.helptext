@@ -1,0 +1,13 @@
+== Templates
+=== Overview
+* Create templates with partial data
+* Users may call up templates during data entry and fill in the missing data
+* Template data can be overwritten when creating real documents for posting
+=== Description
+The templating facility allows you to partially create a document which, later on, a user may then call up and finish off.
+The data you enter when creating a template need not be complete since it is the intention that the user will complete the
+data when creating the real document for posting. Any data you enter in the template may be overwritten by the user creating
+the real document, subject to normal controls and validations.
+
+If you create a template with data in it that an end user does not have permission to use (General Ledger account codes
+for example) that data will be omitted when they load up the template so that the security of the system is not breached.

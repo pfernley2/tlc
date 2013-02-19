@@ -1,0 +1,45 @@
+== Customer Account Enquiry
+=== Overview
+* Display transactions on a period by period basis or all open transactions
+* Display values in any defined currency
+* Link to source documents
+* Link to allocations between lines on the account
+* Link to statement history
+=== Description
+This enquiry facility allows you to display the transactions either on a period by period basis (whether fully allocated
+or not) or all open transactions (i.e. where there is an unallocated amount). You may link from this enquiry to the
+underlying source documents, if you have the appropriate permission, by clicking on the relevant document code in the
+list of transactions.
+
+To see how a line on the account was allocated against other lines on the account, click the righthand side of the
+Unallocated column for the line you are interested in - even when there is no value in the Unallocated column.
+
+To display a history of the statements sent to the customer, click on the current balance amount. If there is no link
+from the current balance amount to the statement enquiry screen this will be because there are no statements to display
+for this customer.
+
+To display all open transactions, set the Period to 'none'. Choosing any other period setting will display all the
+transactions for that period whether fully allocated or not.
+[[
+{{info}} Note that in the list of period sales values, the figures include any taxes and are also subject to correct use
+of the 'affects turnover' facility of journals etc.
+]]
+You may display the values in any of the currencies defined in your company. Choosing a display currency of 'none' is
+the same as choosing the currency the account is held in (e.g. EU Euros for a French customer) except that when you
+navigate to the next enquiry screen with 'none' as the display currency, the new screen will also display its values in
+its 'normal' currency. If you had chosen EU Euros as the display currency, by contrast, then navigated to another
+enquiry screen the new screen would display its values in EU Euros whatever its 'normal' currency might be.
+
+The system cannot possibly hold all values for a transaction in all defined currencies at the date a transaction is
+posted. Consequently, choosing to display an enquiry screen in some currencies will cause an 'on the fly' conversion as
+at today's exchange rate. This can lead to minor rounding differences between, say, the addition of the individual
+transactions on an account that have not been fully allocated and the current balance displayed for the account. It can
+also lead to a difference between the perceived value of a line posted to the account (which might be shown via an 'on
+the fly' conversion and therefore at today's exchange rate) and the displayed value of the line on the source document
+itself (which might be shown using its 'normal' values as at the date of posting). To warn you when values are being
+shown using an 'on the fly' conversion, the background colour of the Display Currency dropdown list will be highlighted.
+[[
+{{info}} When viewing a foreign currency account in other than its own currency, you may see foreign exchange difference
+documents that were not visible when displaying it in its own currency. This is the result of the system dynamically
+keeping track of profits and losses on exchange which have no effect on the foreign currency values themselves.
+]]

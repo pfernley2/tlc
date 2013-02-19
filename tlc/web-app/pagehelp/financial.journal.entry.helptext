@@ -1,0 +1,38 @@
+== Financial Journal Entry
+=== Overview
+* Post values between accounts in different ledgers (GL, AR and AP)
+* Mark as an adjustment rather than as a 'normal transaction'
+* Mark sub-ledger lines as affecting turnover, or not
+* Auto allocate sub-ledger lines, or not
+* Automatic document number generation depending on configuration
+=== Description
+The Financial Journal entry system uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. For example, as you enter an account code and then press Tab,
+the system contacts the server to verify the account exists and to display the account name as confirmation. The system
+is therefore sensitive to the performance of your server and the communications between your server and your browser. A
+company's own server and intranet should provide high performance, the public Internet using a shared server much less so.
+
+A Financial Journal allows you to post values between accounts in the general ledger, accounts receivable and accounts
+payable ledgers, in any combination.
+
+In the top portion of the page is an Adjustment check box. If you check this box the journal values will be recorded as
+adjustment values in the general ledger rather than as normal values. This can be helpful in ensuring that you do not
+distort your trading figures by one-off adjustments etc.
+
+The line by line area contains a scrolling list of lines for you to enter data in to. There are a reasonable number of
+lines to begin with, but should you require more lines, click the 'More Lines' button at the bottom of the page. You
+will not lose any data you have already entered by doing this.
+[[
+{{info}} Any blank lines will be ignored for posting purposes as will any line without an account code -
+even if there is other data on the line.
+]]
+For each line to be posted to a sub-ledger account (AR or AP), you may specify whether that line value is to affect the
+turnover figure for the customer/supplier account or not. If you check the box, the turnover for the appropriate period
+will be updated.
+
+When you have finished entering your data, either click the Auto Allocation button or the No Allocation button. If there
+are no lines on the journal to be posted to sub-ledger accounts (AR or AP) then using either button has the same effect
+since all the journal lines are general ledger lines (which are not subject to allocation). If the journal //does// contain
+lines to be posted to sub-ledger accounts, however, then clicking the Auto Allocation button will set off open items
+within each sub-ledger account against one another on a simple 'order of data entry' basis. Clicking the No Allocation
+button, by contrast, performs no such allocations within sub-ledger accounts.

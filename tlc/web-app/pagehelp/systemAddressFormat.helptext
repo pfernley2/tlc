@@ -1,0 +1,74 @@
+== Address Formats
+=== Overview
+* Define how addresses appear for data entry and display
+* Map screen fields to database fields
+* Use a variety of prompts for data entry
+* Concatenate fields for display
+* Use placeholders for contact name, company name etc.
+* Default address formats on a country by country basis
+* User can override the default with a specific format
+=== Description
+The format of postal addresses varies widely from country to country. The elements that form part of a postal
+address can be quite different from one country to another. Even countries that use the same elements in their
+postal addresses might place them in a different order. Nevertheless, the system needs to store such a variety
+of data in a database table using fields that hopefully bring some sort of order to the chaos so that the
+address data can be analyzed in a meaningful way.
+
+Because there is such a variety of data within postal addresses, the fields within the database table have
+purposely been given names that have an 'address-y' feel to them but which you cannot directly relate to a
+specific element of a real postal address. The fields are ordered primarily from most-specific to least-specific which,
+to people from some countries would appear entirely obvious, yet to people from other countries would appear
+back-to-front. Hence the need to split the fields of the database table from the order in which they are displayed
+to a user. The names of the columns in the database table and their intended usage is given in the following table:
+
+|**__Field__**|**__Usage__**|
+|Location 1|The most precise 'street address' such as '47 Main Street'|
+|Location 2|A secondary 'street address' such as 'Star Business Park'|
+|Location 3|A tertiary 'street address' such as 'off Burlington Avenue'|
+|Metro 1|A district of a metropolitan area, a village, a community|
+|Metro 2|A city, or town if no city|
+|Area 1|A county, a region within a larger geographical area etc|
+|Area 2|A state, territory, province - the largest geographical region|
+|Encoding|For those who use a coding system: ZIP, Postal Code, Postcode etc|
+
+The order you place the fields in when defining the address format defines the order in which a user will
+see those fields. You do not have to use all of the fields of the database table but there are usually
+sufficient variations even within a single postal authority that you will probaby want to use them all.
+
+In addition to the database fields already described, there are four 'placeholder fields' as follows:
+
+|**__Placeholder__**|**__Usage__**|
+|Contact|The name of the person or department who is the intended recipient|
+|Identifier|If the name is not enough to identify the recipient, then additional recipient detail|
+|Company|The name of the company to which the missive is being sent|
+|Country|The country to which the mail is being directed|
+
+You must use all four of the placeholders in your address format in order to show where this placeholder
+data should go, if it is needed. No placeholder data will be printed if it is missing or not needed. For
+example, if a letter is being sent internally within a country then the Country placeholder data will not
+be printed.
+
+You may use up to three prompts per field and the prompts will be concatenated by slash marks (/) when an
+address is being entered, as in State/Province/Territory or Village/Town/City etc.
+
+You can specify the width of the data entry box when a field is being entered. This does not limit the data
+the user can enter (see Patterns below for that) but can give a user a good visual clue as to what is expected.
+For example, in an American address a data entry box with a width of 2 characters and a prompt of State implies
+that the user is intended to enter the code such as CA, rather than the full name of California.
+
+You may specify a pattern that the user entered data must comply with. These patterns use a system commonly
+known as Regular Expressions, or regex for short. Regular Expressions are a whole subject in their own right
+and to find out more about them, search the Internet for regex.
+
+You may specify whether a field is mandatory or not. Be careful about making too many fields mandatory. For example,
+some countries have postal codes but, by convention, do not use them when the recipient is in the same general
+area as the sender. Some areas don't actually use street addresses but specify the location relative to local
+landmarks.
+
+When an address is being displayed, convention sometimes requires that more than one database field be placed
+on the same line as the preceding field, sometines joined by punctuation (spaces, commas, dashes etc) and sometimes
+by words. The system allows this by using the Join By portion of a field definition.
+
+Out of the box, the system has a few country-specific address formats already defined and associated with their counries.
+Lack of time and knowledge, however, mean that most countries have been given a default format and we leave it to you, the
+local experts, to create a correct address format for your country.

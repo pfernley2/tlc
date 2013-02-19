@@ -1,0 +1,30 @@
+== Income and Expenditure Report
+=== Overview
+* Select from any number of report formats
+* Choose the period to run the report for
+* Limit the report to specific code element value(s) (Branch '123' etc)
+* Group the report values by code element up to three levels deep
+* Display underlying accounts making up the summary values
+=== Description
+Your Accounts Administrator will have created one or more report formats for you to select from. Each format can specify
+a different layout of data going across and down the page.
+
+By selecting a period to run the report for, you are also selecting the year containing that period for printing of
+cumulative year-to-date values up to and including the selected period, if these are included in the chosen report format.
+Also when you select the period to run the report for, you are effectively specifying the comparative year and period (i.e. the
+preceding year and the equivalent period within that year, if any), if these are included in the chosen report format.
+
+You may choose to limit the report to a particular code element value (e.g. Branch '123') or values (e.g. Branch '123'
+and Line of Business 'Hardware' etc). If you select more than one code element value to limit the report by, then an
+account must match ALL the conditions before it will be included in the report.
+
+[[
+{{exclaim}} The Income and Expenditure report is subject to the General Ledger security system as defined by your
+Company Administrator using Access Groups. If you do not have full access to all accounts then your report may
+contain only partial information, which might be misleading.
+]]
+
+By default, an Income and Expenditure report simply prints summary values by Chart Section as specified by the chosen
+report format. Using the Grouping facility (up to three levels deep), however, you may sub-analyze these summary values
+thus providing greater detail. You may also select to print the underlying accounts making up the summary values, although
+this can produce a rather large report taking longer to prepare.

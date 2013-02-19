@@ -1,0 +1,83 @@
+
+<%--
+ ~   Copyright 2010-2013 Paul Fernley
+ ~
+ ~   This file is part of the Three Ledger Core (TLC) software
+ ~   from Paul Fernley.
+ ~
+ ~   TLC is free software: you can redistribute it and/or modify
+ ~   it under the terms of the GNU General Public License as published by
+ ~   the Free Software Foundation, either version 3 of the License, or
+ ~   (at your option) any later version.
+ ~
+ ~   TLC is distributed in the hope that it will be useful,
+ ~   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ ~   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ ~   GNU General Public License for more details.
+ ~
+ ~   You should have received a copy of the GNU General Public License
+ ~   along with TLC. If not, see <http://www.gnu.org/licenses/>.
+ --%>
+<%@ page import="org.grails.tlc.sys.SystemPaymentSchedule" %>
+<!doctype html>
+<html>
+<head>
+    <meta name="generator" content="system"/>
+    <title><g:msg code="list" domain="systemPaymentSchedule"/></title>
+</head>
+<body>
+<div class="nav" role="navigation">
+    <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:msg code="default.home.label" default="Home"/></a></span>
+    <span class="menuButton"><g:link class="menu" controller="systemMenu" action="display"><g:msg code="systemMenu.display" default="Menu"/></g:link></span>
+    <span class="menuButton"><g:link class="create" action="create"><g:msg code="new" domain="systemPaymentSchedule"/></g:link></span>
+    <span class="menuButton"><g:link class="test" action="test"><g:msg code="systemPaymentSchedule.test" default="Test System Payment Schedule"/></g:link></span>
+</div>
+<div id="main-content" class="body" role="main">
+    <g:pageTitle code="list" domain="systemPaymentSchedule"/>
+    <g:if test="${flash.message}">
+        <div class="message" role="status">${flash.message.encodeAsHTML()}${flash.clear()}</div>
+    </g:if>
+
+    <div class="criteria">
+        <g:criteria include="code, monthDayPattern, weekDayPattern"/>
+    </div>
+    <div class="list">
+        <table>
+            <thead>
+            <tr>
+
+                <g:sortableColumn property="code" title="Code" titleKey="systemPaymentSchedule.code.label"/>
+
+                <th><g:msg code="systemPaymentSchedule.name.label" default="Name"/></th>
+
+                <g:sortableColumn property="monthDayPattern" title="Month Day Pattern" titleKey="systemPaymentSchedule.monthDayPattern.label"/>
+
+                <g:sortableColumn property="weekDayPattern" title="Week Day Pattern" titleKey="systemPaymentSchedule.weekDayPattern.label"/>
+
+                <th><g:msg code="systemPaymentSchedule.propagate.label" default="Propagate"/>&nbsp;<g:help code="systemPaymentSchedule.propagate"/></th>
+            </tr>
+            </thead>
+            <tbody>
+            <g:each in="${systemPaymentScheduleInstanceList}" status="i" var="systemPaymentScheduleInstance">
+                <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
+
+                    <td><g:link action="show" id="${systemPaymentScheduleInstance.id}">${display(bean:systemPaymentScheduleInstance, field:'code')}</g:link></td>
+
+                    <td><g:msg code="paymentSchedule.name.${systemPaymentScheduleInstance.code}" default="${systemPaymentScheduleInstance.name}"/></td>
+
+                    <td>${display(bean:systemPaymentScheduleInstance, field:'monthDayPattern')}</td>
+
+                    <td>${display(bean:systemPaymentScheduleInstance, field:'weekDayPattern')}</td>
+
+                    <td><g:form method="post" action="propagate" id="${systemPaymentScheduleInstance.id}"><input type="submit" value="${msg(code: 'systemPaymentSchedule.propagate.label', default: 'Propagate')}"/></g:form></td>
+                </tr>
+            </g:each>
+            </tbody>
+        </table>
+    </div>
+    <div class="paginateButtons">
+        <g:paginate total="${systemPaymentScheduleInstanceTotal}"/>
+    </div>
+</div>
+</body>
+</html>

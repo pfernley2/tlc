@@ -1,0 +1,44 @@
+== Recurring Bank Transactions
+=== Overview
+* Define recurring payments and receipts
+* First payment/receipt date can be different from the other dates
+* First and last amounts can be different from the normal amounts
+* Analyze the payment/receipt to any combination of ledgers (GL, AR and AP)
+* First and last analyses can be different from the normal analysis
+* Auto allocate any sub-ledger lines, or not
+=== Description
+The Recurring Bank Transaction definition system uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. For example, as you enter an account code and then press Tab,
+the system contacts the server to verify the account exists and to display the account name as confirmation. The system
+is therefore sensitive to the performance of your server and the communications between your server and your browser. A
+company's own server and intranet should provide high performance, the public Internet using a shared server much less so.
+
+A recurring bank transaction definition allows you to specify recurring payments or receipts (as determined by the document
+type selected) and to analyze those payments/receipts to any ledger (GL, AR and AP) in whatever combination is required. When
+postings are made to a sub-ledger (AR or AP) then you can specify whether an auto-allocation is performed on those sub-ledger
+accounts or not. An auto-allocation performs a set-off of open items within each sub-ledger account on a simple 'order of data
+entry' basis.
+[[
+{{info}}The Initial Date, Initial Value, Final Value and Initial/Final analysis facilities are all independent of each other. For example,
+you can have an Initial Date without specifying a different Initial Value and vice versa. Similarly, you do not need to enter a
+different Initial or Final value to use the Initial/Final analysis columns of the posting analysis area.
+]]
+The posting analysis area contains a scrolling list of lines for you to enter data in to. There are a reasonable number of
+lines to begin with, but should you require more lines, click the 'More Lines' button at the bottom of the page. You
+will not lose any data you have already entered by doing this.
+[[
+{{info}}Any blank lines will be ignored for posting purposes as will any line without an account code -
+even if there is other data on the line.
+]]
+Once a definition has been saved, what is subsequently editable will depend on how many postings have been made from the definition.
+Note, however, that you can still change the value to be paid/received until that stage (Initial, Recurring, Final) of the definition's
+life-cycle is completed. This allows for changes in the value of an on-going direct debit amount etc. Any recurring transaction's life-cycle
+can be immediately terminated by simply deleting its definition.
+
+Recurring transactions are processed by a background task that scans your definitions, typically once a day, looking for those that are
+due for their next posting. Any errors encountered during the process are emailed to the owner of the task. For more information on this
+background task, contact your Company or System Administrator.
+[[
+{{exclaim}}Unlike a bank, the system does not take account of weekends and holidays etc. Recurring transactions are simply processed
+on their Next Due date.
+]]

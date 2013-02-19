@@ -1,0 +1,69 @@
+== Bank Reconciliation
+=== Overview
+* Manual reconciliation of bank statements to bank accounts
+* Automatic 'brought forward' items unreconciled from previous statements
+* Leave a part reconciled statement at any time without losing your work
+* Add 'reconciliation documents' to complete a reconciliation
+* Finalize a reconciliation once there is no difference
+=== Description
+Since the system can handle multiple bank accounts, the first step in reconciling a
+bank statement is to select the bank account involved. This automatically displays a
+list of any existing reconciliations for that bank account and the dates they were
+finalized (i.e. completed with no difference). You may click on the date of a
+finalized reconciliation to display its details but you may not edit it.
+
+There may only be one unfinalized reconciliation per bank account at any one time. If
+there is currently an unfinalized reconciliation you may click on its date and then
+choose to either continue editing it or to delete it if, for example, you had created
+it with the wrong statement date or balance. Note that you cannot delete finalized
+reconciliations, but your company administrator will have set the number of months
+that finalized statements should be retained before being automatically deleted.
+
+If there is currently no unfinalized reconciliation for the chosen bank account you may
+create one by clicking on the New Reconciliation button towards the top of the page. You
+will be required to enter the statement date and statement closing balance which you
+should take care to both enter correctly.
+[[
+{{exclaim}} Note that a positive value entered as the statement closing balance is taken
+to mean that we have money in the bank. A negative value entered as the statement closing
+balance, by contrast, indicates that we are overdrawn at the bank. The same positive/negative
+logic is used when displaying the bank balance to be reconciled to.
+]]
+Since the creation of a reconciliation can be a lengthy task depending upon the number
+of transactions involved, you are allowed to defer execution of the reconciliation creation
+task, if you wish, until a quiet time of day so as not to slow down normal processing. Once
+the task has completed, the new reconciliation will appear in the list (you may need to
+refresh your browser window) of reconciliations for the chosen bank account and you may
+then click on its date, then choose the Edit option to begin the reconciliation process.
+
+Reconciling the bank statement to the bank account balance in the general ledger consists
+of checking the Reconciled flags of lines in the edit list. Each time you click on a
+Reconciled checkbox, your browser automatically contacts the server to make the change in
+the database. The server responds by updating the reconciliation summary details towards the
+top of the browser page for the change you have made.
+[[
+{{info}} How quickly the server responds to you checking or unchecking a Reconciled checkbox
+depends on the speed of, and current load on, the server together with the speed of
+communication between the server and your browser. A fast server with a speedy intranet
+connection should give almost immediate results. A shared server running across the Internet
+will obviously be somewhat slower.
+]]
+Some bank payment and receipt documents can contain multiple payees and/or GL analyses. In
+such cases it is possible to not only see the breakdown of the total document value (by
+clicking the Breakdown button on the right hand side of the list) but also to reconcile only
+parts of the breakdown where this is appropriate.
+
+It is often the case that a bank statement contains payments and/or receipts that have not yet
+been entered in the GL bank account. Typical examples are bank charges and interest. The main
+edit listing allows you to add one or more documents to the reconciliation after it has been
+created and before it is finalized thus allowing you to complete the reconciliation by bringing
+the bank account up to date with this new information.
+[[
+{{info}} It is also possible to include documents in the reconciliation that were mis-dated
+during data entry and which the reconciliation process did not automatically pick up as part
+of the bank account balance on the bank statement date.
+]]
+Once the difference on a reconciliation has been reduced to zero, a Finalize button will appear
+in the top portion of the screen. If you are satisfied that the reconciliation process is now
+complete, clicking the Finalize button will make the reconciliation no longer editable or
+deletable.

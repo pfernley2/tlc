@@ -1,0 +1,24 @@
+== General Ledger Journal Entry
+=== Overview
+* Post values between accounts within the General Ledger
+* Mark as an adjustment rather than as a 'normal transaction'
+* Automatic document number generation depending on configuration
+=== Description
+The General Ledger journal entry system uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. For example, as you enter an account code and then press Tab,
+the system contacts the server to verify the account exists and to display the account name as confirmation. The system
+is therefore sensitive to the performance of your server and the communications between your server and your browser. A
+company's own server and intranet should provide high performance, the public Internet using a shared server much less so.
+
+In the top portion of the page is an Adjustment check box. If you check this box the journal values will be recorded as
+adjustment values rather than as normal values. This can be helpful in ensuring that you do not distort your
+trading figures by one-off adjustments etc.
+
+The General Ledger line by line area contains a scrolling list of lines for you to enter data in to. There are
+a reasonable number of lines to begin with, but should you require more lines, click the 'More Lines' button at the
+bottom of the page. You will not lose any data you have already entered by doing this.
+[[
+{{info}} Any blank lines will be ignored for posting purposes as will any line without a General Ledger code -
+even if there is other data on the line.
+]]
+When you have finished entering your data, click the Create button to save and post the journal.

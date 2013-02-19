@@ -1,0 +1,41 @@
+== Document Type
+=== Overview
+* All data entered in to, or created by, the system must have a source document type
+* You can define any number of document types (Sales Invoice, Purchase Invoice etc)
+* There can be multiple variants of the same system type (e.g. Domestic Sales Invoice and Export Sales Invoice)
+* You give each document type you define a system type (e.g. both Domestic and Export sales invoice have system type of 'Sales Invoice')
+* Bank payment document type can be specified for use by the automatic payments system
+=== Description
+Just as in a manual accounting system where there must be a source document (Purchase Invoice, Financial Journal etc)
+for all data entered in to the system, so the same is true here. Just like in a manual system, there can be more than one
+type of, say, sales invoice (Domestic and Export, for example), so the same is true here. However, each document type
+you create must be given a 'system document type', such as 'Sales Invoice', so that the system knows how to
+process it. You will almost certainly want to create multiple types of Bank payment and receipt documents for such as
+Cheques, Standing Orders, Direct Debits, Electronic Transfers and so forth. It is their 'system document type' that actually
+identifies them as a bank payment or receipt.
+
+Since the system can automatically number each document type for you, you give the system a 'next sequence number' to use.
+Once the system has started using the sequence numbers you should not alter this value otherwise you risk creating duplicate
+document numbers, which the system will refuse to accept. Whether the automatic sequence number generation facility is used
+at all is determined by the Auto Generate Flag. If this flag is set then the system will generate the next available sequence
+number but if the flag is cleared, it will not.
+
+The Allow Edit flag specifies whether a user may manually enter the 'next sequence number'. If the Auto Generate flag is
+not set, then the Allow Edit flag should be set. Note that it is possible to have both the Auto Generate and the Allow
+Edit flags set but that this can lead to duplicate values being generated.
+[[
+{{info}} Note that document types you create with a system type of 'Accrual Reversal' or 'Prepayment Reversal' do not use
+the normal automatic sequence numbering as other document types do. The reversal of an accrual document type with a code of
+'AC', for example, **must** have a reversal document type with a code of 'ACR'. In other words, the reversal of a provision
+document type must have the same code as the provision document type itself with an 'R' appended to its code.
+Actual documents created from these document types would then use the same code number (e.g. An accrual document with a
+code of AC123456 would be reversed by AC**R**123456 and so forth).
+]]
+Bank payment document types can be specified as being available for auto-payment of suppliers by completion of the Bank Account,
+Foreign Currency and Maximum Payees fields. When a document type is set up in this way it does //not// preclude its use for
+entering manual payments.
+[[
+{{exclaim}} When a bank payment document type is made available for automatic payment of suppliers, the auto-payment system
+will __always__ use automatic sequence number generation irrespective of the Auto Generate setting used for manual payment
+entry. Consequently, you should ensure that the Next Sequence Number is set to a reasonable value in such cases.
+]]

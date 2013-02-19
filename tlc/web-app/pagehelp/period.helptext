@@ -1,0 +1,54 @@
+== Accounting Period
+=== Overview
+* An accounting year is broken down in to periods for reporting purposes
+* Accounting periods are often (but do not have to be) equivalent to calendar months
+* There can be any number of accounting periods in an accounting year
+=== Description
+Like accounting years, accounting periods have a short code which is sorted when displayed
+to users. Consequently it is desirable to make the code pseudo-numeric such as in '2010-06'
+so that the codes appear in a meaningful order when sorted. Whether '2010-06' means June
+2010 or December 2009 (the 6th period in the year ending 30th June 2010, for example) is a
+matter of convention that can differ from one company to the next.
+
+Also like accounting years, accounting periods have a valid-from date and a valid-to date
+(both inclusive) that define the date range that the period covers. No attempt is made to interpret
+the code of a period which is there solely so that a user can identify the periods without
+resorting to reading the from and to dates which can be error prone.
+
+The From and To dates of periods within a year must be consecutive and must (eventually) cover
+the whole of the date range specified in the accounting year to which the periods belong.
+
+More than one accounting period can be open for posting at the same time, even when the periods are
+in different accounting years. This allows for one period to be undergoing period-end adjustments
+whilst later ones are still accepting new data.
+
+There are, in fact, four states that a period can be in: new, open, adjust and closed. New means
+that the period has not yet been used and therefore has not had its opening balances initialized.
+Open means that all types of data entry are permitted in to this period. Adjust means
+that only transactions marked as adjustments can be posted in to this period, but 'normal' data entry
+is prohibited. Closed means that no further postings are allowed in this period. Opening and closing
+periods are heavy processes that are done as background tasks (preferably at quiet times so as not
+to interfere with normal operations) and are //__irreversible__//. You may switch between 'open' and
+'adjust' status codes as often as you like, however.
+
+Each General Ledger account has a balance record for each period (other than 'new' periods) and each
+balance record holds four figures, as follows:
+
+# The opening balance brought forward
+# The total of 'normal' transactions in the period
+# The total of adjustment transactions in the period
+# The current balance carried forward
+
+Adding together the opening balance, the 'normal' transaction total and the adjustment transaction total
+gives the current balance. On data entry, most transactions will be 'normal' non-adjustment transactions
+and their value will be added to the 'normal' transaction total in the balance record. However, some
+transactions may be flagged as being adjustments in which case they will be added to the adjustment total
+in the balance record. Adjustments are typically journal entries handling prior period adjustments or
+unusual transactions outside the course of normal business etc.
+
+The purpose of having a specific adjustment type of transaction is to allow the major reports (Income and
+Expenditure statement and Balance Sheet) to be produced with or without adjustments being included which,
+if included, would distort the figures for management purposes. Use of adjustment transactions may, depending
+upon the circumstances, obviate the need for a special 'adjustment period' (often a 13th period of one day
+duration at the end of the year). Note that //all// periods have this adjustment capability, not just the last
+period of an accounting year.

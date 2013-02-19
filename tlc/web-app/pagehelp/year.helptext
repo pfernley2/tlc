@@ -1,0 +1,24 @@
+== Accounting Year
+=== Overview
+* An accounting year is typically twelve months but may be more or less than this
+* An accounting year is the period for which the company will produce final accounts
+* Accounting years are broken down in to periods for which management accounts are usually prepared
+=== Description
+Most of the time an accounting year is twelve months long. However, on the acquisition or disposal
+of a business, or the change of a business' year-end, an accounting 'year' may be more or less than
+twelve months long. An accounting year has a code associated with it which is typically the calendar year
+in which the accounting year ends so, for example, an accounting year that ends on the 30th of June 2010
+might be given a code of '2010'. An alternative form might be '2009/10'. Where more than one accounting
+year ends in the same calendar year, the codes might be '2010.1' and '2010.2' etc. Wherever possible you are
+strongly advised to keep the code as simple as possible - usually just the year in which the accounting
+year ends (e.g. '2010').
+
+The point to note in the above examples, is that the code is both short and alphabetic. It is an advantage
+to use pseudo-numeric codes, as illustrated, so that the codes when sorted and displayed to an end user appear
+in a meaningful order. Also note that the actual period covered by an accounting year is specified
+by a Valid From date and a Valid To date (both inclusive) rather than from any interpretation of the code.
+
+Accounting years must be consecutive in that the Valid From date of one year must be one day after the
+Valid To date of its preceding year. It is possible to have more than one year open for postings at the same
+time. This is often the case at the year end when one year is being finalized while data is being entered for
+the new accounting year.

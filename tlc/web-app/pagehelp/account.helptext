@@ -1,0 +1,32 @@
+== General Ledger Accounts
+=== Overview
+* Accounts 'belong' to a section in the Chart of Accounts
+* Account codes are a combination of segment codes thus allowing for sub-analyses of account 'numbers'
+* Account codes can be created and maintained manually
+* Account codes can be created in bulk
+* Account codes can be imported from a tab delimited text file
+* Accounts can be automatically created when needed if the chart section allows
+* Accounts hold their values by accounting period
+* Accounts can be flagged as inactive to suspend further activity on that account
+=== Description
+Traditionally, an account is represented by a single code, often numeric, of something like 100500 to represent, say,
+a Stationery account within the Overheads section of the General Ledger Chart of Accounts. This account may then be
+broken down by, say, Department (cost centre) and, possibly, by Project (as in Job Costing).
+
+Our system by contrast regards an account as being a combination of code segments and so an account code of 100500-HO-000
+might represent Stationery for Head Office, not related to any particlar Project code. Should you wish to know the the
+total spend on Stationery, the system can then sum the values of all accounts having 100500 as the 'account number'
+segment of its code to give you the answer. Similarly, you might want to know the total Overheads associated with Head
+Office, as opposed to any other department. The system will sum the values of all accounts in the Overheads section of
+the Chart of Accounts (assuming you have structured your Chart of accounts in this manner) with a Department segment value
+of HO to provide the answer. The same logic can be applied to the Project code segment to determine costs and revenues by project.
+
+Which code segments make up the full account code, and which order the code segments are in, is determined by the
+Chart of Accounts on a section by section basis. For example, one chart section may use the 'account number' and
+Department segments but not a Project segment in its code. Additionally, that same chart section might specify that the
+Department segment comes first thus giving rise to account codes such as HO-195680. If you were to ask for the sum of
+all accounts relating to Department HO, the different ordering of the code segments would not cause the system a problem
+since it can find the Department segment wherever it is within the code structure.
+
+When an account is created, it is assumed to be 'active' in the sense that values may be posted to the account. You may
+un-check the active flag for an account which will prohibit any further postings to that account.

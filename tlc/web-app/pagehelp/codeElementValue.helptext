@@ -1,0 +1,17 @@
+== Code Element Value
+=== Overview
+* You can define any number of values for a code element
+* You can import code element values from a tab delimited text file
+* The code values you enter or import must conform to the data type and length in the element definition
+=== Description
+The values of a code element are the actual values that an end user can enter when posting data in to the General
+Ledger. For example, if you have a two letter cost centre element and have defined the values AB, CD, EF and GH for
+that element, then these are the only four cost centre codes the user can enter. Once you have started creating
+accounts for a given value, its code can no longer be changed and it cannot be deleted.
+[[
+{{info}} Your system may have been configured to use lower case letters (a-z) for alphabetic codes rather than the
+default of upper case letters (A-Z). The system will convert alphabetic codes to the correct case automatically.
+]]
+Element values have a short name of up to ten characters which is used to construct account names (one short name
+for each code element in the overall account code) and a full name of up to 30 characters to better describe the
+particular value (used in searches and reports etc).

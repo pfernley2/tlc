@@ -1,0 +1,815 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Budget" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="a8cc679c-b847-47b9-a234-b2f02852a993">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="TitleStyle" style="BodyStyle" fontSize="16" isBold="true"/>
+	<style name="HeadingStyle" style="BodyStyle" isBold="true"/>
+	<style name="IncidentalStyle" style="BodyStyle" fontSize="10"/>
+	<style name="SmallStyle" style="BodyStyle" fontSize="9"/>
+	<style name="TinyStyle" style="BodyStyle" fontSize="8"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportTitle" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companySecurityCode" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyDecimals" class="java.lang.Byte">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOfReport" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportParameters" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="offset" class="java.lang.Integer"/>
+	<parameter name="divisor" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[1000.0]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sectionClause" class="java.lang.String"/>
+	<parameter name="accountClause" class="java.lang.String"/>
+	<parameter name="periodClause" class="java.lang.String"/>
+	<parameter name="subTitle" class="java.lang.String"/>
+	<parameter name="txtSummary" class="java.lang.String"/>
+	<parameter name="txtCol1" class="java.lang.String"/>
+	<parameter name="txtCol2" class="java.lang.String"/>
+	<parameter name="txtCol3" class="java.lang.String"/>
+	<parameter name="txtCol4" class="java.lang.String"/>
+	<parameter name="txtCol5" class="java.lang.String"/>
+	<parameter name="txtCol6" class="java.lang.String"/>
+	<parameter name="txtCol7" class="java.lang.String"/>
+	<parameter name="txtCol8" class="java.lang.String"/>
+	<parameter name="txtCol9" class="java.lang.String"/>
+	<parameter name="txtCol10" class="java.lang.String"/>
+	<parameter name="txtCol11" class="java.lang.String"/>
+	<parameter name="txtCol12" class="java.lang.String"/>
+	<parameter name="txtCol13" class="java.lang.String"/>
+	<parameter name="txtDebit" class="java.lang.String"/>
+	<parameter name="txtCredit" class="java.lang.String"/>
+	<parameter name="txtSections" class="java.lang.String"/>
+	<parameter name="valSections" class="java.lang.String"/>
+	<parameter name="txtElement2" class="java.lang.String"/>
+	<parameter name="valElement2" class="java.lang.String"/>
+	<parameter name="txtElement3" class="java.lang.String"/>
+	<parameter name="valElement3" class="java.lang.String"/>
+	<parameter name="txtElement4" class="java.lang.String"/>
+	<parameter name="valElement4" class="java.lang.String"/>
+	<parameter name="txtElement5" class="java.lang.String"/>
+	<parameter name="valElement5" class="java.lang.String"/>
+	<parameter name="txtElement6" class="java.lang.String"/>
+	<parameter name="valElement6" class="java.lang.String"/>
+	<parameter name="txtElement7" class="java.lang.String"/>
+	<parameter name="valElement7" class="java.lang.String"/>
+	<parameter name="txtElement8" class="java.lang.String"/>
+	<parameter name="valElement8" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    a.section_id AS sectionId,
+    s.status AS sectionStatus,
+    s.name AS sectionName,
+    a.id AS accountId,
+    a.code AS accountCode,
+    a.name AS accountName,
+    a.status AS accountStatus
+FROM
+    account AS a,
+    chart_section AS s
+WHERE
+    a.section_id = s.id AND
+    a.security_code = $P{companySecurityCode}
+    $P!{sectionClause} $P!{accountClause}
+ORDER BY
+    s.tree_sequence,
+    a.code]]>
+	</queryString>
+	<field name="sectionId" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sectionStatus" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sectionName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accountId" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accountCode" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accountName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="accountStatus" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMaximumFractionDigits(0)
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="grpValue1" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue2" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue3" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue4" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue5" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue6" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue7" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue8" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue9" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue10" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue11" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue12" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpValue13" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="grpTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="chartSection" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value1" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue1}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value2" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue2}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value3" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue3}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value4" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue4}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value5" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue5}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value6" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue6}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value7" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue7}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value8" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue8}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value9" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue9}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value10" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue10}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value11" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue11}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value12" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue12}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value13" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpValue13}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="debitTotal" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpTotal} > 0.0 ? $V{grpTotal} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="creditTotal" class="java.math.BigDecimal" incrementType="Group" incrementGroup="chartSection" calculation="Sum">
+		<variableExpression><![CDATA[$V{grpTotal} < 0.0 ? $V{grpTotal} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<group name="chartSection" minHeightToStartNewPage="46">
+		<groupExpression><![CDATA[$F{sectionId}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement uuid="5d8bd4df-d72e-4356-9e17-7cbecb90c53c" style="SmallStyle" x="0" y="4" width="802" height="13"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$F{sectionName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<line>
+					<reportElement uuid="95876656-b47e-458d-a9a2-34d48d0e53e3" x="0" y="2" width="802" height="1"/>
+				</line>
+				<textField>
+					<reportElement uuid="9954adce-82b7-419b-8a23-540463fd838a" style="SmallStyle" x="0" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 1]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue1} : -$V{grpValue1})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="21d4f3ec-05cf-4159-8f8a-4598bc7d129a" style="SmallStyle" x="53" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 2]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue2} : -$V{grpValue2})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="55077885-9858-44c4-bd3d-3caec30a0806" style="SmallStyle" x="106" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 3]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue3} : -$V{grpValue3})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="65e926af-64c1-498f-8857-140402eea519" style="SmallStyle" x="159" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 4]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue4} : -$V{grpValue4})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="89c0f47e-ee56-43f6-b67f-2dd18821d9d3" style="SmallStyle" x="212" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 5]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue5} : -$V{grpValue5})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="955cd53d-5ce1-4bfa-9b02-f74f3d425a20" style="SmallStyle" x="265" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 6]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue6} : -$V{grpValue6})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="acb2a1e9-f785-44f2-bf25-a5d1b2680272" style="SmallStyle" x="318" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 7]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue7} : -$V{grpValue7})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7011f7ab-0d96-4c6b-b1d1-7d60785948bc" style="SmallStyle" x="371" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 8]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue8} : -$V{grpValue8})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="7c7948f5-1a96-4d32-a3db-a32599d7550a" style="SmallStyle" x="424" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 9]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue9} : -$V{grpValue9})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="83a720ff-501e-4025-ad6f-f6cfe29ec4fc" style="SmallStyle" x="477" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 10]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue10} : -$V{grpValue10})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="3fd1ccdb-5d8c-4e9a-a524-0aaf59c41e07" style="SmallStyle" x="530" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 11]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue11} : -$V{grpValue11})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="5a3d8a03-c604-455e-81d3-e01df3bb94c3" style="SmallStyle" x="583" y="4" width="53" height="13">
+						<printWhenExpression><![CDATA[$P{offset} < 12]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue12} : -$V{grpValue12})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="aff2bdba-1f9e-4a72-8e72-9a1c48b21c4e" style="SmallStyle" x="636" y="4" width="53" height="13"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($F{sectionStatus}== 'dr' ? $V{grpValue13} : -$V{grpValue13})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="78c3e16d-349e-4746-9b3b-3741bc5117a4" style="SmallStyle" x="689" y="4" width="56" height="13">
+						<printWhenExpression><![CDATA[$V{grpTotal} > 0.0 || ($V{grpTotal} == 0.0 && $F{sectionStatus} == 'dr')]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format($V{grpTotal})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="f0cf752f-1d24-44ee-ba4e-6d328e34cc8a" style="SmallStyle" x="745" y="4" width="56" height="13">
+						<printWhenExpression><![CDATA[$V{grpTotal} < 0.0 || ($V{grpTotal} == 0.0 && $F{sectionStatus} == 'cr')]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression><![CDATA[$V{nf}.format(-$V{grpTotal})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement uuid="579ff68b-8831-4a59-a950-805e828a960b" x="0" y="18" width="802" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="67" splitType="Stretch">
+			<textField>
+				<reportElement uuid="86a8b456-72d7-443c-b14c-b819da73573a" style="IncidentalStyle" x="0" y="0" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="dd0791a5-31bd-425b-b256-ab6f1cd1c1ed" style="IncidentalStyle" x="644" y="0" width="158" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="317a7cee-b06a-494b-be95-a21d9e45995e" x="0" y="20" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="590d8a9d-3b86-484a-bf61-007ea1725b0c" style="TitleStyle" x="0" y="24" width="802" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="25ec54cd-cfe8-4491-93ce-9d4cc8537a2c" x="0" y="62" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="3900f083-a588-4330-9770-3d658d0b5861" x="0" y="46" width="802" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{subTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="2c5ff772-b5e9-44fd-a3e8-b32c8d4284ff" x="0" y="0" width="802" height="18" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="edcc6ad3-f49d-4a98-92a2-603e45ca041b" style="TinyStyle" x="0" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="93527d6e-07fc-41ba-9fe9-a51719cf2d8d" style="TinyStyle" x="53" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b49f164e-b4d2-44b1-85e6-d29c1cfdb120" style="TinyStyle" x="106" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8ff07e65-331b-400a-9ba9-eab65af7d09b" style="TinyStyle" x="159" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol4}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2be71def-0abc-4801-8663-9c2ad1e51b5c" style="TinyStyle" x="212" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol5}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2641a4d2-7810-4963-a43f-1a84d135341c" style="TinyStyle" x="265" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="42799097-453d-4dd9-9d37-530070e2a6c4" style="TinyStyle" x="318" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8befa4a3-9bf1-4801-a431-2f4d8921001d" style="TinyStyle" x="371" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="98e1432f-0d94-4366-a6a2-42e72d63b737" style="TinyStyle" x="424" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="45e8ea2b-ef96-428b-a8d9-98c539ee63d3" style="TinyStyle" x="477" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a112c0e8-5e67-49ef-baba-b06d39d0a95d" style="TinyStyle" x="530" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="709f2a77-40a9-47c4-8e48-76fd6e7896bf" style="TinyStyle" x="583" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1ec2d71c-80c9-445c-a583-35c988062aaa" style="TinyStyle" x="636" y="4" width="53" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCol13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="61b58393-1491-47e0-9b25-eb441dd5c311" style="SmallStyle" x="689" y="3" width="56" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtDebit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="077cb5be-08ab-4c3b-9617-b9161c8dc330" style="SmallStyle" x="745" y="3" width="56" height="13"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtCredit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement uuid="c8ae2d60-8256-4320-856e-f3fd1166da34" style="SmallStyle" x="26" y="0" width="776" height="13" forecolor="#666666"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{accountCode} + ' ' + $F{accountName}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="4dd65ec4-1476-4a36-9ab0-9863ddd91d0d" x="0" y="13" width="802" height="13"/>
+				<subreportParameter name="accountId">
+					<subreportParameterExpression><![CDATA[$F{accountId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="status">
+					<subreportParameterExpression><![CDATA[$F{accountStatus}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="divisor">
+					<subreportParameterExpression><![CDATA[$P{divisor}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="offset">
+					<subreportParameterExpression><![CDATA[$P{offset}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="periodClause">
+					<subreportParameterExpression><![CDATA[$P{periodClause}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="value1" toVariable="grpValue1" calculation="Sum"/>
+				<returnValue subreportVariable="value2" toVariable="grpValue2" calculation="Sum"/>
+				<returnValue subreportVariable="value3" toVariable="grpValue3" calculation="Sum"/>
+				<returnValue subreportVariable="value4" toVariable="grpValue4" calculation="Sum"/>
+				<returnValue subreportVariable="value5" toVariable="grpValue5" calculation="Sum"/>
+				<returnValue subreportVariable="value6" toVariable="grpValue6" calculation="Sum"/>
+				<returnValue subreportVariable="value7" toVariable="grpValue7" calculation="Sum"/>
+				<returnValue subreportVariable="value8" toVariable="grpValue8" calculation="Sum"/>
+				<returnValue subreportVariable="value9" toVariable="grpValue9" calculation="Sum"/>
+				<returnValue subreportVariable="value10" toVariable="grpValue10" calculation="Sum"/>
+				<returnValue subreportVariable="value11" toVariable="grpValue11" calculation="Sum"/>
+				<returnValue subreportVariable="value12" toVariable="grpValue12" calculation="Sum"/>
+				<returnValue subreportVariable="value13" toVariable="grpValue13" calculation="Sum"/>
+				<returnValue subreportVariable="total" toVariable="grpTotal" calculation="Sum"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Budget_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement uuid="e93e7e4c-602b-4b77-9b92-251a977479d2" x="0" y="4" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="89ca765b-a323-454b-91d0-3e96db4bfee8" style="IncidentalStyle" x="0" y="8" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ad3f1589-a9b8-4cb0-a59a-776c0b1f4d7a" style="IncidentalStyle" x="732" y="8" width="40" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="52c0df5f-d17c-414d-bc4d-d298bc6bdaa8" style="IncidentalStyle" x="772" y="8" width="30" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="217" splitType="Prevent">
+			<textField>
+				<reportElement uuid="288607e1-ef65-4b94-9299-4fa00ee1ffab" x="0" y="6" width="255" height="14"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtSummary}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="44bb1362-e099-43cc-9d91-e5da53d1f9ba" x="0" y="29" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="c54ddb5d-9acc-4dad-a0bd-d2ddcd832968" style="SmallStyle" x="0" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 1]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value1} : -$V{value1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="92c424a5-151d-4bd5-aadf-9df0d13099a3" style="SmallStyle" x="53" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 2]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value2} : -$V{value2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="593b4146-5d87-4fa6-b74d-2a4de5d3eebc" style="SmallStyle" x="106" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 3]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value3} : -$V{value3})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="aac6c549-1585-43fd-b806-a5b1df9e6862" style="SmallStyle" x="159" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 4]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value4} : -$V{value4})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="274a0837-a421-4cf0-bfdc-7c19a7596229" style="SmallStyle" x="212" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 5]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value5} : -$V{value5})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7a72eb5d-61fc-473d-9cc0-b90184af1727" style="SmallStyle" x="265" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 6]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value6} : -$V{value6})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ade83af7-7838-4daf-b8d3-d3c1bc3f4fdf" style="SmallStyle" x="318" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 7]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value7} : -$V{value7})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="44abe7d2-ff18-4505-97d2-359e845cdaaf" style="SmallStyle" x="371" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 8]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value8} : -$V{value8})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d4b2f70c-9850-4b37-aa6c-15aa10d189b5" style="SmallStyle" x="424" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 9]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value9} : -$V{value9})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0d6f8233-475a-4e4d-bd00-56685783ff8b" style="SmallStyle" x="477" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 10]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value10} : -$V{value10})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bacb4c47-f133-4320-a4c5-4839bdc2d80a" style="SmallStyle" x="530" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 11]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value11} : -$V{value11})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a4783f04-6414-4418-bd44-2cdfa239529b" style="SmallStyle" x="583" y="31" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 12]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value12} : -$V{value12})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f10263de-5151-499d-a158-4f5c955eeda9" style="SmallStyle" x="636" y="31" width="53" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal} >= -$V{creditTotal} ? $V{value13} : -$V{value13})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="27030914-b2c5-4cfb-ac2e-cd9352ade881" style="SmallStyle" x="689" y="31" width="56" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{debitTotal})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d64b5109-95b1-4744-9fb2-ee78fa7863d0" style="SmallStyle" x="745" y="31" width="56" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format(-$V{creditTotal})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="ab082b78-a9f9-4471-9bfc-3f1eaf6184a7" x="0" y="45" width="802" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="736865b2-91d4-4fd9-ae90-3bd5032aa993" x="0" y="48" width="802" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="c81eef7e-0920-45ff-a696-3dae43e9acdb" x="0" y="63" width="802" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{endOfReport}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="60774266-e7b6-4540-b483-8078e686789c" x="0" y="85" width="335" height="14"/>
+				<textElement>
+					<font isBold="false" isItalic="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportParameters}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="11837798-5ec6-4eab-a64d-54bea4f2f405" x="12" y="105" width="163" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtSections}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="9da97027-6a02-4afc-a635-fd1dd6bc6123" x="185" y="105" width="617" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valSections}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="6ade6cf8-8c3a-4b75-a5db-34034439734f" x="12" y="119" width="163" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement2} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtElement2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="4855cabe-8df2-4962-8c87-737378a55ad0" x="185" y="119" width="617" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement2} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valElement2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="caabd1f4-b18a-42d7-a248-a509579c23c3" x="12" y="133" width="163" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement3} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtElement3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e46839f2-4e0c-49ad-934d-4a8c46a323f0" x="185" y="133" width="617" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement3} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valElement3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e2a93417-36f7-47a6-9d4a-bdfaa933c4e9" x="12" y="147" width="163" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement4} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtElement4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="d332005d-7ebf-4ea7-9df4-4be2d5c8125a" x="185" y="147" width="617" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement4} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valElement4}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="5495a084-1173-4282-b1e4-d2ac8e33f00b" x="12" y="161" width="163" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement5} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtElement5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="14904c80-3210-46f3-b4df-3ba3ffc9ebd8" x="185" y="161" width="617" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement5} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valElement5}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="861cbf10-ab62-4952-b664-ebb21061a253" x="12" y="175" width="163" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement6} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtElement6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="fe526b99-3f71-42f0-9c4a-b42e2f21be25" x="185" y="175" width="617" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement6} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valElement6}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="6d4e4d9f-17e2-4ae3-8df3-a868a9d88536" x="12" y="189" width="163" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement7} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtElement7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="e3a0b2d0-60bf-44e9-ae62-a4c92fe0a4c0" x="185" y="189" width="617" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement7} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valElement7}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="17f3c4e6-0e7f-48c4-b6e3-f1fb09537ef9" x="12" y="203" width="163" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement8} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtElement8}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="01b690d8-723a-4525-985c-aecdcc387e30" x="185" y="203" width="617" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{valElement8} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{valElement8}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

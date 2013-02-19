@@ -1,0 +1,49 @@
+== Budgets
+=== Overview
+* Each period for each GL account in the system can have a budget value set
+* Manual entry of budgets
+* Import of budgets from a tab delimited text file
+* Bulk adjustments to budget values
+* Report of budget values
+* All subject to powerful GL security system
+=== Description
+Budgets are often used to help manage a company's business. Each GL account created within the
+system can have its budgets set on a period by period basis. These budget values can be entered
+manually if desired, but there is also an import system that allows you, for example, to use
+an external modeling system to create the budget figures and then import them in to the General
+Ledger via a tab delimited text file. Budget values are held in whole units of a company's currency.
+
+[[
+{{exclaim}} If you choose to print the list of budget values, to fit as many periods across the page
+as possible (up to 13), the system prints the period values in whole thousands of your currency. This
+means that the values on the report may differ from those shown on the Income and Expenditure report
+and Balance Sheet report which, by contrast, are //not// rounded and are therfore completely accurate.
+]]
+
+Budget figures are relative the Status of the account they belong to. For example, entering a
+budget value of 100 for a GL account with a Cr status (such as a 'Goods Sold' account) would be taken
+to mean budgeted //sales// of 100. Conversely, entering 100 as the budget for a GL account with a
+status of Dr (such as a 'Goods Purchased' account) would be taken to budgeted //purchases// of 100.
+
+If you intend to enter budgets for accounts in the Balance Sheet sections of the Chart of Accounts,
+be aware that the budget figures are intended to be used for expected period movements rather than
+period closing balances. This is consistent with the way budget values are used in the Income and
+Expendture section of the Chart of Accounts.
+
+[[
+{{exclaim}} You may enter budgets for the 'Retained Profits' account in the Balance Sheet section
+of your Chart of Accounts, if you wish, but the Balance Sheet report itself will actually print
+the accumulated budgets of the Income and Expenditure accounts for the appropriate period(s) in place
+of the values you entered. This is simply a display issue and any budget values you entered for the
+'Retained Profits' account will //not// be overwritten.
+]]
+
+Although there are never enough features available to match the ways you might wish to manipulate
+your budget figures (hence the popularity of modeling systems), the system does include as standard a
+Budget Adjustment facility that can perform, amongst other things, such tasks as bringing forward prior
+year budgets or actuals (with or without a monetary or percentage adjustment) in to the current year's
+budgets.
+
+All access to GL accounts, including their budget figures, is controlled by Access Groups. Your company
+administrator will have set up the access groups for your organization. Note that users with either the
+Company Administrator role or the Accounts Administrator role have automatic access to //all// GL accounts.

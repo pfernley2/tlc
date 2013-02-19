@@ -1,0 +1,36 @@
+== Set-Off Journal Entry
+=== Overview
+* Post values between accounts in the Accounts Receivable and Payable ledgers
+* Mark as affecting account turnover figures or not
+* Set a due date for settlement purposes
+* Automatic document number generation depending on configuration
+=== Description
+The Set-Off Journal entry system uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. For example, as you enter an account code and then press Tab,
+the system contacts the server to verify the account exists and to display the account name as confirmation. The system
+is therefore sensitive to the performance of your server and the communications between your server and your browser. A
+company's own server and intranet should provide high performance, the public Internet using a shared server much less so.
+
+The primary purpose of a Set-Off journal is to post values between AR and AP accounts where, for example, a third party
+is both a customer and a supplier and you have agreed between you to only remit the difference between the AR and AP
+account balances. It can also be used, however, to consolidate the balances of related customers and/or suppliers where,
+again, there is an agreement to allow this.
+
+In the top portion of the page is an Affects Turnover check box. If you check this box the journal values will update the
+turnover figures of the customer and supplier accounts involved. Leaving the box unchecked means that the turnover figures
+on the accounts will not be affected.
+
+A Due Date field is also included in the top portion of the screen. This allows you to control when the journal values
+will be regarded as being due for settlement.
+
+The line by line area contains a scrolling list of lines for you to enter data in to. There are a reasonable number of
+lines to begin with, but should you require more lines, click the 'More Lines' button at the bottom of the page. You will
+not lose any data you have already entered by doing this.
+[[
+{{info}} Any blank lines will be ignored for posting purposes as will any line without a customer or supplier account
+code - even if there is other data on the line.
+]]
+When you have finished entering your data, either click the Auto Allocation button or the No Allocation button. Clicking
+the Auto Allocation button will post your journal and then set off open items within each sub-ledger account against one
+another on a simple 'order of data entry' basis. Clicking the No Allocation button, by contrast, performs no such allocations
+within sub-ledger accounts.

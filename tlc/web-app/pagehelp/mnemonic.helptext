@@ -1,0 +1,17 @@
+== GL Account Code Mnemonics
+=== Overview
+* Allows memorable codes to be used for GL Account code entry
+* Use more than one mnemonic to construct a full account code
+=== Description
+General Ledger account codes can consist of up to eight segments delimited by a Segment Delimiter character (by default a minus sign: -).
+Consequently, long GL codes such as 001625-562-HO-1209-66 are not exactly easy to remember. You can create short memorable words to
+represent all or part of a commonly used GL account code. For example, if the 001625-562 portion of our example code meant 'Stationery,
+letterheads' then you could create a mnemonic with a code of, say, 'letterhead' and a value of '001625-562'. You would then be able to
+enter +letterhead-HO-1209-66 where the plus sign is the default Mnemonic Identifier character.
+[[
+{{info}} Your system may be configured to use a character other than a plus sign as the Mnemonic Identifier character.
+]]
+Similarly, if the 1209-66 portion of our example code represented 'Academic Services, General' then we might create a mnemonic with a
+code 'acgen' and a value of '-1209-66'. We would then be able to enter the code as +letterhead-HO+acgen. If the person responsible
+for creating the chart of accounts had been kind enough to create HO as the default for that code segment, then we could reduce our
+data entry of the code even further to just +letterhead+acgen.

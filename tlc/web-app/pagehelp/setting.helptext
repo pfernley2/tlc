@@ -1,0 +1,25 @@
+== Settings
+=== Overview
+* Settings control a number of the ways your system functions
+* If you are unsure of what any particular setting does, contact your system administrator
+=== Description
+Since the values you enter for any settings affects the way your system operates, if you are at
+all unsure of what any particular setting does, or the value you should enter, please contact
+your system administrator for assistance.
+
+Some of the more commonly adjusted settings are described below:
+
+**customer.settlement.days** - the default number of days credit allowed to customers.
+
+**customer.settlement.periodic** - if 'true' then settlement days are based on the end of the accounting
+period in which the invoice was posted. If 'false' then settlement days are based on the invoice date.
+
+**pagination.default** - default number of lines to display on a list of items.
+
+**pagination.max** - the maximum number of lines a user can request for the display of a list of items.
+Limits any 'denial of service' attacks.
+
+**supplier.settlement.days** - the default number of days credit allowed to us by suppliers.
+
+**supplier.settlement.periodic** - if 'true' then settlement days are based on the end of the accounting
+period in which the invoice was posted. If 'false' then settlement days are based on the invoice date.

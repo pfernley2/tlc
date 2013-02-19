@@ -1,0 +1,59 @@
+== Access Groups
+=== Overview
+* Access groups specify which GL, customer and supplier accounts a user may access
+* Code values are specified as a comma separated list of values and ranges
+* A user may be a member of more than one access group
+=== Description
+Roles specify which functions (i.e. programs) of the system a user can use. Access Groups, by contrast, specify
+the data values that a user can access when using those functions.
+
+The GL code structure is made up of code elements, of which there can be up to eight. You may specify values for
+any or all of the GL code elements which this group will allow access to. For each code element you can specify a
+comma separated list of values and/or ranges of values. For example, for a 'Project' code element this access group
+might grant access to 001, 005, 100-199 meaning that members of this group can access projects 001, 005 and 100 through
+199. You can also specify ranges in the form *-199 and 500-* meaning any value up to 199 and any value from 500 onwards
+respectively. If you set the value for a code element to a single asterisk (*) this will be taken to mean that members
+of this group can access //any// value for this element. If you leave the value for a code element completely blank
+this means that members of this group cannot access //any// value for the relevant code element.
+
+You do not need to grant access to control accounts that are updated as a side-effect of posting a document. For example,
+posting a supplier invoice will automatically update the accounts payable control account in the general ledger but you
+do not need to grant access to the control account itself since permission is assumed in such cases.
+
+[[
+{{info}} A user with the Company Administrator role need not be a member of any access groups since they automatically
+have access to all GL, Customer and Supplier accounts. A user with the GL Accounts Administrator role automatically has
+access to all GL accounts but must be given specific access (via Access Groups) to any Customer or Supplier accounts
+they may need to work with. By contrast, users with Accounts Receivable or Accounts Payable Administrator roles must
+be granted specific access to the Customers and/or Suppliers they are to administer since it is often the case that AR
+and AP ledgers are broken down between a number of administrators who are responsible for certain groups of accounts.
+]]
+
+Unlike the general ledger, supplier and customer accounts do not use code elements but use access codes instead. Each
+supplier or customer account is given one of the access codes you have defined using the Access Codes menu option. You
+specify which access codes this group is allowed to use for customers and suppliers separately. Access codes are specified
+as a comma separated list of values and/or ranges. For example, EAST, SOUTH-WEST would mean that members of this group
+would be allowed access to customer or supplier accounts (whichever is being defined) with access codes of EAST and
+SOUTH through WEST, inclusive. Note that the tests are case sensitive and that with alphabetic codes such as those shown,
+you need to have thought through the effect of ranges in advance.
+
+[[
+{{exclaim}} Note that //all// tests are in fact text comparison tests so, for example, using a range such as 001-009 would
+//not// include an access code of 8 since 8 comes after the leading zero of the code range specified. Also note that, if
+you use alphabetic codes, the tests are case sensitive and therefore abc is //not// considered the same as ABC or Abc.
+This is especially important in range tests and so it is advised that all alphabetic codes use the same case.
+]]
+
+Just as when specifying GL code element values, you may use ranges such as SOUTH-* or *-WEST and a single entry of an
+asterisk (*) will be taken to mean 'all values'. Similarly, leaving the customer or supplier value completely blank
+would deny access to any customers or suppliers (whichever was being defined).
+
+For GL code element, customer and supplier values you specify, the codes you enter need not actually exist as code
+element values or access codes. They are simply a list of values (and ranges) that the real code values will be tested
+against. It is up to you to ensure that the values and ranges you specify are meaningful and achieve the result you
+intend. This is also true in the case where you change, for example, an access code's code. No automatic change is made
+in the specifications for the access group(s) that might now allow or disallow the new code value.
+
+When a user is a member of more than one access group, the groups' permissions are combined as if in to one larger access
+group. In other words, permissions are cumulative on a test by test basis rather than each access group being treated
+as a distinct set of tests in isolation.

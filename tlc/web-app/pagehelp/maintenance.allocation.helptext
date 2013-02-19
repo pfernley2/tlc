@@ -1,0 +1,29 @@
+== Manual Allocation
+=== Overview
+* Allocate a selected line on an account to another line on that account
+* Record exchange differences between lines of different currencies
+=== Description
+Manual allocation allows you to specify how a line on an account is allocated to other lines on the account. For example,
+specifying a particular invoice (or invoices) that a credit note clears.
+[[
+{{info}} Clicking on a line in the enquiry list will set the target document type and code in the Allocate To section
+ready for you enter the amount to be allocated to the chosen target line.
+]]
+Allocation is always done in the currency of the account, even when a source document of a different currency has been
+posted to the account. In such cases where one or both of the lines being allocated from/to was not entered in the account
+currency, then depending upon the configuration of your system, you may be allowed to write off an allocation exchange
+difference.
+
+For example (and assuming your system was configured to allow this), consider a US Dollar account that had a Canadian
+Dollar invoice for 100.00 CAD posted to it when the exchange rate was 0.92 thus showing an amount to be allocated for
+the invoice of 92 USD. The settlement of the invoice is also done in Canadian Dollars by a bank transfer of 100.00 CAD
+when the exchange rate was 0.91, thus showing an amount available for allocation of 91 USD. In fact, the 91 USD settlement
+is intended to fully allocate the 92 USD invoice. In such cases, you may write off the 1 USD as an exchange difference
+during the manual allocation process. Note, however, that your company administrator will have set a percentage limit
+to the amount that can be written off in this way.
+
+Once you have entered all the relevant information, click the Allocate button to perform the allocation. If the
+allocated amount fully 'uses up' the unallocated amount of the source line you will be returned to the transaction list
+screen for the relevant account, otherwise you will be returned to this manual allocation screen to continue allocating
+to other lines on the account. If you do not wish to allocate any more amounts, use the 'drill up' button just after the
+title of this page to return to the transaction list from whence you came.

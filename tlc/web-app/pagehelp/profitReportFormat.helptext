@@ -1,0 +1,77 @@
+== Report Formats
+=== Overview
+* Define the general layout of an Income & Expenditure report
+* Create any number of formats with different layouts
+* Specify up to four columns of data to be printed
+* Columns can be actuals (with or without adjustments), budgets, differences or variance percentages
+* Columns can be for a period or cumulative, current year or prior year
+* Include Total Percentages such as Gross Profit percentages if you wish
+* Specify what goes 'down the page' using report format lines
+* Include sub-total and text lines as required
+* Clone existing report formats to quickly create new report formats
+* At report execution time, the user specifies the period to run the report for
+* At report execution time, the user specifies the level of detail to print
+=== Description
+An Income and Expenditure Report Format allows you to define the general layout of an Income
+and Expenditure report. Each report format must be given a name, unique within your company, that
+allows an end user to select which format they wish to produce their report in.
+
+The report format definition allows you to specify a report title and, optionally, a sub-title.
+Like column headings and sub-headings (described below) the title and sub-title can include
+'place holders' which are substituted with the period, year, comparative period and comparative
+year codes at execution time when the user specifies the period to run their chosen report for.
+
+Up to four columns of data are allowed on an Income and Expenditure report. For each column you
+can specify a column heading and, optionally, sub-heading (including 'place holders' as mentioned
+above). For each column you must specify the Primary Data. This can be any of the following:
+
+* Nothing (i.e. this column is unused)
+* Selected Period Actuals (excluding adjustments)
+* Selected Period Actuals (including adjustments)
+* Selected Period Budget
+* Selected Year-To-Date Actuals (excluding adjustments)
+* Selected Year-To-Date Actuals (including adjustments)
+* Selected Year-To-Date Budget
+* Comparative Period Actuals (excluding adjustments)
+* Comparative Period Actuals (including adjustments)
+* Comparative Period Budget
+* Comparative Year-To-Date Actuals (excluding adjustments)
+* Comparative Year-To-Date Actuals (including adjustments)
+* Comparative Year-To-Date Budget
+
+where 'Selected Period' means values for just the period that the end user selected to run the report for;
+'Selected Year-To-Date' means the value for all periods in the year containing the Selected Period, up to
+and including the Selected Period itself; 'Comparative Period' means the value for the period in the preceding
+year equivalent to the Selected Period and 'Comparative Year-To-Date' means the value for periods in the
+preceding year up to and including the Comparative Period. If no Comparative Period exists, columns using
+comparative data will be left blank at execution time.
+
+The system can post documents specifying them to be 'adjustments' (i.e. not in the normal course of business).
+The report format allows you to include or exclude these adjustment values in an Income and Expenditure report
+as shown in the preceding list.
+
+Once you have defined the Primary Data for a column, if any, you may optionally specify a Calculation to be
+performed on the Primary Data as follows:
+
+* None (used to simply print the Primary Data value)
+* Difference (typically used for actual versus budget monetary differences)
+* Variance (typically used for actual versus budget percentage differences)
+* Total Percentage (typically used for showing Gross Profit percentages)
+
+If you select Difference as the calculation for a column then the Secondary Data value of that column will be
+subtracted from its Primary Data value and the resulting monetary amount will be the value displayed for the
+column. In such cases, you must specify the Secondary Data involved.
+
+Selecting Variance as the calculation will subtract the Secondary Data value from the Primary Data Value
+and then express the result as a percentage of the Secondary Data value. Obviously, you must also specify the
+Secondary Data to be used when requesting a Variance calculation.
+
+Selecting Total Percentage as the calculation will lead to the Primary Data value being expressed as a percentage
+of the Chart Section(s) identified as forming the Total involved (this is a separate 'multi-selection' list on the
+data entry screen of the Report Format). Typically, the Chart Section(s) representing Sales would be chosen as
+forming the Total so that setting a column Calculation to Total Percentage would lead to the percentage of Sales
+(including gross profit percentage) being displayed. By convention, such percentages are always shown in absolute
+form (i.e. always as positives), unlike variances.
+
+Once the first part of a Report Format has been defined, you may then move on to defining what goes 'down the page'
+using the Report Format Lines screen.

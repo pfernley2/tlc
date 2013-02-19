@@ -1,0 +1,26 @@
+== Tax Codes
+=== Overview
+* Create multiple tax codes per authority, if required
+* Maintain a history of tax rates associated with each code
+* Set new tax rates to take effect in the future
+=== Description
+Each tax code you create must be given a unique code throughout the company and
+must 'belong' to a particular tax authority.
+[[
+{{info}} Sometimes you need to record purchases from suppliers even when those suppliers do not
+charge you tax on their supplies. This is common with VAT style methods of taxation where invoices
+from non-registered suppliers still need to be recorded for reporting purposes. In such cases you
+may wish to create a special 'untaxed' code for such authorities to handle this situation. The rate
+for such a tax code would be zero so that there is no tax value, but the goods value is still recorded.
+]]
+Each tax rate associated with a tax code has a start date and will remain in effect from that date
+forward until another tax rate record is encountered for that code with a later start date, at which
+point the later tax rate will be used whenever you allow the system to work out the tax for an invoice
+or credit note line for you. Note that most tax authorities require you to enter the tax charged on,
+say, a supplier invoice line //even when it has been incorrectly calculated//.
+[[
+{{exclaim}} Although you can create, edit and delete the tax rates associated with a tax code, be aware
+that each transaction recorded within the system keeps a copy of of the goods and tax values at the
+time it was entered and so will not be affected by any changes you make. Only subsequently entered
+transactions may be affected.
+]]

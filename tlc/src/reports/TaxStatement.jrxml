@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tax Statement" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="TitleStyle" isDefault="false" style="BodyStyle" fontSize="16" isBold="true"/>
+	<style name="HeadingStyle" isDefault="false" style="BodyStyle" isBold="true"/>
+	<style name="IncidentalStyle" isDefault="false" style="BodyStyle" fontSize="10"/>
+	<parameter name="reportTitle" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Report']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Company']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companySecurityCode" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyDecimals" class="java.lang.Byte">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test User']]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOfReport" class="java.lang.String">
+		<defaultValueExpression><![CDATA['--End of Report--']]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportParameters" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Report Parameters']]></defaultValueExpression>
+	</parameter>
+	<parameter name="statementId" class="java.lang.Long"/>
+	<parameter name="colCode" class="java.lang.String"/>
+	<parameter name="colRate" class="java.lang.String"/>
+	<parameter name="colGoods" class="java.lang.String"/>
+	<parameter name="colTax" class="java.lang.String"/>
+	<parameter name="taxCodeNameMap" class="java.util.Map"/>
+	<parameter name="currentPd" class="java.lang.String"/>
+	<parameter name="priorPd" class="java.lang.String"/>
+	<parameter name="inputs" class="java.lang.String"/>
+	<parameter name="outputs" class="java.lang.String"/>
+	<parameter name="payable" class="java.lang.String"/>
+	<parameter name="refund" class="java.lang.String"/>
+	<parameter name="summary" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     x.current_statement AS current,
+     x.expenditure AS input,
+     y.code AS code,
+     y.name AS name,
+     x.tax_percentage AS rate,
+     x.company_goods_value AS goods,
+     x.company_tax_value AS tax
+FROM
+     tax_statement_line AS x, tax_code AS y
+WHERE
+     x.statement_id = $P{statementId} AND x.tax_code_id = y.id
+ORDER BY
+     x.current_statement ASC,
+     x.expenditure ASC,
+     y.code ASC,
+     x.tax_percentage ASC]]>
+	</queryString>
+	<field name="current" class="java.lang.Boolean"/>
+	<field name="input" class="java.lang.Boolean"/>
+	<field name="code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="rate" class="java.math.BigDecimal"/>
+	<field name="goods" class="java.math.BigDecimal"/>
+	<field name="tax" class="java.math.BigDecimal"/>
+	<variable name="isLastPage" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get('lastPage')]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.put('lastPage', false)]]></initialValueExpression>
+	</variable>
+	<variable name="df" class="java.text.DateFormat">
+		<variableExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT, $P{REPORT_LOCALE})]]></variableExpression>
+	</variable>
+	<variable name="dtf" class="java.text.DateFormat">
+		<variableExpression><![CDATA[DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, $P{REPORT_LOCALE})]]></variableExpression>
+	</variable>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{currencyDecimals}.intValue())
+value.setMaximumFractionDigits($P{currencyDecimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="nf3" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits(3)
+value.setMaximumFractionDigits(3)
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="taxCodeName" class="java.lang.String">
+		<variableExpression><![CDATA[$F{code} + " - " + ($P{taxCodeNameMap}?.get($F{code}) ?: $F{name})]]></variableExpression>
+	</variable>
+	<variable name="periodTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="period" calculation="Sum">
+		<variableExpression><![CDATA[$F{tax}]]></variableExpression>
+	</variable>
+	<variable name="goodsTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="direction" calculation="Sum">
+		<variableExpression><![CDATA[$F{goods}]]></variableExpression>
+	</variable>
+	<variable name="taxTotal" class="java.math.BigDecimal" resetType="Group" resetGroup="direction" calculation="Sum">
+		<variableExpression><![CDATA[$F{tax}]]></variableExpression>
+	</variable>
+	<variable name="inputGoods" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{input} ? $F{goods} : 0.0]]></variableExpression>
+	</variable>
+	<variable name="inputTax" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{input} ? $F{tax} : 0.0]]></variableExpression>
+	</variable>
+	<variable name="outputGoods" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{input} ? 0.0 : -$F{goods}]]></variableExpression>
+	</variable>
+	<variable name="outputTax" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{input} ? 0.0 : -$F{tax}]]></variableExpression>
+	</variable>
+	<variable name="summaryTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tax}]]></variableExpression>
+	</variable>
+	<group name="period" minHeightToStartNewPage="54">
+		<groupExpression><![CDATA[$F{current}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField evaluationTime="Group" evaluationGroup="period">
+					<reportElement x="2" y="0" width="327" height="14"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{current} ? $P{currentPd} : $P{priorPd}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="49">
+				<textField>
+					<reportElement x="270" y="15" width="183" height="14"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[($V{periodTotal} < 0.0) ? $P{payable} : $P{refund}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="453" y="15" width="6" height="14"/>
+					<textElement textAlignment="Center"/>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="463" y="15" width="90" height="14"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{periodTotal}.abs())]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="465" y="31" width="88" height="1"/>
+				</line>
+				<line>
+					<reportElement x="465" y="34" width="88" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="direction">
+		<groupExpression><![CDATA[$F{input}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<textField>
+					<reportElement x="37" y="0" width="292" height="14"/>
+					<textElement/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{input}.booleanValue() ? $P{inputs} : $P{outputs}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="31">
+				<line>
+					<reportElement x="375" y="2" width="88" height="1"/>
+				</line>
+				<line>
+					<reportElement x="465" y="2" width="88" height="1"/>
+				</line>
+				<textField>
+					<reportElement x="373" y="5" width="90" height="14"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($F{input} ? $V{goodsTotal} : -$V{goodsTotal})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="463" y="5" width="90" height="14"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($F{input} ? $V{taxTotal} : -$V{taxTotal})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="375" y="21" width="88" height="1"/>
+				</line>
+				<line>
+					<reportElement x="465" y="21" width="88" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="53" splitType="Stretch">
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="0" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement style="IncidentalStyle" x="397" y="0" width="158" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="20" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="TitleStyle" x="0" y="24" width="555" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="48" width="555" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="18" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+			</rectangle>
+			<textField>
+				<reportElement style="HeadingStyle" x="79" y="0" width="236" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{colCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="315" y="0" width="58" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{colRate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="373" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{colGoods}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="463" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{colTax}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="77" y="0" width="248" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{taxCodeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="0" width="48" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf3}.format($F{rate})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="373" y="0" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($F{input} ? $F{goods} : -$F{goods})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="463" y="0" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($F{input} ? $F{tax} : -$F{tax})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="4" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="8" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="485" y="8" width="40" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="IncidentalStyle" x="525" y="8" width="30" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="95" splitType="Stretch">
+			<printWhenExpression><![CDATA[!$P{REPORT_PARAMETERS_MAP}.put('lastPage', true)]]></printWhenExpression>
+			<rectangle radius="0">
+				<reportElement x="0" y="0" width="555" height="78" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="0" width="327" height="14"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{summary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="20" width="292" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{outputs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="20" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{outputGoods})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="20" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{outputTax})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="34" width="292" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{inputs}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="34" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{inputGoods})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="34" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{inputTax})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="465" y="50" width="88" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="270" y="53" width="183" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[($V{summaryTotal} < 0.0) ? $P{payable} : $P{refund}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="463" y="53" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{summaryTotal}.abs())]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="465" y="71" width="88" height="1"/>
+			</line>
+			<line>
+				<reportElement x="465" y="74" width="88" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="80" width="555" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{endOfReport}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,34 @@
+== Sales Invoice/Cr.Note Entry
+=== Overview
+* Enter invoices and credit notes in their source currency
+* Post and optionally allocate the document
+* Automatic document number generation depending on configuration
+=== Description
+The invoice and credit note entry system uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. For example, as you enter a customer code and then press Tab,
+the system contacts the server to verify the account exists and to display the customer name as confirmation. The system
+is therefore sensitive to the performance of your server and the communications between your server and your browser. A
+company's own server and intranet should provide high performance, the public Internet using a shared server much less so.
+
+The document you enter is not intended to be a representation of the actual printed document before you, but rather a
+representation of the financial analysis of the document. For example, there may be a number of lines on the printed
+document which, for General Ledger analysis purposes, are summarized in to a single line. It would typically be the single
+analysis line that you would enter here.
+
+On the goods/tax/total summary line just before the detailed General Ledger line by line analysis, you must enter at least
+two of the fields so that the system can work out the third summary value. On a General Ledger line by line analysis
+line, by contrast, if you select a tax code then you need only enter one of the goods/total values for the system to be
+able to work out the other value on the line.
+
+The General Ledger line by line analysis area contains a scrolling list of lines for you to enter data in to. There are
+more than enough lines to handle typical invoices and credit notes, but should you require more lines, click the 'More
+Lines' button at the bottom of the page. You will not lose any data you have already entered by doing this.
+[[
+{{info}} Any blank analysis lines will be ignored for posting purposes as will any line without a General Ledger code -
+even if there is other data on the line.
+]]
+When you have finished entering your data, click the Auto Allocation button to get the system to post your document and
+then set off open items (including this one) on the account against one another on a simple 'order of data entry' basis.
+Click the No Allocation button to post your document but to not perform any allocations. Click the Manual Allocation
+button to post your document and then allow you to specify how this document is to be allocated against other lines on
+the account.

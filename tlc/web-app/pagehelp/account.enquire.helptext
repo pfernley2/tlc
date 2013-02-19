@@ -1,0 +1,24 @@
+== General Ledger Account Enquiry
+=== Overview
+* Display account balance and transactions on a period by period basis
+* Display values in any defined currency
+* Link to source documents
+=== Description
+This enquiry facility allows you to display the details of a General Ledger account and, on a period by period basis,
+the balance summary and list of transactions on the account. You may link from this enquiry to the underlying source
+documents, if you have the appropriate permission, by clicking on the relevant document code in the list of transactions.
+
+You may display the values in any of the currencies defined in your company. Choosing a display currency of 'none' is
+the same as choosing the currency the account is held in (e.g. EU Euros for a French bank account) except that when you
+navigate to the next enquiry screen with 'none' as the display currency, the new screen will also display its values in
+its 'normal' currency. If you had chosen EU Euros as the display currency, by contrast, then navigated to another
+enquiry screen the new screen would display its values in EU Euros whatever its 'normal' currency might be.
+
+The system cannot possibly hold all values for a transaction in all defined currencies at the date a transaction is
+posted. Consequently, choosing to display an enquiry screen in some currencies will cause an 'on the fly' conversion as
+at today's exchange rate. This can lead to minor rounding differences between, say, the addition of the individual
+transactions on an account and the transaction summary value displayed from the balance record. It can also lead to a
+difference between the perceived value of a line posted to the account (which might be shown via an 'on the fly'
+conversion and therefore at today's exchange rate) and the displayed value of the line on the source document itself
+(which might be shown using its 'normal' values as at the date of posting). To warn you when values are being shown
+using an 'on the fly' conversion, the background colour of the Display Currency dropdown list will be highlighted.

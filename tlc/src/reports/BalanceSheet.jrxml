@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Balance Sheet Report" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="TitleStyle" isDefault="false" style="BodyStyle" fontSize="16" isBold="true"/>
+	<style name="HeadingStyle" isDefault="false" style="BodyStyle" isBold="true"/>
+	<style name="IncidentalStyle" isDefault="false" style="BodyStyle" fontSize="10"/>
+	<parameter name="reportTitle" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Report']]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportSubTitle" class="java.lang.String"/>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Company']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companySecurityCode" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyDecimals" class="java.lang.Byte">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test User']]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOfReport" class="java.lang.String">
+		<defaultValueExpression><![CDATA['--End of Report--']]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportParameters" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Report Parameters']]></defaultValueExpression>
+	</parameter>
+	<parameter name="pid" class="java.lang.Long"/>
+	<parameter name="txtHeading1" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Column 1']]></defaultValueExpression>
+	</parameter>
+	<parameter name="txtHeading2" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Column 2']]></defaultValueExpression>
+	</parameter>
+	<parameter name="txtHeading3" class="java.lang.String"/>
+	<parameter name="txtHeading4" class="java.lang.String"/>
+	<parameter name="txtSubHeading1" class="java.lang.String"/>
+	<parameter name="txtSubHeading2" class="java.lang.String"/>
+	<parameter name="txtSubHeading3" class="java.lang.String"/>
+	<parameter name="txtSubHeading4" class="java.lang.String"/>
+	<parameter name="isPercentage1" class="java.lang.Boolean"/>
+	<parameter name="isPercentage2" class="java.lang.Boolean"/>
+	<parameter name="isPercentage3" class="java.lang.Boolean"/>
+	<parameter name="isPercentage4" class="java.lang.Boolean"/>
+	<parameter name="txtPeriod" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Parameter 1']]></defaultValueExpression>
+	</parameter>
+	<parameter name="valPeriod" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Parameter 1 Prompt']]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     string1 AS text,
+     decimal1 AS value1,
+     decimal2 AS value2,
+     decimal3 AS value3,
+     decimal4 AS value4,
+     boolean1 AS negate1,
+     boolean2 AS negate2,
+     boolean3 AS negate3,
+     boolean4 AS negate4,
+     integer2 AS decoration
+FROM
+     system_workarea
+WHERE
+     process = $P{pid}
+ORDER BY
+     identifier ASC]]>
+	</queryString>
+	<field name="text" class="java.lang.String"/>
+	<field name="value1" class="java.math.BigDecimal"/>
+	<field name="value2" class="java.math.BigDecimal"/>
+	<field name="value3" class="java.math.BigDecimal"/>
+	<field name="value4" class="java.math.BigDecimal"/>
+	<field name="negate1" class="java.lang.Boolean"/>
+	<field name="negate2" class="java.lang.Boolean"/>
+	<field name="negate3" class="java.lang.Boolean"/>
+	<field name="negate4" class="java.lang.Boolean"/>
+	<field name="decoration" class="java.lang.Integer"/>
+	<variable name="isLastPage" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get('lastPage')]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.put('lastPage', false)]]></initialValueExpression>
+	</variable>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{currencyDecimals}.intValue())
+value.setMaximumFractionDigits($P{currencyDecimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="pf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getPercentInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits(2)
+value.setMaximumFractionDigits(2)
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="val1" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{value1} ? ($F{negate1} ? -$F{value1} : $F{value1}) : 0.0]]></variableExpression>
+	</variable>
+	<variable name="val2" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{value2} ? ($F{negate2} ? -$F{value2} : $F{value2}) : 0.0]]></variableExpression>
+	</variable>
+	<variable name="val3" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{value3} ? ($F{negate3} ? -$F{value3} : $F{value3}) : 0.0]]></variableExpression>
+	</variable>
+	<variable name="val4" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[$F{value4} ? ($F{negate4} ? -$F{value4} : $F{value4}) : 0.0]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="75" splitType="Stretch">
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="0" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement style="IncidentalStyle" x="644" y="0" width="158" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="20" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="TitleStyle" x="0" y="24" width="802" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="TitleStyle" x="0" y="46" width="802" height="22" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportSubTitle}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="70" width="802" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="40">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="18" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+			</rectangle>
+			<textField>
+				<reportElement style="HeadingStyle" x="442" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtHeading1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="532" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtHeading2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="622" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtHeading3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="712" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtHeading4}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="18" width="802" height="18" isRemoveLineWhenBlank="true" forecolor="#CCCCCC" backcolor="#CCCCCC">
+					<printWhenExpression><![CDATA[$P{txtSubHeading1} || $P{txtSubHeading2} || $P{txtSubHeading3} || $P{txtSubHeading4}]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement style="HeadingStyle" x="442" y="18" width="90" height="18" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtSubHeading1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="532" y="18" width="90" height="18" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtSubHeading2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="622" y="18" width="90" height="18" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtSubHeading3}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="712" y="18" width="90" height="18" isRemoveLineWhenBlank="true"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtSubHeading4}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<rectangle>
+				<reportElement mode="Transparent" x="0" y="0" width="10" height="8" isRemoveLineWhenBlank="true" forecolor="#FFFFFF">
+					<printWhenExpression><![CDATA[$F{decoration} && $F{decoration} & 1]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<line>
+				<reportElement x="444" y="10" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading1} && $F{decoration} && $F{decoration} & 2]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="534" y="10" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading2} && $F{decoration} && $F{decoration} & 2]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="624" y="10" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading3} && $F{decoration} && $F{decoration} & 2]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="714" y="10" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading4} && $F{decoration} && $F{decoration} & 2]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="13" width="440" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{text}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="13" width="90" height="14">
+					<printWhenExpression><![CDATA[$P{txtHeading1} && $F{value1} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{isPercentage1} ? $V{pf}.format($V{val1} / 100.0) : $V{nf}.format($V{val1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="532" y="13" width="90" height="14">
+					<printWhenExpression><![CDATA[$P{txtHeading2} && $F{value2} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{isPercentage2} ? $V{pf}.format($V{val2} / 100.0) : $V{nf}.format($V{val2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="622" y="13" width="90" height="14">
+					<printWhenExpression><![CDATA[$P{txtHeading3} && $F{value3} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{isPercentage3} ? $V{pf}.format($V{val3} / 100.0) : $V{nf}.format($V{val3})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="712" y="13" width="90" height="14">
+					<printWhenExpression><![CDATA[$P{txtHeading4} && $F{value4} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{isPercentage4} ? $V{pf}.format($V{val4} / 100.0) : $V{nf}.format($V{val4})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="444" y="29" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading1} && $F{decoration} && $F{decoration} & 4]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="444" y="32" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading1} && $F{decoration} && $F{decoration} & 8]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="534" y="29" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading2} && $F{decoration} && $F{decoration} & 4]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="534" y="32" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading2} && $F{decoration} && $F{decoration} & 8]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="624" y="29" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading3} && $F{decoration} && $F{decoration} & 4]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="624" y="32" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading3} && $F{decoration} && $F{decoration} & 8]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="714" y="29" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading4} && $F{decoration} && $F{decoration} & 4]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="714" y="32" width="88" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{txtHeading4} && $F{decoration} && $F{decoration} & 8]]></printWhenExpression>
+				</reportElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="4" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="8" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="732" y="8" width="40" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="IncidentalStyle" x="772" y="8" width="30" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="58" splitType="Stretch">
+			<printWhenExpression><![CDATA[!$P{REPORT_PARAMETERS_MAP}.put('lastPage', true)]]></printWhenExpression>
+			<textField>
+				<reportElement x="0" y="9" width="802" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{endOfReport}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="24" width="335" height="14"/>
+				<textElement>
+					<font isBold="false" isItalic="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportParameters}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="12" y="44" width="225" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtPeriod}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="247" y="44" width="555" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{valPeriod}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

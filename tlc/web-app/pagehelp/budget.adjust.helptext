@@ -1,0 +1,61 @@
+== Budget Adjustments
+=== Overview
+* Select source year and periods to get data from
+* Select the target year and periods whose budget values are to be updated
+* Specify the source data type (budgets or actuals)
+* Specify any adjustments to the source data (percentage uplifts etc)
+* Restrict the updates to I&E or Balance Sheet accounts if required
+* Specify one particular Chart Section to update, if you wish
+* Limit the updates to certain Code Element value combinations (e.g. Branch 10, Project 123 etc)
+=== Description
+The general principle of using the Budget Adjustment facility consists of specify where to
+get source data from, how to modify it (if at all), and where to put the resulting values.
+
+The Year and Period selections have two halves to them: the source (which periods to get the
+data from) and the target (which periods should have their budget values updated). Note that
+you can use the same year for both source and target thus allowing you to propagate values
+from, say, the first quarter of the year to subsequent quarters of the same year.
+
+[[
+{{info}} If you pick __fewer__ source periods than target periods, the update 'loops around' the
+source periods until all target periods have been updated. If you select __more__ source periods
+than target periods, the additional source periods are ignored.
+]]
+
+Once you have selected the source and target periods, you may then specify the GL accounts to be
+updated by choosing the Section Type to include only Income and Expenditure accounts, Balance Sheet
+accounts or all accounts, if you wish. Restricting the accounts to be updated can be made even more
+restrictive by choosing one particular Chart Section, if this is what you require.
+
+You can also choose to restrict the accounts to be updated by specifying one or more values for
+the Code Elements in your system (e.g. Branch, Project etc) that an account must have before it
+is to be included in the update. Note that an account must have //all// the Code Element values
+you specify rather than any single one of them.
+
+[[
+{{exclaim}} You will only be shown Code Element values that your Company Administrator has granted you
+use of via the Access Group security system.
+]]
+
+Having now specified the periods to get the data from, the periods to be updated and, optionally,
+restricted the accounts to be updated, you can now specify what particular data you want to get
+from the source periods: budgets or actuals. In the case of actuals, you may also choose between
+including or excluding transactions that were flagged as adjustments when they were posted.
+
+Finally you may choose, if you wish, to modify the source values by a monetary amount or a percentage.
+A positive monetary amount or percentage will increase the source value and, similarly, a negative
+amount or percentage will reduce the source value. 'Increase' and 'decrease' in this sense are
+both relative to the Status of the account being processed (i.e. Dr or Cr). For example, adding a
+positive percentage to a 'Goods purchased for resale' account's budget will increase the expected
+purchases whereas adding a positive percentage to a 'Goods sold' account's budget will increase the
+expected sales.
+
+[[
+{{info}} There is also an option to set the target periods' budgets to a specific monetary value.
+In such cases any source periods you may have selected and/or Source Data you may have specified
+will be ignored since they are not needed. Setting the budgets to a specific monetary value can
+be useful for zero-izing budgets, amongst other things.
+]]
+
+Once you have filled in all the relevant criteria, you may begin the update. Depending upon the
+speed of your server and its current workload, this may take a while so please be patient!

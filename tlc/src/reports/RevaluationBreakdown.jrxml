@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Revaluation Breakdown Report" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="TitleStyle" isDefault="false" style="BodyStyle" fontSize="16" isBold="true"/>
+	<style name="HeadingStyle" isDefault="false" style="BodyStyle" isBold="true"/>
+	<style name="IncidentalStyle" isDefault="false" style="BodyStyle" fontSize="10"/>
+	<style name="SmallStyle" isDefault="false" style="BodyStyle" fontSize="9"/>
+	<parameter name="reportTitle" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Report']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Company']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companySecurityCode" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyDecimals" class="java.lang.Byte">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test User']]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOfReport" class="java.lang.String">
+		<defaultValueExpression><![CDATA['--End of Report--']]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportParameters" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Report Parameters']]></defaultValueExpression>
+	</parameter>
+	<parameter name="documentId" class="java.lang.Long"/>
+	<parameter name="txtAccount" class="java.lang.String"/>
+	<parameter name="txtName" class="java.lang.String"/>
+	<parameter name="txtCurrent" class="java.lang.String"/>
+	<parameter name="txtPrior" class="java.lang.String"/>
+	<parameter name="txtRevalued" class="java.lang.String"/>
+	<parameter name="txtAdjustment" class="java.lang.String"/>
+	<parameter name="txtDifference" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     r.code AS revaluationCode,
+     r.name AS revaluationName,
+     a.code AS accountCode,
+     a.name AS accountName,
+     c.code AS customerCode,
+     c.name AS customerName,
+     s.code AS supplierCode,
+     s.name AS supplierName,
+     p.current_balance AS currentBalance,
+     p.prior_revaluations AS priorRevaluations,
+     p.current_revaluation AS currentRevaluation,
+     p.revalued_balance AS revaluedBalance
+FROM
+     period_revaluation AS p
+JOIN
+     account AS r ON p.revaluation_account_id = r.id
+LEFT OUTER JOIN
+     account AS a ON p.account_id = a.id
+LEFT OUTER JOIN
+     customer AS c ON p.customer_id = c.id
+LEFT OUTER JOIN
+     supplier AS s ON p.supplier_id = s.id
+WHERE
+     p.document_id = $P{documentId}
+ORDER BY
+     r.code ASC, p.id ASC]]>
+	</queryString>
+	<field name="revaluationCode" class="java.lang.String"/>
+	<field name="revaluationName" class="java.lang.String"/>
+	<field name="accountCode" class="java.lang.String"/>
+	<field name="accountName" class="java.lang.String"/>
+	<field name="customerCode" class="java.lang.String"/>
+	<field name="customerName" class="java.lang.String"/>
+	<field name="supplierCode" class="java.lang.String"/>
+	<field name="supplierName" class="java.lang.String"/>
+	<field name="currentBalance" class="java.math.BigDecimal"/>
+	<field name="priorRevaluations" class="java.math.BigDecimal"/>
+	<field name="currentRevaluation" class="java.math.BigDecimal"/>
+	<field name="revaluedBalance" class="java.math.BigDecimal"/>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{currencyDecimals}.intValue())
+value.setMaximumFractionDigits($P{currencyDecimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="groupDebit" class="java.math.BigDecimal" resetType="Group" resetGroup="RevaluationAccountGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{currentRevaluation} >= 0.0 ? $F{currentRevaluation} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="groupCredit" class="java.math.BigDecimal" resetType="Group" resetGroup="RevaluationAccountGroup" calculation="Sum">
+		<variableExpression><![CDATA[$F{currentRevaluation} < 0.0 ? -$F{currentRevaluation} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="totalDebit" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{currentRevaluation} >= 0.0 ? $F{currentRevaluation} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="totalCredit" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{currentRevaluation} < 0.0 ? -$F{currentRevaluation} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="difference" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[-$F{currentRevaluation}]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<group name="RevaluationAccountGroup" minHeightToStartNewPage="30">
+		<groupExpression><![CDATA[$F{revaluationCode}]]></groupExpression>
+		<groupHeader>
+			<band height="18">
+				<textField>
+					<reportElement style="SmallStyle" x="0" y="3" width="802" height="12"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revaluationCode} + ' ' + $F{revaluationName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="22" splitType="Prevent">
+				<line>
+					<reportElement x="668" y="2" width="66" height="1"/>
+				</line>
+				<line>
+					<reportElement x="736" y="2" width="66" height="1"/>
+				</line>
+				<textField>
+					<reportElement style="SmallStyle" x="0" y="5" width="660" height="12"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{revaluationCode} + ' ' + $F{revaluationName}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="SmallStyle" x="666" y="5" width="68" height="12"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{groupDebit})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="SmallStyle" x="734" y="5" width="68" height="12"/>
+					<textElement textAlignment="Right"/>
+					<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{groupCredit})]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="668" y="19" width="66" height="1"/>
+				</line>
+				<line>
+					<reportElement x="736" y="19" width="66" height="1"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="53" splitType="Stretch">
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="0" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement style="IncidentalStyle" x="644" y="0" width="158" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="20" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="TitleStyle" x="0" y="24" width="802" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="48" width="802" height="1"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<rectangle>
+				<reportElement x="0" y="0" width="802" height="16" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+			</rectangle>
+			<textField>
+				<reportElement style="HeadingStyle" x="0" y="0" width="98" height="16"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtAccount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="98" y="0" width="160" height="16"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="258" y="0" width="136" height="16"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtCurrent}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="394" y="0" width="136" height="16"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtRevalued}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="530" y="0" width="136" height="16"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtPrior}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="HeadingStyle" x="666" y="0" width="136" height="16"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtAdjustment}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="12" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement style="SmallStyle" x="0" y="0" width="98" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{accountCode} ? $F{accountCode} : ($F{customerCode} ? $F{customerCode} : $F{supplierCode})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="SmallStyle" x="98" y="0" width="160" height="12"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{accountName} ? $F{accountName} : ($F{customerName} ? $F{customerName} : $F{supplierName})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="258" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{currentBalance} >= 0.0 ? $V{nf}.format($F{currentBalance}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="326" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{currentBalance} < 0.0 ? $V{nf}.format(-$F{currentBalance}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="394" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{revaluedBalance} >= 0.0 ? $V{nf}.format($F{revaluedBalance}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="462" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{revaluedBalance} < 0.0 ? $V{nf}.format(-$F{revaluedBalance}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="530" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{priorRevaluations} >= 0.0 ? $V{nf}.format($F{priorRevaluations}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="598" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{priorRevaluations} < 0.0 ? $V{nf}.format(-$F{priorRevaluations}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="666" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{currentRevaluation} >= 0.0 ? $V{nf}.format($F{currentRevaluation}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="734" y="0" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{currentRevaluation} < 0.0 ? $V{nf}.format(-$F{currentRevaluation}) : '']]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="4" width="802" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="8" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="732" y="8" width="40" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="IncidentalStyle" x="772" y="8" width="30" height="18"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="74" splitType="Prevent">
+			<line>
+				<reportElement x="668" y="8" width="66" height="1"/>
+			</line>
+			<line>
+				<reportElement x="736" y="8" width="66" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="SmallStyle" x="666" y="11" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{totalDebit})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="734" y="11" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{totalCredit})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="0" y="23" width="660" height="12"/>
+				<textElement textAlignment="Right">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtDifference}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="666" y="23" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{difference} >= 0.0 ? $V{nf}.format($V{difference}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="734" y="23" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{difference} < 0.0 ? $V{nf}.format(-$V{difference}) : '']]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="668" y="37" width="66" height="1"/>
+			</line>
+			<line>
+				<reportElement x="736" y="37" width="66" height="1"/>
+			</line>
+			<textField>
+				<reportElement style="SmallStyle" x="666" y="40" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{totalDebit} + ($V{difference} >= 0.0 ? $V{difference} : 0.0))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="734" y="40" width="68" height="12"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{totalCredit} - ($V{difference} < 0.0 ? $V{difference} : 0.0))]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="668" y="54" width="66" height="1"/>
+			</line>
+			<line>
+				<reportElement x="736" y="54" width="66" height="1"/>
+			</line>
+			<line>
+				<reportElement x="668" y="57" width="66" height="1"/>
+			</line>
+			<line>
+				<reportElement x="736" y="57" width="66" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="60" width="802" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{endOfReport}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

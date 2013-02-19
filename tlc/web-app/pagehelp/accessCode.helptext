@@ -1,0 +1,16 @@
+== Access Codes
+=== Overview
+* Each customer and supplier is given an access code
+* Access codes control which customers and suppliers a user can work with
+* There is one set of access codes for both customers and suppliers reducing maintenance
+=== Description
+A company will often create employee groups to manage certain customers and/or suppliers. This might be
+on a geographical basis such as Northern and Southern groups, on a customer/supplier type (e.g. Line of Business)
+or on the size of the customer or supplier (Large, Medium and Small enterprises etc). It might be undesireable to
+allow employees who work in one group to see or post data to customer and supplier accounts in other groups.
+Access codes are used to control this by each customer and supplier being given an access code.
+
+Only one set of access codes is used for both customer and supplier accounts in order to reduce maintenance since
+both sub-ledgers often use a similar grouping strategy. A user being allowed to access customer accounts with a given
+access code does not necessarily mean that they can access supplier accounts with the same access code since user access
+is specified separately (via Access Groups) for customer accounts and supplier accounts.

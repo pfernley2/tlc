@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Statements" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryNewPage="true" uuid="5e2ae352-942f-403e-ae9d-24bd210dc374">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="TitleStyle" style="BodyStyle" fontSize="16" isBold="true"/>
+	<style name="HeadingStyle" style="BodyStyle" isBold="true"/>
+	<style name="IncidentalStyle" style="BodyStyle" fontSize="10"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportTitle" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Report']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Company']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companySecurityCode" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyDecimals" class="java.lang.Byte">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test User']]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOfReport" class="java.lang.String">
+		<defaultValueExpression><![CDATA['--End of Report--']]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportParameters" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Report Parameters']]></defaultValueExpression>
+	</parameter>
+	<parameter name="pid" class="java.lang.Long"/>
+	<parameter name="countryNamesMap" class="java.util.Map">
+		<defaultValueExpression><![CDATA[new java.util.HashMap()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyCountryId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[229]]></defaultValueExpression>
+	</parameter>
+	<parameter name="addressTypeId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="contactTypeId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="txtTitle" class="java.lang.String"/>
+	<parameter name="txtAccount" class="java.lang.String"/>
+	<parameter name="txtDate" class="java.lang.String"/>
+	<parameter name="txtCurrency" class="java.lang.String"/>
+	<parameter name="txtPage" class="java.lang.String"/>
+	<parameter name="batchPrompt" class="java.lang.String"/>
+	<parameter name="txtPart" class="java.lang.String"/>
+	<parameter name="txtDocument" class="java.lang.String"/>
+	<parameter name="txtDocDate" class="java.lang.String"/>
+	<parameter name="txtReference" class="java.lang.String"/>
+	<parameter name="txtDebit" class="java.lang.String"/>
+	<parameter name="txtCredit" class="java.lang.String"/>
+	<parameter name="txtBF" class="java.lang.String"/>
+	<parameter name="txtCF" class="java.lang.String"/>
+	<parameter name="txtTotal" class="java.lang.String"/>
+	<parameter name="txtSupplier" class="java.lang.String"/>
+	<parameter name="batch" class="java.lang.Integer"/>
+	<parameter name="batches" class="java.lang.Integer"/>
+	<parameter name="txtReprint" class="java.lang.String"/>
+	<parameter name="specificSupplier" class="java.lang.String"/>
+	<parameter name="noSummary" class="java.lang.Boolean"/>
+	<parameter name="codesPrompt" class="java.lang.String"/>
+	<parameter name="codes" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     s.id AS supplier_id,
+     s.code AS supplier_code,
+     s.name AS supplier_name,
+     e.code AS currency_code,
+     e.decimals AS currency_decimals,
+     r.id AS remittance_id,
+     r.advice_date AS advice_date,
+     sc.code AS country_code,
+     sl.code AS language_code
+FROM
+     system_workarea AS w,
+     remittance AS r,
+     supplier AS s,
+     exchange_currency AS e,
+     system_country AS sc,
+     system_language AS sl
+WHERE
+     w.process = $P{pid} AND
+     w.integer1 = $P{batch} AND
+     w.identifier = r.id AND
+     r.supplier_id = s.id AND
+     s.currency_id = e.id AND
+     s.country_id = sc.id AND
+     sc.language_id = sl.id
+ORDER BY
+     w.string1 ASC]]>
+	</queryString>
+	<field name="supplier_id" class="java.lang.Long"/>
+	<field name="supplier_code" class="java.lang.String"/>
+	<field name="supplier_name" class="java.lang.String"/>
+	<field name="currency_code" class="java.lang.String"/>
+	<field name="currency_decimals" class="java.lang.Byte"/>
+	<field name="remittance_id" class="java.lang.Long"/>
+	<field name="advice_date" class="java.util.Date"/>
+	<field name="country_code" class="java.lang.String"/>
+	<field name="language_code" class="java.lang.String"/>
+	<variable name="df" class="java.text.DateFormat">
+		<variableExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT, $P{REPORT_LOCALE})]]></variableExpression>
+	</variable>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{currencyDecimals}.intValue())
+value.setMaximumFractionDigits($P{currencyDecimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<group name="supplier" isStartNewPage="true" isResetPageNumber="true">
+		<groupExpression><![CDATA[$F{supplier_id}]]></groupExpression>
+		<groupHeader>
+			<band/>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="218" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="5123ec54-c43f-4abe-8fb5-5d5f14692f97" x="23" y="109" width="480" height="105"/>
+				<subreportParameter name="supplier_id">
+					<subreportParameterExpression><![CDATA[$F{supplier_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="companyCountryId">
+					<subreportParameterExpression><![CDATA[$P{companyCountryId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="supplier_name">
+					<subreportParameterExpression><![CDATA[$F{supplier_name}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="countryNamesMap">
+					<subreportParameterExpression><![CDATA[$P{countryNamesMap}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="addressTypeId">
+					<subreportParameterExpression><![CDATA[$P{addressTypeId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="contactTypeId">
+					<subreportParameterExpression><![CDATA[$P{contactTypeId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Remittances_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement uuid="c1f19e11-d15a-40a5-96ff-8c2de258ddcf" x="436" y="36" width="119" height="14"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplier_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7a83d031-1a35-4c87-85a9-27297f31c389" style="TitleStyle" mode="Opaque" x="0" y="0" width="555" height="22" backcolor="#CCCCCC"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{txtTitle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ce04d9f8-a99e-4b01-8474-78554462bc07" x="436" y="50" width="119" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT, new Locale($F{language_code}, $F{country_code})).format($F{advice_date})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d8b86a49-291e-4d25-9f4e-d7dc198a80f6" x="425" y="64" width="30" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER} + " /"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="4daa13e3-d37f-4b0f-8bca-c16ed263f6d7" x="436" y="78" width="119" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{currency_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eb8e0e66-bdd0-41d5-9da3-c473581c0344" x="325" y="36" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtAccount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e111b3ae-9784-4214-87c6-f9a0a7216d6f" x="325" y="50" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e30a58c1-c043-49f3-91cc-0eb25a2e4f40" x="325" y="64" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtPage}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a96d006d-6034-474f-adf7-4f32e674e089" x="325" y="78" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtCurrency}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Group" evaluationGroup="supplier">
+				<reportElement uuid="62f60415-36e3-40f3-803f-4ffb5d48eb14" x="455" y="64" width="30" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="b35cdf72-b87f-4314-8bfd-09848d0006ad" x="436" y="92" width="119" height="14">
+					<printWhenExpression><![CDATA[$P{txtReprint} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtReprint}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="ef010557-381b-422f-a0f2-632a7c3ce3ca" x="0" y="0" width="555" height="18" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="90f2b046-8ed4-450d-85d5-2cee67103fca" style="HeadingStyle" x="0" y="2" width="70" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtDocDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="1d4a4d1b-ceee-4a41-8c2f-a484b94b2f48" style="HeadingStyle" x="70" y="2" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtDocument}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d4e74b15-55f8-4c40-a914-16e371126e8a" style="HeadingStyle" x="170" y="2" width="100" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtReference}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="bd5aca50-d6f7-465a-ae43-4b5712d93684" style="HeadingStyle" x="270" y="2" width="31" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{txtPart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a6fc794b-b786-48dc-b043-a5759aacaed3" style="HeadingStyle" x="369" y="2" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtDebit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3a0ad563-5806-427b-b635-4731c914b7f9" style="HeadingStyle" x="459" y="2" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtCredit}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="01891936-e5b6-42db-a6d0-6ba32cc25435" x="0" y="0" width="555" height="14"/>
+				<subreportParameter name="currency_decimals">
+					<subreportParameterExpression><![CDATA[$F{currency_decimals}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="language_code">
+					<subreportParameterExpression><![CDATA[$F{language_code}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="remittance_id">
+					<subreportParameterExpression><![CDATA[$F{remittance_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtBF">
+					<subreportParameterExpression><![CDATA[$P{txtBF}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtTotal">
+					<subreportParameterExpression><![CDATA[$P{txtTotal}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtCF">
+					<subreportParameterExpression><![CDATA[$P{txtCF}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="country_code">
+					<subreportParameterExpression><![CDATA[$F{country_code}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="advice_date">
+					<subreportParameterExpression><![CDATA[$F{advice_date}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "Remittances_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<summary>
+		<band height="122" splitType="Stretch">
+			<printWhenExpression><![CDATA[!$P{noSummary}]]></printWhenExpression>
+			<textField>
+				<reportElement uuid="5bcfee76-73ea-45ee-ab52-c996f6c690e4" x="0" y="42" width="335" height="14"/>
+				<textElement>
+					<font isBold="false" isItalic="false" isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{reportParameters}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3481528c-0f9d-47cd-9721-81eaeaf6a954" x="12" y="91" width="110" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{batchPrompt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e5763b64-8c78-48e9-b949-05f37f034468" x="132" y="91" width="423" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{batch}.toString() + ' / ' + $P{batches}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7ec2ea56-225b-4e9c-be09-535693f397a8" style="TitleStyle" x="0" y="0" width="555" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a5c5c959-efe3-4d57-86a3-d1debfae0a6c" x="12" y="63" width="110" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{specificSupplier} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtSupplier}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5a11b206-33f4-44e2-b95f-1e2002029e7d" x="132" y="63" width="423" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{specificSupplier} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{specificSupplier}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="de07f438-2148-41f8-a00f-5a05935d89b8" x="12" y="77" width="110" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{codes} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{codesPrompt}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="33a5fee1-746e-44ef-aee6-25cfa181adad" x="132" y="77" width="423" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$P{codes} > '']]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{codes}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

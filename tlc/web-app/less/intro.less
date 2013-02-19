@@ -1,0 +1,163 @@
+// Colours
+@baseBackground: #FFFFFF;
+@baseText: #333333;
+@baseLink: #666666;
+@baseBorder: #CCCCCC;
+@baseAlternateBackground: #F1F1ED;
+@baseAlternateText: #888888;
+
+@themeText: #006DBA;
+@themeBorder: #B2D1FF;
+@themeAlternateBackground: #F0F8FF;
+@themeAlternateText: #800000;
+
+// Padding and margin values - currently still specified in px but may, in
+// the future, be converted to em. Excludes border width, page layout widths
+// and positioning values which will continue to be specified in px. Also
+// excludes zero which does not have a unit.
+@size02: 2px;
+@size03: 3px;
+@size04: 4px;
+@size05: 5px;
+@size06: 6px;
+@size08: 8px;
+@size09: 9px;
+@size13: 13px;
+@size15: 15px;
+@size18: 18px;
+@size40: 40px;
+@size60: 60px;
+
+// Stylesheet
+html {
+    * { margin: 0; }
+}
+body {
+    background: @baseAlternateBackground;
+    color: @baseText;
+    font: 68.75% verdana, arial, helvetica, sans-serif;
+    text-align: center;
+}
+a:link, a:active, a:visited, a:hover {
+    color: @baseLink;
+    font-weight: bold;
+    text-decoration: none;
+}
+h1 {
+    color: @themeText;
+    font-weight: normal;
+    font-size: 1.45em;
+    margin: .5em 0 .8em 0;
+}
+h2 {
+    color: @themeText;
+    font-weight: normal;
+    font-size: 1.27em;
+    margin: .8em 0 .3em 0;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+li {
+	background: url(../images/bullet-normal.gif) no-repeat 0 2px;
+    padding-left: @size18;
+    &:hover { background: url(../images/bullet-hover.gif) no-repeat 0 2px; }
+}
+#page {
+    background: @baseBackground;
+    width: 800px;
+    margin: @size04 auto;
+    padding: @size04 @size09 @size04 @size13;
+    text-align: left;
+}
+#topbar {
+    text-align: left;
+    width: 800px;
+    margin: 0 auto;
+    padding: @size05 0;
+    #menu {
+        float: right;
+        text-align: right;
+        font-size: 1em;
+    }
+}
+#header {
+    width: 800px;
+    height: 3.8em;
+    margin: 0 auto;
+    font-size: 1.64em;
+    font-weight: bold;
+    img { vertical-align: middle; }
+}
+#main-content {
+    float: left;
+    width: 560px;
+}
+#bullets {
+    margin-left: @size60;
+}
+#sidebar {
+    float: right;
+    width: 200px;
+    padding: @size03;
+}
+#actions, #rest, #status {
+    border: 1px solid @themeBorder;
+    background: @themeAlternateBackground;
+    padding: 0;
+    color: @themeText;
+    h1 {
+        margin: 0 0 @size08 0;
+        padding: @size05 @size02 0 @size03;
+        height: 2em;
+        background: @themeText;
+        color: @baseBackground;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+    p { margin: 0 0 @size08 @size03; }
+    a:link, a:active, a:visited {
+	    color: @themeText;
+	    text-decoration: none;
+	    font-weight: normal;	
+    }
+    a:hover {
+        color: @themeAlternateText;
+        text-decoration: none;
+        font-weight: normal;
+    }
+}
+#rest, #status {
+    margin-top: @size40;
+}
+#footer {
+    clear: both;
+    text-align: center;
+    font-size: 0.82em;
+    color: @baseAlternateText;
+    padding: @size05;
+    border-top: 1px solid @baseBorder;
+}
+#formatsTable {
+    border: 1px solid @baseBorder;
+    width: 100%;
+    text-align: left;
+    td {
+        padding: @size04 @size06;
+        white-space: nowrap;
+    }
+}
+.fieldHelp img {
+    vertical-align: text-top;
+}
+.borderless {
+    border: 0;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.mediumTopMargin {
+    margin-top: @size15;
+}

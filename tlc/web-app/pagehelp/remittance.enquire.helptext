@@ -1,0 +1,21 @@
+== Remittance Advice Enquiry
+=== Overview
+* Display the contents of remittance advices sent to a suppliers
+* Print the remittance advice
+* Link back to supplier enquiry
+* Link to underlying document display
+=== Description
+This enquiry facility allows you to select which remittance advice you wish to display. Note that only
+remittance advices paid via the auto-payments system are available for display. Initailly the display
+is set to show the last remittance advice sent to the supplier, but you may choose a different one (if
+available) from the drop-down list followed by clicking the Enquire button. Note that your company
+administrator will have set a number of months of advice history to retain and therefore remittance
+advices older than this will be automatically removed from the system.
+
+Be aware that values on remittance advices are always shown in supplier account currency and that dates
+and values are formatted for the supplier's locale - which may be different from yours. This is how the
+information is printed on an actual remittance advice sent to a supplier and so it is displayed the same
+way on this enquiry screen.
+
+To return to the supplier enquiry display, click on the supplier code in the header portion of the screen.
+To display the details of an underlying document, click on that document's code in the body of the advice.

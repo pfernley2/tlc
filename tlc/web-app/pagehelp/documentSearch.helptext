@@ -1,0 +1,24 @@
+== Document Search
+=== Overview
+* Search document headers for matches
+* Use pattern matching against text fields
+* Displays a list of matches
+* Link to detailed document display from the list
+=== Description
+The document search facility allows you to search through the documents held within the system testing
+them against the criteria you enter. Pattern matches (percent sign for zero or more characters
+and underscore for any single character) are allowed against text fields including the document
+code (i.e. our document 'number').
+
+There can be a large number of documents in your system and, to make your searches quicker, there
+are a few points you should note: The fastest form of search is when you know the document code
+(i.e. our document 'number') since the system can go directly to the required document. Knowing
+part of the document code (using a pattern) is also fairly efficient in search terms. However,
+if you do not know any part of the document code, the next most efficient type of search is when
+you have a rough idea of when the document was created (i.e. entered/posted) in to the system as
+this can significantly reduce the number of documents to be searched.
+
+After entering the search criteria and pressing the Search button, a list of matching documents
+(if any) will be displayed. From the list you may link to the detailed display of a document, if
+you have the approprate permissions, by clicking on its code in the list. To return to the list
+after viewing the details of a document simply click the Back button on your browser.

@@ -1,0 +1,36 @@
+== Code Element
+=== Overview
+* You can define from one to eight code elements
+* Element number 1 must define the account number
+* Elements can either be defined to hold numeric (digits 0-9) or alphabetic (letters A-Z) data
+* Your system can be configured to use lower case letters (a-z) instead of upper case letters for alphabetic codes
+* An element can be from one to ten characters long
+=== Description
+Code elements represent the different types of analysis you wish to perform on the data in the General Ledger. Typically
+this would include a general account number, a cost centre or department code and maybe a project code. This would
+allow you to view the data in the General Ledger by account, by cost centre, by project or by any combination
+of those elements.
+
+There can be from one to eight code elements and they are simply numbered from one through eight. You do not have to use
+all eight if you do not wish to. You may also choose to use, for example, elements one, three and five (i.e. the elements
+you use do not have to be consecutively numbered). Having said that, element number 1 is a special case: Element number 1
+must contain the basic account number definition that is used to determine where in the Chart of Accounts a
+particular account resides (e.g. Fixed Assets, Revenue, Expenditure etc). Once you have created any values for a code
+element, you will not be allowed to change or delete the element definition, but you may still add new definitions (up
+to the maximum of eight) for use with new or empty chart sections.
+
+When you construct your Chart of Accounts each section, in addition to using the account number element, can use any or
+all of the other code elements you define. For example, it would be unlikely that you would wish to analyze the 'Owner's
+Equity' section by cost centre or project. Consequently, the 'Owner's Equity' section might just use the account number
+element. Additionally, when defining the code structure for one section of the Chart of Accounts, you might wish to use
+a structure such as account-costCentre-project whereas in another section you might wish to use an account structure of
+project-account-costCentre. In other words, the segments of a code struture do not have to be in the same order as the
+code element number and, other than the account number element, need not include all the elements. This is true on a
+section by section basis within the Chart of Accounts thus allowing one section to have a different code structure from
+the next.
+
+Code elements define fixed length values. So, if you define a cost centre element as being alphabetic with 2 characters,
+you may use code values such as AB, XY etc, but not Z or ZZZ since the code values must be exactly the correct length.
+Similary a numeric element of three characters can have values such as 000 or 999 but not 27 (although 027 would be fine).
+Note that it is possible that your system has been configured to use lower case letters (a-z) rather than upper case letters
+(A-Z) for alphabetic codes. The system will automatically correct the case of alphabetic codes for you.

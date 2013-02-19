@@ -1,0 +1,56 @@
+== Detailed Postings Report
+=== Overview
+* Print a list of the transactions posted within a period
+* Create a single or multiple reports in one run
+* Gives overall totals of balances printed for reconciliation to Trial Balance
+* Option to omit accounts with a zero balance and no transactions in the chosen period
+=== Description
+The purpose of the Detailed Postings report is, in essence, to give you a 'paper copy' of
+your books of account on a period by period basis if this is what you require. Consequently,
+the Detailed Postings report is potentially an extremely large report since it lists all the
+postings made during an accounting period. For this reason you should consider running
+the report during a quiet period so as not to slow down interactive users of the system.
+
+Rather than producing one large report, you may choose to limit the scope of the report to:
+
+* Just the Income and Expenditure section of the chart of accounts.
+* Just the Balance Sheet section of the chart of accounts.
+* All sections but split between the Income and Expenditure sections and Balance Sheet sections as two separate reports created from a single run.
+* All sections but with each section printed as a separate report, all from a single run.
+* One specific chart section.
+* One specific general ledger account.
+
+[[
+{{info}} If you choose to limit the scope of the report to a single chart section, only
+the accounts within that section will be printed, //not// any sub-sections within the
+chosen section.
+]]
+
+The report prints the balances of all accounts within the scope of the report, whether they
+have transactions or not (but subject to the option to omit accounts with a zero balance
+and no transactions in the selected period), and then prints totals of all the balances it
+has printed at the end of the report. In this way, not only can you test check individual
+account balances on a report to the equivalent balance on the Trial Balance report, you may
+also reconcile the overall totals of multiple Detailed Postings reports (such as produced by
+the third option in the above list) to the overall totals of the Trial Balance report - assuming
+that no postings have occurred between the two runs.
+
+[[
+{{exclaim}} The Detailed Postings report is primarily intended to be run against closed periods
+to ensure that no further postings can be made to the chosen period. If you run a Detailed
+Postings report against a period that is open (either fully or just for adjustments) you run
+the risk of having to re-run the report all over again if postings are subsequently made to the
+period. A note is made at the end of the report as to the status of the period at the point
+the report was created.
+]]
+
+An alternative to the Detailed Postings approach to creating 'paper copy' books of account is
+described below...
+
+[[
+{{info}} A Posting Activity report task is available (but __not__ enabled by default) that
+prints a report of all postings made (to whatever period) since the last time it was run. This
+task can be scheduled to run, typically, each day so that more manageable sized reports can be
+produced for those who still wish to have a 'paper copy' of their postings but do not wish to
+process the larger reports created by the Detailed Postings system.
+]]

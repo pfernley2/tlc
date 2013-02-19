@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Statements_subreport1" language="groovy" pageWidth="480" pageHeight="842" columnWidth="480" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="IncidentalStyle" isDefault="false" style="BodyStyle" fontSize="10"/>
+	<parameter name="supplier_id" class="java.lang.Long"/>
+	<parameter name="supplier_name" class="java.lang.String"/>
+	<parameter name="addressTypeId" class="java.lang.Long"/>
+	<parameter name="contactTypeId" class="java.lang.Long"/>
+	<parameter name="companyCountryId" class="java.lang.Long"/>
+	<parameter name="countryNamesMap" class="java.util.Map"/>
+	<queryString>
+		<![CDATA[SELECT
+    address.location1 AS location1,
+    address.location2 AS location2,
+    address.location3 AS location3,
+    address.metro1 AS metro1,
+    address.metro2 AS metro2,
+    address.area1 AS area1,
+    address.area2 AS area2,
+    address.encoding AS encoding,
+    address.country_id AS country_id,
+    add_format.field1 AS field1,
+    add_format.field2 AS field2,
+    add_format.join_by2 AS joinBy2,
+    add_format.field3 AS field3,
+    add_format.join_by3 AS joinBy3,
+    add_format.field4 AS field4,
+    add_format.join_by4 AS joinBy4,
+    add_format.field5 AS field5,
+    add_format.join_by5 AS joinBy5,
+    add_format.field6 AS field6,
+    add_format.join_by6 AS joinBy6,
+    add_format.field7 AS field7,
+    add_format.join_by7 AS joinBy7,
+    add_format.field8 AS field8,
+    add_format.join_by8 AS joinBy8,
+    add_format.field9 AS field9,
+    add_format.join_by9 AS joinBy9,
+    add_format.field10 AS field10,
+    add_format.join_by10 AS joinBy10,
+    add_format.field11 AS field11,
+    add_format.join_by11 AS joinBy11,
+    add_format.field12 AS field12,
+    add_format.join_by12 AS joinBy12,
+    contact.name AS contact_name,
+    contact.identifier AS contact_identifier
+FROM
+    supplier_address AS address
+JOIN
+    supplier_address_usage AS add_usage ON add_usage.address_id = address.id AND add_usage.type_id = $P{addressTypeId}
+JOIN
+    system_address_format AS add_format ON add_format.id = address.format_id
+LEFT OUTER JOIN
+    supplier_contact AS contact ON contact.address_id = address.id AND
+        EXISTS (SELECT * FROM supplier_contact_usage WHERE contact_id = contact.id AND type_id = $P{contactTypeId})
+WHERE
+    address.supplier_id = $P{supplier_id}]]>
+	</queryString>
+	<field name="location1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="location2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="location3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="metro1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="metro2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="area2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="encoding" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="country_id" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field4" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy4" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field5" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy5" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field6" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy6" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field7" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy7" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field8" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy8" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field9" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy9" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field10" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy10" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field11" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy11" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="field12" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="joinBy12" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contact_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contact_identifier" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="lines" class="java.util.List">
+		<variableExpression><![CDATA[new java.util.ArrayList(12)
+)
+for (int i = 0; i < 12; i++) value.add("")
+def format = [field1: $F{field1},
+    field2: $F{field2}, joinBy2: $F{joinBy2},
+    field3: $F{field3}, joinBy3: $F{joinBy3},
+    field4: $F{field4}, joinBy4: $F{joinBy4},
+    field5: $F{field5}, joinBy5: $F{joinBy5},
+    field6: $F{field6}, joinBy6: $F{joinBy6},
+    field7: $F{field7}, joinBy7: $F{joinBy7},
+    field8: $F{field8}, joinBy8: $F{joinBy8},
+    field9: $F{field9}, joinBy9: $F{joinBy9},
+    field10: $F{field10}, joinBy10: $F{joinBy10},
+    field11: $F{field11}, joinBy11: $F{joinBy11},
+    field12: $F{field12}, joinBy12: $F{joinBy12}]
+def address = [location1: $F{location1},
+    location2: $F{location2}, location3: $F{location3},
+    metro1: $F{metro1}, metro2: $F{metro2},
+    area1: $F{area1}, area2: $F{area2}, encoding: $F{encoding}]
+def pos = 0
+def lastWasBlank = true
+def field, joinBy, data
+for (int i = 0; i < 12; i++) {
+    field = format."field${i + 1}"
+    if (!field) break
+    joinBy = i ? format."joinBy${i + 1}" : null
+    if (field == 'company') {
+        data = $P{supplier_name}
+    } else if (field == 'contact') {
+        data = $F{contact_name}
+    } else if (field == 'identifier') {
+        data = $F{contact_identifier}
+    } else if (field == 'country') {
+        data = ($F{country_id} == $P{companyCountryId}) ? null : $P{countryNamesMap}.get($F{country_id}.toString())?.toUpperCase()
+    } else {
+        data = address."${field}"
+    }
+
+    if (data) {
+        if (!lastWasBlank && joinBy) {
+            if (joinBy != "|") value[pos] += joinBy.replace("_", " ")
+            value[pos] += data
+        } else {
+            if (value[pos]) pos++
+            value[pos] = data
+        }
+
+        lastWasBlank = false
+    } else {
+        lastWasBlank = true
+    }
+}
+value.get(0]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="156" splitType="Stretch">
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="0" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(0) ?: $P{supplier_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="13" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(1)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="26" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(2)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="39" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(3)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="52" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(4)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="65" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(5)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="78" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(6)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="91" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(7)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="104" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(8)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="117" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(9)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="130" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(10)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="IncidentalStyle" x="0" y="143" width="480" height="13" isRemoveLineWhenBlank="true"/>
+				<textElement>
+					<font isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{lines}.get(11)]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

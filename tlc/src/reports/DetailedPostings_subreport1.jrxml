@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Detailed Postings Sub Report" language="groovy" pageWidth="535" pageHeight="842" columnWidth="535" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="7e835c49-9248-4591-94c6-b52893d37590">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyDecimals" class="java.lang.Byte"/>
+	<parameter name="sectionId" class="java.lang.Long"/>
+	<parameter name="periodId" class="java.lang.Long"/>
+	<parameter name="pid" class="java.lang.Long"/>
+	<parameter name="subClause" class="java.lang.String"/>
+	<parameter name="maxTransactionId" class="java.lang.Long"/>
+	<parameter name="txtOpening" class="java.lang.String"/>
+	<parameter name="txtClosing" class="java.lang.String"/>
+	<parameter name="txtError" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    ac.code AS code,
+    ac.name AS name,
+    sw.decimal1 AS balance,
+    sw.decimal2 AS opening,
+    sw.identifier AS balanceId
+FROM
+    account AS ac,
+    general_balance AS gb,
+    system_workarea AS sw
+WHERE
+    ac.section_id = $P{sectionId} AND
+    gb.account_id = ac.id AND
+    gb.period_id = $P{periodId} AND
+    sw.process = $P{pid} AND
+    sw.identifier = gb.id $P!{subClause}
+ORDER BY
+    ac.code ASC]]>
+	</queryString>
+	<field name="code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="balance" class="java.math.BigDecimal"/>
+	<field name="balanceId" class="java.lang.Long"/>
+	<field name="opening" class="java.math.BigDecimal"/>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{currencyDecimals}.intValue())
+value.setMaximumFractionDigits($P{currencyDecimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="debitTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{balance} > 0.0 ? $F{balance} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="creditTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{balance} < 0.0 ? -$F{balance} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="c3374521-4aca-4607-8c8c-cd6d45e76cbe" x="0" y="0" width="115" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="1452f9c9-b0bf-43c6-98c7-4c04210374f8" x="115" y="0" width="240" height="14"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="fa1f058e-0cfb-4532-a333-a73dadd69a38" x="355" y="0" width="90" height="14">
+					<printWhenExpression><![CDATA[$F{balance} >= 0.0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($F{balance})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="151a3acc-62a3-4889-9474-b7aa47456bbe" x="445" y="0" width="90" height="14">
+					<printWhenExpression><![CDATA[$F{balance} < 0.0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format(-$F{balance})]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="ae62f19c-b30f-4386-acc4-3b767f465a8f" positionType="Float" x="15" y="14" width="340" height="14" isRemoveLineWhenBlank="true"/>
+				<subreportParameter name="balance">
+					<subreportParameterExpression><![CDATA[-$F{balance}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="accountCode">
+					<subreportParameterExpression><![CDATA[$F{code}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="maxTransactionId">
+					<subreportParameterExpression><![CDATA[$P{maxTransactionId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="opening">
+					<subreportParameterExpression><![CDATA[$F{opening}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtClosing">
+					<subreportParameterExpression><![CDATA[$P{txtClosing}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="currencyDecimals">
+					<subreportParameterExpression><![CDATA[$P{currencyDecimals}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtOpening">
+					<subreportParameterExpression><![CDATA[$P{txtOpening}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="balanceId">
+					<subreportParameterExpression><![CDATA[$F{balanceId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtError">
+					<subreportParameterExpression><![CDATA[$P{txtError}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "DetailedPostings_subreport2.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

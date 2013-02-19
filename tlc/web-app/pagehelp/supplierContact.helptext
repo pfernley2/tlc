@@ -1,0 +1,32 @@
+== Supplier Contact
+=== Overview
+* Contacts belong to an address
+* Identifier allows distinguishing between two contacts with the same name
+* Specify special usages for a contact
+=== Description
+You may define any number of contacts per address. A contact could be a department or a person. For
+individuals, you should enter their full name as they would wish to see it on a letter addressed to them.
+The system does not attempt to distinguish between given names, middle names or family names since such
+concepts do not hold in all countries and, even when they do, confusion arises with countries where the
+middle name is the one used by default. Also, there are some countries where people only have a single name
+which makes splitting it into multiple fields impossible.
+
+An identifier field is available and can be used for individuals to hold things such as job title (e.g.
+Chief Accountant), the department they belong to (e.g. Accounts Department) or even a unique reference
+number assigned to them by their company (similar to an internal mail box address in the U.S.) as is
+quite common in Australia. The main purpose of the identifier field is to uniquely identify the intended
+recipient within the company.
+
+Usages are system defined codes that can belong to one, and only one, contact within an address (although
+within another address a contact may have the same usage). Usages are used by certain programs to automatically
+include the contact in the address of a particular piece of correspondence. For example, in printing a
+remittance advice the system will first of all find the address with the Remittance usage. It will then look
+at the contacts within that address to see if one of them has the Remittance usage and, if so, that contact
+will be included in the address printed on the remittance advice. If not, the address will be printed without
+any specific contact information.
+[[
+{{info}} Note that if you mark a contact as a remittance advice contact, this will have no effect unless
+the address to which the contact belongs is also marked as the remittance advice address since the system
+//first of all// finds the appropriate address to use //and only then// looks for a specific contact within
+that address.
+]]

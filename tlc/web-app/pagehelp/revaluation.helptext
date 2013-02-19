@@ -1,0 +1,43 @@
+== Foreign Currency Revaluation
+=== Overview
+* Revalue foreign curency balances in the GL, AR and AP ledgers
+* Uses exchange rates effective on the last day of the period
+* Multiple revaluations allowed per period
+* Automatic reversal of revaluations in the next period
+=== Description
+The foreign currency revaluation system works on a period basis using exchange rates as on the last day of the
+selected period. If you perform a revaluation before the month end rates have been set, the system will use the
+latest rates available before the month end thus allowing you to do mid-period revaluations. Revaluation amounts
+are posted to special accounts the General Ledger in the selected period and are automatically reversed in the
+following period (which must be open and thus available to receive the reversal). Where more than one revaluation
+is done in the same period, each new revaluation takes account of the previous revaluations in that period when
+determining the amount it needs to adjust the balances by.
+
+The total of the revaluation amounts must be posted to either the 'fxDiff' account in the Income and Expenditure section
+of the General Ledger (thus writing the difference off) or to the 'fxRevalue' account in the Balance Sheet section (thus
+holding it as an asset or liability). The target account for the total of the revaluation must have already been set up
+in your General Ledger. The default is to write the differences off to the 'fxDiff' account in the Income and Expenditure
+section since this is the requirement of most accounting standards bodies.
+
+The system works through all General Ledger accounts in the Balance Sheet section of your chart of accounts, Accounts Receivable
+accounts and Accounts Payable accounts that are held in foreign currencies and that have been marked as requiring revaluation.
+It converts the foreign currency balance to your company currency using the exchange rate as on the last day of the selected period.
+This converted balance is then compared against the equivalent company currency balance that has been accumulated during
+posting operations and creates an adjustment to make the company currency balance equal to the converted balance.
+This is possible because values posted to foreign currency accounts always have 'duplicate' company currency equivalents
+converted at the exchange rate prevailing on the date of posting. It is these 'duplicate' company currency values posted using
+a variety of exchange rates that give rise to the need for a revaluation of foreign currency balances.
+
+In the case of General Ledger accounts such as foreign currency bank accounts etc, a posting is made to the 'glRevalue' type
+account as specified by the bank account itself. There can be multiple 'glRevalue' type accounts within the GL each one set up
+to receive the revaluations of its 'client' foreign currency accounts. Thus you might have a 'foreign bank account revaluations'
+glRevalue account and a 'foreign fixed assets' glRevalue account each holding the revaluation amounts for their own 'client' accounts.
+
+In the case of Accounts Receivable accounts, the revaluation amounts are posted to a special 'arRevalue' type account in the
+General Ledger. There can only be one 'arRevalue' type account in th GL and you must have already created it before attempting
+to perform a revaluation. The same logic is applied to the Accounts Payable ledger but using the special 'apRevalue'
+account to hold the adjustment instead.
+
+Because revaluing foreign currency balances in your ledgers is a potentially heavy process, it is run as a background
+task so that you may get on with other work while the task is running. You may wish to consider deferring execution of
+the task until a quiet time of day so as to not slow down other users of the system.

@@ -1,0 +1,73 @@
+== Report Formats
+=== Overview
+* Define the general layout of a Balance Sheet report
+* Create any number of formats with different layouts
+* Specify up to four columns of data to be printed
+* Columns can be balances, movements, budgets, differences or variance percentages
+* Columns can be for a period or year-to-date, current year or prior year
+* Specify what goes 'down the page' using report format lines
+* Include sub-total and text lines as required
+* Clone existing report formats to quickly create new report formats
+* At report execution time, the user specifies the period to run the report for
+* At report execution time, the user specifies the level of detail to print
+=== Description
+A Balance Sheet Report Format allows you to define the general layout of a Balance Sheet report.
+Each report format must be given a name, unique within your company, that allows an end user to
+select which format they wish to produce their report in.
+
+The report format definition allows you to specify a report title and, optionally, a sub-title.
+Like column headings and sub-headings (described below) the title and sub-title can include
+'place holders' which are substituted with the period, year, comparative period and comparative
+year codes at execution time when the user specifies the period to run their chosen report for.
+
+Up to four columns of data are allowed on a Balance Sheet report. For each column you
+can specify a column heading and, optionally, sub-heading (including 'place holders' as mentioned
+above). For each column you must specify the Primary Data. This can be any of the following:
+
+* Nothing (i.e. this column is unused)
+* Selected Period Movement
+* Selected Period Budget
+* Selected Year-To-Date Balance
+* Selected Year-To-Date Movement
+* Selected Year-To-Date Budget
+* Comparative Period Movement
+* Comparative Period Budget
+* Comparative Year-To-Date Balance
+* Comparative Year-To-Date Movement
+* Comparative Year-To-Date Budget
+
+where 'Selected Period' means values for just the period that the end user selected to run the report for;
+'Selected Year-To-Date' means the value for all periods in the year containing the Selected Period, up to
+and including the Selected Period itself; 'Comparative Period' means the value for the period in the preceding
+year equivalent to the Selected Period and 'Comparative Year-To-Date' means the value for periods in the
+preceding year up to and including the Comparative Period. If no Comparative Period exists, columns using
+comparative data will be left blank at execution time.
+
+The 'Selected Year-To-Date Balance' and 'Comparative Year-To-Date Balance' options are the ones where the
+columns should actually balance!
+
+[[
+{{info}} You may enter have eneterd budget values for the 'Retained Profits' account in the Balance Sheet
+section of your Chart of Accounts, but the Balance Sheet report will actually print the accumulated budgets
+of the Income and Expenditure accounts for the appropriate period(s) in place of the values you entered.
+This is simply a display issue and any budget values you entered for the 'Retained Profits' account will
+//not// be overwritten.
+]]
+
+Once you have defined the Primary Data for a column, if any, you may optionally specify a Calculation to be
+performed on the Primary Data as follows:
+
+* None (used to simply print the Primary Data value)
+* Difference (typically used for actual versus budget monetary differences)
+* Variance (typically used for actual versus budget percentage differences)
+
+If you select Difference as the calculation for a column then the Secondary Data value of that column will be
+subtracted from its Primary Data value and the resulting monetary amount will be the value displayed for the
+column. In such cases, you must specify the Secondary Data involved.
+
+Selecting Variance as the calculation will subtract the Secondary Data value from the Primary Data Value
+and then express the result as a percentage of the Secondary Data value. Obviously, you must also specify the
+Secondary Data to be used when requesting a Variance calculation.
+
+Once the first part of a Report Format has been defined, you may then move on to defining what goes 'down the page'
+using the Report Format Lines screen.

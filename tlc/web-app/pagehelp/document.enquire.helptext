@@ -1,0 +1,37 @@
+== Document Enquiry
+=== Overview
+* Display a source document in a similar format to how it was entered
+* Display values in any defined currency
+* Link to customer, supplier and GL accounts as appropriate
+* Link to document allocation where applicable
+=== Description
+This enquiry facility allows you to display the details of a source document in a similar format to the way it was
+originally entered. Given the appropriate permissions, you may link from this document to any customer, supplier or
+general ledger account whose code is displayed on the document by clicking on that code. Where a document is posted to
+a customer or supplier account, you may also see how the document has been allocated to other documents on that account
+by clicking on the Unallocated value, even when this appears to be blank.
+[[
+{{info}} Note that any tax analysis included in the document enquiry contains lines such as:
+
+std: 100.00 @ 5% = 5.00
+
+Although these lines appear to be formulae, they are not! Taxation systems throughout the world usually require you to
+record the //actual// tax on a document //not// what the tax should have been. For example, if a supplier sent you
+an invoice with a goods value of 100 US Dollars and a tax rate of 5%, but the invoice total was 104.99 rather than the
+expected 105.00, you are usually required to enter 4.99 as the tax even though it is incorrect. Consequently, any
+tax analysis on the enquiry screen shows the actual goods value at the intended percentage and the //actual// tax.
+]]
+You may display the values in any of the currencies defined in your company. Choosing a display currency of 'none' is
+the same as choosing the currency the document was originally entered in (e.g. EU Euros for a French document) except
+that when you navigate to the next enquiry screen with 'none' as the display currency, the new screen will also display
+its values in its 'normal' currency. If you had chosen EU Euros as the display currency, by contrast, then navigated to
+another enquiry screen the new screen would display its values in EU Euros whatever its 'normal' currency might be.
+
+The system cannot possibly hold all values for a document in all defined currencies at the date the document is
+posted. Consequently, choosing to display an enquiry screen in some currencies will cause an 'on the fly' conversion as
+at today's exchange rate. This can lead to minor rounding differences between, say, the addition of the individual
+lines on the document and any totals that might be displayed. It can also lead to a difference between the perceived
+value of a line displayed on the document itself (which might be shown using its 'normal' values as at the date of
+posting) and the displayed value of the line on the target account (which might be shown via an 'on the fly' conversion
+and therefore at today's exchange rate). To warn you when values are being shown using an 'on the fly' conversion, the
+background colour of the Display Currency dropdown list will be highlighted.

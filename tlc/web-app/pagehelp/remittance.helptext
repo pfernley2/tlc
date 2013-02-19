@@ -1,0 +1,41 @@
+== Remittance Advices
+=== Overview
+* Automatic Payments system creates remittance advices
+* List, review and edit remittance advices not yet authorized
+* Create interim remittance advices between scheduled payments
+* Detailed allocation of intended payments
+* Print report of remittance advices awaiting authorization
+* Authorize for payment
+* Release authorized advices to the payment system
+=== Description
+For suppliers with an auto-payment schedule defined, a background task will review each supplier
+account and, where appropriate, will create a remittance advice on the appropriate date(s). Before
+any money is paid to a supplier the generated remittance advices must be authorized. A report of
+remittance advices awaiting authorization is available to give an overview of the intended payments.
+
+Before authorizing a remittance advice you may edit the items to be paid (i.e. the proposed allocation
+of the payment) and/or delete the remittance advice altogether so that no payment is made to that supplier.
+There is also a menu option available to create an ad-hoc remittance advice for a specific supplier
+which can be useful if you have deleted a remittance advice and wish to recreate it, or to create an
+interim payment to a supplier before their next scheduled payment date.
+
+You may authorize specific remittances advices or all remittance advices in the list. Once authorized,
+a remittance advice becomes available for actual payment but no payment is made until the advice(s) are
+released. There are four main approaches to releasing remittancees for payment:
+
+* Manual release as an Accounts Payable function
+* Manual release as a Bank function
+* Automatic release immediately on authorization
+* Automatic release at timed intervals
+
+'Out of the box', the option to release (i.e. pay) all authorized remittance advices is a manual process
+and is regarded as a function of the Bank and Cash administrator (i.e. the second option in the list)
+rather than the Accounts Payable administrator and is therefore under the Bank section of the menu. However,
+your system may have been configured to make the actual payment of authorized remittance advices a function
+of the Accounts Payable department - or even tailored to make payment automatic on authorization of advices.
+[[
+{{info}} The standard system does not actually make 'real' payments since this is bank and/or country
+specific. It creates all the bookkeeping entries for the payment but does not attempt to print cheques
+or contact your bank to make electronic transfers. Your IT department will have created a 'payment service'
+program that performs these functions specific to your needs.
+]]

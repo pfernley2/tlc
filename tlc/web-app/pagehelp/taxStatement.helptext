@@ -1,0 +1,34 @@
+== Tax Statements
+=== Overview
+* Create a statement of taxes owed to or by a selected tax authority
+* Summarizes goods and tax values for inputs (purchases) and outputs (sales)
+* Splits each summary by tax code and rate (if the rate has changed)
+* Separate summaries for the current statement and prior statement adjustments
+* Statements can be 'finalized' by transfer to a chosen GL account for subsequent payment/refund
+=== Description
+A tax statement is generated for a chosen tax authority using a statement date that you
+supply. Only input documents (purchase/sales invoices/credit notes, petty cash vouchers
+etc) dated on or before the statement date will be included in the statement, but any
+documents which should have been included in a previous statement but were not will be
+included in the new statement and summarized separately.
+
+A tax statement is a summary of taxes (e.g. European VAT or US Sales taxes etc) owed to/from a
+tax authority since the last tax statement for that authority was created. Each statement separately
+summarizes output (sales) taxes and input (purchase) taxes. Within each summary, the different tax
+codes and rates involved are broken down and show the goods value and tax value for that rate.
+
+Once a tax statement is generated, you can either delete it (in which case the taxes it has
+summarized will be released back for inclusion in a future statement) or 'finalize' it. When
+a tax statement is finalized a GL Journal is created, one half of which is posted to the tax
+account so that the taxes being summarized will not be available for inclusion in future tax
+statements and the other half is posted to a GL account of your choosing. If the amount posted
+to your chosen GL account is a credit, then this is the amount of tax you owe and can be settled
+through the normal bank payment facility of the system. If, however, the amount posted to the
+chosen GL account is a debit, then this represents a tax refund that is due to you which, once
+the refund is received, can be cleared through the normal bank receipts facility.
+
+Sadly, no editing of a tax statement is allowed other than its description!
+
+Although there is no manual deletion of finalized tax statements, your company administrator will
+have set the number of months that finalized tax statements are to be retained before being
+automatically deleted.

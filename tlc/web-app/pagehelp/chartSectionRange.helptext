@@ -1,0 +1,116 @@
+== Chart Section Range
+=== Overview
+* You must define a single 'include' range
+* The 'include' range specifies the overall minimum and maximum values allowed for each code segment
+* You may then define any number of 'exclude' ranges
+* The 'exclude' ranges cut out various sub-ranges from the overall 'include' range
+* You may define any number of 'disallow' ranges
+* The 'disallow' ranges specify invalid //combinations// of segment values
+=== Description
+A range is entered as if you were entering an account code during data entry with the following exceptions:
+# You must enter //all// code segments, even those with defaults
+# You cannot use mnemonics
+# Using an asterisk (*) for any segment value has special meaning as described in the main text
+[[
+{{info}} The logic of ranges is that an account code must pass the 'include' range test and fail none of the 'exclude'
+or 'disallow' range tests to be accepted in to the section.
+]]
+As mentioned in the list above, an asterisk used as a segment value has special meaning. In the case of an 'include' range,
+using an asterisk for both the From and To segment values means all possible values for that segment are acceptable. For
+'exclude' and 'disallow' ranges, using an asterisk for both the From and To segment values means that no test is to be
+performed. In //all// cases ('include', 'exclude' and 'disallow' ranges) an asterisk in, say, the From value and an actual
+value for the To value of a segment will be taken to mean 'From the lowest possible value up to and including the given value'.
+Conversely, an actual value for the From value and an asterisk for the To value of a segment will be taken to mean 'From the
+specified value to up the highest possible value'. Fortunately, this feels more intuitive to use that it does to explain!
+
+In general, it is better to create more simple ranges than fewer complex ones and, since it is mandatory that the ranges
+define the range of 'account numbers' permitted in the chart section, this is a good place to start...
+
+Assuming that your chart section uses three segments representing account number, department and project of six digits,
+two letters and three digits respectively and that this chart section could hold account numbers 300000 through 349999 and
+360000 through 399999 then you could define ranges such as:
+|**__Type__**|**__From__**|**__To__**|
+|**Include**|**300000-*-\***|**399999-*-\***|
+|**Exclude**|**350000-*-\***|**359999-*-\***|
+In the above example, we have said that the overall range of account numbers that this section can hold is from 300000 to
+399999 inclusive, and that all department codes and project codes are acceptable. We have then excluded the account number
+range from 350000 to 359999. Note how the asterisks in the 'exclude' range are taken to mean 'no test' rather than 'exclude
+everything. See, we said it was intuitive! The result of these ranges is that this section can include account numbers from
+300000 to 349999 and from 360000 to 399999 inclusive.
+
+Note that the above ranges do not imply that, for example, an account number of 399999 is //actually// a valid account number,
+it is simply the upper value of //possible// account numbers that this section may hold. What account numbers //actually//
+exist is determined by the Code Element Values where they are listed specifically. Additionally, it is important to note that account
+number ranges may not overlap between chart sections, otherwise the system would not know in which chart section to create any
+given account number. However, it would be acceptable to have another section use all or part of the 350000 through 359999 range,
+in our example, since it is excluded from this section.
+
+So far our example specifies that account number ranges 300000 through 349999 and 360000 and 399999 are allowed in this
+section, and that all department codes and project codes are acceptable (because we used an asterisk, *, for those segments).
+Suppose, however, that account numbers 300000 through 349999 could use only departments codes HO and EX, then we would extend our
+ranges as follows:
+|**__Type__**|**__From__**|**__To__**|
+|Include|300000-*-*|399999-*-*|
+|Exclude|350000-*-*|359999-*-*|
+|**Disallow**|**300000-AA-\***|**349999-EW-\***|
+|**Disallow**|**300000-EY-\***|**349999-HN-\***|
+|**Disallow**|**300000-HP-\***|**349999-ZZ-\***|
+As you can see, it's a tough job to pick out specific codes and requires a bit of 'lateral thinking!' What we did for
+the 300000 through 349999 range was to disallow all departments //except// EX and HO. In general, numeric codes are a little
+easier to work with, but even then we would have had to use the same basic logic - it might just have been a little easier
+to visualize.
+[[
+{{info}} Numeric code elements use the digits 0 through 9 and alphabetic codes, by default, use the letters A through Z
+as shown in our examples. However it is possible, when installing your system, to specify that alphabetic code elements
+should be lower case (i.e. a through z). The system will automatically convert the codes you enter to the correct case
+for your system.
+]]
+Now suppose that accounts 360000 through 399999 could use //any// department codes //except// HO and EX and, additionally,
+that accounts 385000 through 385999 could not use departments FA through FZ either, then we would add to our ranges as follows:
+|**__Type__**|**__From__**|**__To__**|
+|Include|300000-*-*|399999-*-*|
+|Exclude|350000-*-*|359999-*-*|
+|Disallow|300000-AA-*|349999-EW-*|
+|Disallow|300000-EY-*|349999-HN-*|
+|Disallow|300000-HP-*|349999-ZZ-*|
+|**Disallow**|**360000-HO-\***|**399999-HO-\***|
+|**Disallow**|**360000-EX-\***|**399999-EX-\***|
+|**Disallow**|**385000-FA-\***|**385999-FZ-\***|
+Here it has taken us two additional 'disallow' ranges to prohibit the use of EX and HO departments from the 360000 through
+399999 account number range plus an additional 'disallow' to also prohibit departments FA through FZ from the 385000 through
+385999 account number range.
+
+Now, let's limit the EX, HO and FA through FZ departments from using project codes. If this is our goal then it would be helpful to the
+end user if we defined a default 'No Project' value such as 000 for the section since then they wouldn't even have to enter a project
+code segment at all. Our new set of ranges would be as follows:
+|**__Type__**|**__From__**|**__To__**|
+|Include|300000-*-*|399999-*-*|
+|Exclude|350000-*-*|359999-*-*|
+|Disallow|300000-AA-*|349999-EW-*|
+|Disallow|300000-EY-*|349999-HN-*|
+|Disallow|300000-HP-*|349999-ZZ-*|
+|Disallow|360000-HO-*|399999-HO-*|
+|Disallow|360000-EX-*|399999-EX-*|
+|Disallow|385000-FA-*|385999-FZ-*|
+|**Disallow**|**\*-EX-001**|**\*-EX-999**|
+|**Disallow**|**\*-HO-001**|**\*-HO-999**|
+|**Disallow**|**\*-FA-001**|**\*-FZ-999**|
+We hope by this time that you can follow what's going on; we've disallowed all project codes except 000 from the chosen
+department ranges. Finally, just for the excitement of it, let's disallow any account from using project codes 777:
+|**__Type__**|**__From__**|**__To__**|
+|Include|300000-*-*|399999-*-*|
+|Exclude|350000-*-*|359999-*-*|
+|Disallow|300000-AA-*|349999-EW-*|
+|Disallow|300000-EY-*|349999-HN-*|
+|Disallow|300000-HP-*|349999-ZZ-*|
+|Disallow|360000-HO-*|399999-HO-*|
+|Disallow|360000-EX-*|399999-EX-*|
+|Disallow|385000-FA-*|385999-FZ-*|
+|Disallow|*-EX-001|*-EX-999|
+|Disallow|*-HO-001|*-HO-999|
+|Disallow|*-FA-001|*-FZ-999|
+|**Disallow**|**\*-*-777**|**\*-*-777**|
+If you're feeling shell-shocked at this point, we quite understand, however, a more typical range definition for a
+section might be something like:
+|**__Type__**|**__From__**|**__To__**|
+|Include|500000-*-200|599999-*-299|

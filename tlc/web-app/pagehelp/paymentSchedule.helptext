@@ -1,0 +1,38 @@
+== Payment Schedule
+=== Overview
+* Specify the day(s) of the month when suppliers should be automatically paid
+* Specify the day(s) of the week when suppliers should be automatically paid
+* Create multiple schedules to spread payment days across suppliers
+=== Description
+A payment schedule specifies the day or days of the month when a supplier having this schedule is to be paid by the
+automatic payments system. Less frequently, you may also specify the day(s) of the week when a supplier is to be
+paid. It is possible to set both a month-day pattern //and// a week-day pattern but you should be aware that the
+payment date will have to match __both__ patterns before the supplier will be paid. Consequently, week-day patterns
+are usually used on their own for weekly paid suppliers and month-day patterns are usually used on their own for
+monthly paid suppliers.
+[[
+{{info}} It is a good idea to test newly created patterns to ensure that they do what you were intending. There is
+a Test button on the list of payment schedules screen.
+]]
+
+The two patterns are based on Unix 'cron' patterns and, in essence, allow you to enter a single digit, a comma separated
+list of digits (as in 1,3,6) or a range of digits (as in 1-3). These facilities can also be used in combination (as in
+1-3,6). Additionally, but less usefully, an asterisk is taken to mean 'every possible value' so a month-day pattern of *
+would be taken to mean 'pay the supplier every day of the month'.
+
+For a month-day pattern, the days are numbered from 1 to 31 with the additional upper case letter L standing for 'last
+day of the month'. So, for example, a month-day pattern of 15,L would be taken to mean: pay suppliers using this schedule
+on the 15th day of each month and the last day of each month. Similarly, a pattern of just L would mean pay the relevant
+suppliers on the last day of the month.
+
+For a week-day pattern, the days are numbered from 0 (Sunday) through 6 (Saturday), thus a week-day pattern of 1-5 would
+be taken to mean pay the relevant suppliers on Monday, Tuesday, Wednesday, Thursday and Friday.
+
+If you were to have a month-day pattern of L //and// a week-day pattern of 5, this would be taken to mean: pay the suppliers
+who use this schedule on the the last of of any month where the last day falls on a Friday. This is probably not what you
+intended since they would only be paid every few months when the last day of the month just happened to be a Friday!
+[[
+{{exclaim}} Changing the pattern(s) of a payment schedule that has already been used for paying suppliers will //not//
+take effect for those suppliers until after the next payment is made using the existing 'next auto-payment date'
+derived from the old pattern(s).
+]]

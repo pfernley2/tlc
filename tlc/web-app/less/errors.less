@@ -1,0 +1,104 @@
+// Colours
+@plainBackground: #FFFFFF;
+@plainBorder: #CCCCCC;
+
+@highlightBackground: #FFF3F3;
+
+@inactiveLineBackground: #DDDDDD;
+@inactiveLineText: #999999;
+
+@activeLineBackground: #FFAAAA;
+@activeLineText: #333333;
+
+@exceptionBackground: #E9E9E9;
+@exceptionBorder: #000000;
+
+// Padding and margin values - currently still specified in px but may,
+// in the future, be converted to em. Excludes border width, shadow
+// specifications and positioning values which will continue to be
+// specified in px. Also excludes zero which does not have a unit.
+@size03: 3px;
+@size05: 5px;
+@size10: 10px;
+@size25: 25px;
+
+// Mixins
+.shadowed() {
+    -mox-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.2);
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+
+// Stylesheet
+h1, h2 {
+    margin: @size10 @size25 @size05;
+}
+h2 {
+    font-size: 1.1em;
+}
+.filename {
+    font-style: italic;
+}
+.exceptionMessage {
+    margin: @size10;
+    border: 1px solid @exceptionBorder;
+    padding: @size05;
+    background-color: @exceptionBackground;
+}
+.stack,.snippet {
+    margin: 0 @size25 @size10;
+    border: 1px solid @plainBorder;
+    .shadowed;
+}
+.error-details {
+    border-top: 1px solid @activeLineBackground;
+    border-bottom: 1px solid @activeLineBackground;
+    .shadowed;
+    background-color: @highlightBackground;
+    line-height: 1.5em;
+    overflow: hidden;
+    padding: @size05;
+    padding-left: @size25;
+    dt {
+        clear: left;
+        float: left;
+        font-weight: bold;
+        margin-right: @size05;
+    }
+    dt:after { content: ":"; }
+    dd { display: block; }
+}
+.stack {
+    padding: @size05;
+    overflow: auto;
+    height: 12em;
+}
+.snippet {
+    background-color: @plainBackground;
+    font-family: monospace;
+    .line { display: block; }
+    .lineNumber {
+        background-color: @inactiveLineBackground;
+        color: @inactiveLineText;
+        display: inline-block;
+        margin-right: @size05;
+        padding: 0 @size03;
+        text-align: right;
+        width: 3em;
+    }
+    .error {
+        background-color: @highlightBackground;
+        font-weight: bold;
+        .lineNumber {
+            background-color: @activeLineBackground;
+            color: @activeLineText;
+            font-weight: bold;
+        }
+    }
+    .line:first-child {
+        .lineNumber { padding-top: @size05; }
+    }
+    .line:last-child {
+        .lineNumber { padding-bottom: @size05; }
+    }
+}

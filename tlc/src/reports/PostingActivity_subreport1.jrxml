@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PostingActivity_subreport1" language="groovy" pageWidth="555" pageHeight="842" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<parameter name="currencyDecimals" class="java.lang.Byte">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="txtError" class="java.lang.String"/>
+	<parameter name="documentId" class="java.lang.Long"/>
+	<parameter name="typeId" class="java.lang.Long"/>
+	<parameter name="periodId" class="java.lang.Long"/>
+	<parameter name="documentCode" class="java.lang.String"/>
+	<parameter name="documentDate" class="java.util.Date"/>
+	<queryString>
+		<![CDATA[SELECT dt.code AS type,
+    pd.code AS period,
+    ac.code AS account,
+    gt.company_value AS value
+FROM document_type AS dt,
+    accounting_period AS pd,
+    general_balance AS bal,
+    account AS ac,
+    general_transaction AS gt
+WHERE gt.document_id = $P{documentId} AND
+    gt.balance_id = bal.id AND
+    bal.account_id = ac.id AND
+    dt.id = $P{typeId} AND
+    pd.id = $P{periodId}
+ORDER BY gt.id]]>
+	</queryString>
+	<field name="type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="period" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="account" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="value" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="df" class="java.text.DateFormat">
+		<variableExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT, $P{REPORT_LOCALE})]]></variableExpression>
+	</variable>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{currencyDecimals}.intValue())
+value.setMaximumFractionDigits($P{currencyDecimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="count" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[1]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="debitTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{value} > 0.0 ? $F{value} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="creditTotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{value} < 0.0 ? -$F{value} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="105" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{type} + $P{documentCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="105" y="0" width="65" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{df}.format($P{documentDate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="170" y="0" width="65" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{period}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="235" y="0" width="140" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{account}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="375" y="0" width="90" height="14">
+					<printWhenExpression><![CDATA[$F{value} >= 0.0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($F{value})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="0" width="90" height="14">
+					<printWhenExpression><![CDATA[$F{value} < 0.0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format(-$F{value})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="26" splitType="Stretch">
+			<printWhenExpression><![CDATA[$V{count} > 0]]></printWhenExpression>
+			<line>
+				<reportElement x="377" y="2" width="88" height="1"/>
+			</line>
+			<line>
+				<reportElement x="467" y="2" width="88" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="375" y="5" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{debitTotal})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="5" width="90" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{creditTotal})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="377" y="21" width="88" height="1"/>
+			</line>
+			<line>
+				<reportElement x="467" y="21" width="88" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="215" y="5" width="160" height="14">
+					<printWhenExpression><![CDATA[$V{debitTotal} != $V{creditTotal}]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtError}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

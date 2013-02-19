@@ -1,0 +1,17 @@
+== Aged List of Debtors
+=== Overview
+* Age analysis by due date
+* Customizable ageing 'buckets'
+=== Description
+The aged list of debtors report bases its analysis of how overdue items are based on the due date of
+those items. It breaks the customer balance down in to one of five ageing 'buckets'. As standard these
+'buckets' are: Current, 30 Days, 60 Days, 90 days and Older but these can be altered by your company
+administrator.
+
+The Current column includes items that are due on or after the date of the report. The 30 Days column
+includes items that are overdue by 1 to 30 days inclusive. The 60 and 90 day columns contains items
+that are overdue by 31 to 60 and 61 to 90 days respectively. The Older column contains items that are
+overdue by more than 90 days.
+
+Be aware that items with their hold flag set are aged in just the same way as any other item on the customer
+account. Also note that customers with zero balances are not included in the report.

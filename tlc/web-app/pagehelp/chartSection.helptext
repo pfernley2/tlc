@@ -1,0 +1,62 @@
+== Chart Section
+=== Overview
+* You can define any number of sections in your Chart of Accounts
+* Sections can be created as a hierarchy (often called a 'tree')
+* The account code structure can be different from one section to the next
+* Account codes are made up of segments, each segment representing a code element
+* Code segments do not have to use all code elements
+* Code segments do not have to use the code elements in order
+* One segment //must// use code element number 1 (the 'account number' element)
+* Chart sections define the range(s) of account numbers that can be held within the section
+* Code segments can be given a default value thus making them optional during data entry
+* Code segments can be added to a section even after account creation
+* Users can create mnemonics for commonly used fragments of account codes, speeding data entry
+=== Description
+Chart sections identify individual parts of your Chart of Accounts such as Fixed Assets, Revenue, Owner's Equity and
+so forth. Each section has a path which specifies its parentage. For example, a section with a path of 'trading' is a
+top level section with no parent (other than the Chart of Accounts itself, of course) and might be given a name such as
+Trading Account. Paths such as 'trading.income' and 'trading.expend' are second level sections that belong to the 'trading'
+section. They might be given names such as 'Income' and 'Expenditure' respectively. A path such as 'trading.expend.overhead'
+represents a section within the 'Expenditure' section and might be given a name such as Overheads, and so on.
+
+The last (or only) part of the path is the code for the particular section (e.g. the code of a section with a path of
+'trading.expend.overhead' is 'overhead') and must be unique within the Chart of Accounts. Whole sections can be moved
+around within the overall Chart of Accounts by simply editing the path. That is to say, if you move a section within
+the tree all its children follow. Within a parent, the ordering of its children is controlled by a simple numeric
+'sequencer' value, the children being sorted in to ascending sequencer order for display purposes.
+
+If a section is to contain actual accounts, as opposed to just sub-sections, then the section must have code segments
+and ranges defined. If a section will only be containing sub-sections, then it is better to set all code segments to
+'none'.
+==== Code Segments
+There can be up to eight segments defined and each segment refers to one of the Code Elements you should have already created.
+One code segment //must// refer to Code Element number 1 (the 'account number' element) since one of the main purposes
+of a Chart Section is to define the range(s) of account numbers that may be placed within the section. Other than this,
+whether you use any or all of the other remaining code elements depends upon the coding structure (i.e. the types of
+analysis) you would like to use for this section. **Note** in particular that code segments can use the underlying code
+elements in //any// order. Thus, you may choose code segments such that the 'account number' code element is the __last__
+segment rather than the __first__. Using this segmentation, you can define account code structures on a section by section
+basis to best suit your needs.
+==== Ranges
+In outline, ranges specify the sets of values that are acceptable within this chart section. This means not just the 'account
+number' range(s), but also the ranges of the other segments either discretely or in combinations of segments. Even if
+segments have been defined for a chart section, no accounts can be created in that section unless at least one range
+(specifying the acceptable account numbers) has been defined.
+==== Defaults
+You can enter a default value for one or more segments thus allowing the end user to omit that segment when performing
+data entry. A typical example of this would be for a Project segment. Not all the values posted to the accounts within
+the section may relate to a Project, and so defining a default of, say, 000 meaning 'No Project' allows the operator to
+simply ignore the Project code segment thus making data entry of codes more intuitive than typing in a value which
+effectively means 'no value'. The ranges described above can be used to force entry of a Project code (other than 000,
+in our example) when other segments (account number, cost centre etc) have certain values.
+==== Adding Segments
+Even after creating ranges and accounts for a chart section, you may still add additional code segments to the section but,
+in the case where accounts already exist for the section, you //must// supply a default value for the new code segment(s)
+as the default(s) will be used to extend the code of all accounts belonging to the section. Whether accounts already exist
+or not within the section, adding a new code segment to the section will alter the ranges of the section to allow for all
+possible values of the new segment. You may manually adjust this later, if you wish.
+==== Mnemonics
+Although not actually part of the Chart Section, it is worth mentioning at this point that users may also create mnemonics
+for commonly used fragments of account codes. For example, a mnemonic of 'hosal' might be shorthand for a code fragment of
+UK-246092-001 which represents the Head Office Salaries code fragment. A mnemonic may or may not be shorter than the code
+fragment it represents but it should, as its name implies, be more memorable.

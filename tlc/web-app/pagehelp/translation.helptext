@@ -1,0 +1,83 @@
+== Translation
+=== Overview
+* Specify the locale to translate messages to
+* Select the locale to translate messages from
+* Hierarchical retrieval of texts to be translated
+* Display messages awaiting translation, already translated or both
+* Further restrict messages to be translated using Criteria settings
+* Automatically change multiple messages with matching source texts
+=== Description
+Localized message texts are looked up by the system in a hierarchical manner. For example,
+if a user's profile is set to use the French Canadian locale (language code 'fr', country
+code 'CA' giving a locale value of 'frCA') and the system is requested to display a piece
+of localized text with a code of 'welcome', then the system will first of all look for a
+message with a code of 'welcome' and a locale of 'frCA'. If no such message can be found, it
+will then look for a message with a code of 'welcome' and a locale of 'fr'. If still no message
+is found, it will look for a message with a code of 'welcome' and a locale of '*' where the '*'
+means the default locale. The default locale of this system uses UK English texts as standard.
+
+Typically, you would rely on this hierarchical search method to allow the system to pick the texts
+closest to the locale you are translating to. However, consider a situation where you wish to translate
+to Peruvian Spanish and translations have already been performed to both standard Spanish (as spoken
+in Spain) and Columbian Spanish. If you know that the Columbian Spanish texts are closer to what you
+want than the standard Spanish texts, you can set the From language to Spanish and the From Country to
+Columbia to force the system to prefer Columbian Spanish texts over standard Spanish texts. Unless you
+have checked the 'Strict' check box (described below) the system will still find the standard Spanish
+texts in the event of a missing Columbian version (possibly missing because the Columbian version was
+the same as the standard Spanish version and thus needed no Columbian specific translation).
+
+[[
+{{info}} When you are translating //to// a language that is the standard version of that language (e.g.
+German as spoken in Germany) it is usually better to specify only the language to be translated to rather
+than both the language //and// the country. This would allow another translator to build upon your standard
+German texts, only having to translate the differences for, say, Austrian German.
+]]
+
+By default, when showing you message texts available for translation the system uses its hierarchical
+method of finding the source text as described above. However, occasionally you might wish to see only
+texts that strictly match the language (and probably country) setting you have specified as the 'from'
+locale. You can achieve this by checking the 'Strict' check box in the Selectors page.
+
+[[
+{{info}} If you wish to translate to a country specific version of a language (e.g. to Peruvian Spanish) but no
+translation to standard Spanish (as spoken in Spain) or any other dialect of that language has been done, then
+the system will also insert your Peruvian Spanish text as the standard Spanish text since the system needs a
+standard version of a text before it can add in the country specific version. Consequently, if you also intend
+to do a translation to standard Spanish, it would be better to do that before doing the Peruvian Spanish variant.
+]]
+
+By default, the system will show you texts that have already been translated and texts still awaiting
+translation so that you may review the status of your translations. Sometimes, however, you may wish to
+see only texts that have already been translated or only texts which are still awaiting translation. You
+may specify this by using the 'Display' setting in the Selectors page. In all cases, you can further limit
+which messages are shown by using the Criteria facility on the Translation List screen.
+
+There are many duplicate message texts within the system. This is not a mistake but is to allow flexibility.
+For example, there are many messages in the default locale with a text of 'Name'. In specific, both Customer
+and Supplier records have a name field. You may 'bulk update' texts (e.g. to translate //all// occurrences of
+'Name' to, say, 'Nom' for a French language translation) by simply checking the Propagate check box on the Edit
+page. You may also make bulk corrections and/or bulk deletions in the same manner.
+
+[[
+{{exclaim}} Messages with codes starting with 'default' or 'generic' are, as the code implies, used in many
+situations. These messages usually have parameters (described below) and do not always fit in neatly with the
+structure of languages other than English. For example, the message with a code of 'default.list.label' will,
+when combined with another word such as 'Customer', produce text on the screen of 'Customer List' in English.
+Unfortunately this does not translate well in to, say, French where the French equivalent of 'List of Customers'
+would be more appropriate. Unfortunately, this would require the system to be able to pluralize the word for
+Customer for all the different languages in the system. Such linguistic complexities are beyond the scope of
+the system and so you must make the best of what we are able to practically offer.
+]]
+
+Many message texts within the system use parameters. Parameters take the form of '{0}', '{1}', '{2}' and so forth. The
+parameters (e.g. '{0}' etc.) need not be consecutively numbered within a message text and need not be used in numeric order.
+Other words are used to replace these parameters when the message is to be displayed on the screen. For example,
+the message with a code of 'default.created.message' has a text in the default locale of '{0} {1} created'. If
+you create a new supplier record with an account code of '123456' then a message will appear on the screen of
+'Supplier 123456 created.' Most of the time, what will be substituted for each parameter is fairly obvious but,
+in the situations where the meaning of the parameters is //not// obvious, you can either ask your System Supervisor for
+their meaning or try switching your profile to use English and find a place where the English version of the message
+is displayed. The code of the message can help you to find where the message might be used. For example, the message
+with a code of 'accessGroup.element.bad.data' is obviously something to do with the Access Group security facility
+of the system and the definition of the Elements within an access group. In specific, the user appears to have entered
+some invalid data in to an Element of an Access Group record.

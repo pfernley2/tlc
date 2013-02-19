@@ -1,0 +1,28 @@
+== Customer Address
+=== Overview
+* Specify destination country
+* Use country specific formatting where defined
+* Specify special usages for an address
+=== Description
+Your system administrator can define address formats suitable for use in different countries. A few have been
+predefined in the standard system. Each country is given a default format which your system administrator can
+change. When you select the country for the address the default address format for that country is displayed.
+
+Some countries can use more than one format. For example, a Chinese address written in Chinese script has a
+completely different format from the same address when written in Latin script. Also, addresses in Hong Kong,
+although part of China, have a different format altogether. Consequently, even after the default format for the
+chosen country has been displayed, you may specify the exact format you wish to use from those available within
+your system.
+[[
+{{exclaim}} If you change the format (or country) after data has been entered in to an address, you can possibly
+lose data if the new format does not use the same fields as the existing format.
+]]
+Your system supervisor will have marked certain fields of an address as being required fields, and you must enter
+data for such fields. Similarly, the system administrator can specify that a field must contain a certain pattern
+of characters that your data must comply with.
+
+Addresses can be marked with special system defined usages. For example, when you wish to print a Debtors Statement
+the system needs to know which address to use of the many possible addresses associated with the customer. When you
+create the first address for a customer, that address gets all the system defined usages associated with it since it
+is the only address available. However, when you create subsequent addresses you may choose to transfer one or more
+of the usages to the new address. Only one address at a time can have a particular usage.

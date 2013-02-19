@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Statements_subreport2" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<parameter name="statement_id" class="java.lang.Long"/>
+	<parameter name="statement_date" class="java.util.Date"/>
+	<parameter name="txtPrevious" class="java.lang.String"/>
+	<parameter name="txtCurrent" class="java.lang.String"/>
+	<parameter name="currency_decimals" class="java.lang.Byte"/>
+	<parameter name="language_code" class="java.lang.String"/>
+	<parameter name="country_code" class="java.lang.String"/>
+	<parameter name="txtBF" class="java.lang.String"/>
+	<parameter name="txtCF" class="java.lang.String"/>
+	<parameter name="txtDue" class="java.lang.String"/>
+	<parameter name="txtOverdue" class="java.lang.String"/>
+	<parameter name="txtTotal" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     type AS type,
+     code AS code,
+     document_date AS document_date,
+     due_date AS due_date,
+     reference AS reference,
+     original_value AS original_value,
+     opening_unallocated AS opening_unallocated,
+     closing_unallocated AS closing_unallocated,
+     current_statement AS current_statement
+FROM
+     statement_line
+WHERE
+     statement_id = $P{statement_id}
+ORDER BY
+     current_statement ASC,
+     document_date ASC,
+     sequencer ASC]]>
+	</queryString>
+	<field name="type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="document_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="due_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="reference" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="original_value" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="opening_unallocated" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="closing_unallocated" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="current_statement" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="df" class="java.text.DateFormat">
+		<variableExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT, new Locale($P{language_code}, $P{country_code}))]]></variableExpression>
+	</variable>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance(new Locale($P{language_code}, $P{country_code}))
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{currency_decimals}.intValue())
+value.setMaximumFractionDigits($P{currency_decimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="currentValue" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{due_date} >= $P{statement_date} ? $F{closing_unallocated} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="overdueValue" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{due_date} < $P{statement_date} ? $F{closing_unallocated} : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="isLastPage" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get('lastPage')]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.put('lastPage', false)]]></initialValueExpression>
+	</variable>
+	<group name="current" minHeightToStartNewPage="34">
+		<groupExpression><![CDATA[$F{current_statement}]]></groupExpression>
+		<groupHeader>
+			<band height="18">
+				<textField>
+					<reportElement x="0" y="0" width="420" height="14"/>
+					<textElement>
+						<font isItalic="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{current_statement} ? $P{txtCurrent} : $P{txtPrevious}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="14">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+			<textField>
+				<reportElement x="369" y="0" width="88" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{currentValue} + $V{overdueValue})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="0" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtBF}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="65" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{df}.format($F{document_date})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="65" y="0" width="95" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{type} + $F{code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="0" width="26" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[(!$F{current_statement} && $F{original_value} != $F{opening_unallocated}) ? '\u2713' : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="0" width="95" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{reference}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="0" width="88" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($F{opening_unallocated})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="369" y="0" width="88" height="14">
+					<printWhenExpression><![CDATA[$F{closing_unallocated} != 0.0]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($F{closing_unallocated})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="465" y="0" width="65" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{closing_unallocated} ? $V{df}.format($F{due_date}) : '']]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="530" y="0" width="25" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{closing_unallocated} && $F{due_date} < $P{statement_date}) ? '*' : '']]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<printWhenExpression><![CDATA[!$P{REPORT_PARAMETERS_MAP}.get('lastPage')]]></printWhenExpression>
+			<line>
+				<reportElement x="371" y="2" width="86" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="369" y="5" width="88" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{currentValue} + $V{overdueValue})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="5" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtCF}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="58" splitType="Prevent">
+			<printWhenExpression><![CDATA[!$P{REPORT_PARAMETERS_MAP}.put('lastPage', true)]]></printWhenExpression>
+			<line>
+				<reportElement x="371" y="2" width="86" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="255" y="5" width="114" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtOverdue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="369" y="5" width="88" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{overdueValue})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="255" y="19" width="114" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtDue}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="369" y="19" width="88" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{currentValue})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="371" y="35" width="86" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="255" y="38" width="114" height="14"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{txtTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="369" y="38" width="88" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{currentValue} + $V{overdueValue})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="371" y="54" width="86" height="1"/>
+			</line>
+			<line>
+				<reportElement x="371" y="57" width="86" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

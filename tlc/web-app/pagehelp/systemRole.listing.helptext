@@ -1,0 +1,33 @@
+== Roles
+=== Overview
+* Roles control what menu options a user can see
+* Roles determine what functions (programs) a user can use
+* Roles and the activities they allow are defined by your System Administrator
+* A Company Administrator can specify which users have which roles
+* A user can have more than one role
+=== Description
+Each action the the system can perform is, in essence, a program and every such program
+has a predefined 'activity' associated with it that was 'hard coded' in when the program
+was written. Roles are sets of (presumably related) activities that allow meaningful
+tasks to be performed by users who are members of any particular role. Roles also control
+(via the activities associated with the role) which menu options a user can see.
+
+[[
+{{info}} Roles control which programs a user can use, but Access Groups control what data
+(i.e. GL, AR and AP accounts) a user can work with when using those programs.
+]]
+
+'Out of the box' the system contains a number of pre-defined roles but your System Administrator
+is at liberty to remove or modify those roles and to create new ones appropriate to your needs.
+Company Administrators ('Company Administrator' is itself a Role), by contrast, are usually responsible
+for specifing which users are members of which roles (and Access Groups) thus controlling who may do what.
+
+[[
+{{info}} A user with the Company Administrator role automatically has access to all GL, Customer and
+Supplier accounts. A user with the GL Accounts Administrator role automatically has access to all GL
+accounts but must be given specific access (via Access Groups) to any Customer or Supplier accounts
+they may need to work with. By contrast, users with Accounts Receivable or Accounts Payable Administrator
+roles must be granted specific access to the Customers and/or Suppliers they are to administer since it
+is often the case that AR and AP ledgers are broken down between a number of administrators who are
+responsible for certain groups of accounts.
+]]

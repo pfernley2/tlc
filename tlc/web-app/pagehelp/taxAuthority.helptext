@@ -1,0 +1,20 @@
+== Tax Authorities
+=== Overview
+* Create multiple tax authorities, if required
+* Specify mandatory, optional or ad-hoc tax recording per authority
+=== Description
+Some countries, such as the UK, have a single tax authority (HMRC VAT) while other countries,
+such as the US, have multiple tax authorities (each state is its own tax authority). Some
+countries allow for cooperation between their tax authorities, such as the European Union. You
+my create as many tax authorities as you need to represent these differing situations.
+
+Each tax authority can individually specify, via its 'Usage' setting, how the invoices and
+credit notes of any customer or supplier using of one of that authority's tax codes must be
+treated. The usage options range from invoices and credit notes always having to specify the
+tax code through to a completely ad-hoc use of the authority's tax codes.
+[[
+{{info}} Sometimes you may need to record purchases from suppliers even when those suppliers do not
+charge you tax on their supplies. This is common with VAT style methods of taxation where invoices
+from non-registered suppliers still need to be recorded for reporting purposes. In such cases you
+may wish to create a special 'untaxed' code for such authorities to handle this situation.
+]]

@@ -1,0 +1,66 @@
+== Page Help
+Page Help provides an overview of the area of the system you
+are currently working in. Whereas field help is fairly
+specific to the field concerned, Page Help is more general
+in nature.
+
+Page Help uses a simplified 'wiki markup language'. For
+example, if you leave a blank line between portions of text
+the system will assume that you wish to start a new paragraph.
+It is a 'simplified' markup in that it does not allow such
+things as lists within lists, tables within tables or even
+lists within tables etc which a full markup language would
+support. Nevertheless, it allows a reaonable presentation of
+help texts within the context of this system.
+
+Within lines of text, you can use the following markup:
+|**__Markup__**|**__Effect__**|
+|\**Bold\**|**Bold**|
+|\//Italic\//|//Italic//|
+|\__Underline\__|__Underline__|
+|\--Strikethrough\--|--Strikethrough--|
+|\{{info\}}|{{info}}|
+|\{{exclaim\}}|{{exclaim}}|
+|\{{question\}}|{{question}}|
+In addition, within text you can use a backslash (\\) to
+escape the following character, such as in \\\** which will
+//not// be seen as the start of bold characters because the
+first asterisk has been escaped. If you use a backslash at the
+end of a line, this will be taken to mean a line break (<br/>
+in HTML).
+
+In addition there are line level markups where the markup must
+be at the start of a new line for it to be recognized. These
+are described below:
+=== Headings
+Starting a line with == followed by a space followed by some
+text (all on one line) will give a large heading such as that
+used at the top of this page. Using === will give a medium
+sized heading such as the 'Headings' heading above and,
+similarly, ==== will give a small heading.
+=== Horizontal Line
+Placing \-\-\-\- at the start of a line, with nothing following it,
+will create a horizontal line across the page as follows:
+----
+=== Bulleted Lists
+Using * at the start of a line, followed by a space, followed
+by some text (all on the same line) will create a bulleted
+list item as in:
+* First point
+* Second point
+* etc
+=== Numbered Lists
+Using # at the start of a line, followed by a space, followed
+by some text (all on the same line) will create a numbered
+list item as in:
+# First point
+# Second point
+# etc
+=== Box
+To create a colored box, place [[ at the start of a line with
+nothing else on the line. You may then place any of the other
+preceding markups within the box. To end the box, place ]] on
+a line by itself. The following is an example:
+[[
+This is a box with some text in it
+]]

@@ -1,0 +1,30 @@
+== Allocation Enquiry
+=== Overview
+* Displays how one line on a customer or supplier account was allocated against other lines on the account
+* Display values in any defined currency
+* Link to source documents
+* Link to customer/supplier account
+=== Description
+This enquiry facility allows you to display how one line on a customer or supplier account was allocated against other
+lines on the same account. Where a document has not had any allocations against it, the detailed document list simply
+show the line value and the unallocated amount. Where there are allocations then, subject to permissions and availability,
+you may click on the document code to display that source document. Similarly, and again subject to permissions, you may
+click on the customer or supplier account code to display that account.
+
+You may display the values in any of the currencies defined in your company. Choosing a display currency of 'none' is
+the same as choosing the currency the account is held in (e.g. EU Euros for a French customer) except that when you
+navigate to the next enquiry screen with 'none' as the display currency, the new screen will also display its values in
+its 'normal' currency. If you had chosen EU Euros as the display currency, by contrast, then navigated to another
+enquiry screen the new screen would display its values in EU Euros whatever its 'normal' currency might be.
+
+The system cannot possibly hold all values for an allocation in all defined currencies at the date a transaction is
+posted. Consequently, choosing to display an enquiry screen in some currencies will cause an 'on the fly' conversion as
+at today's exchange rate. This can lead to minor rounding differences between, say, the addition of the individual
+allocations and the total of allocations. Consequently, to warn you when values are being shown using an 'on the fly'
+conversion, the background colour of the Display Currency dropdown list will be highlighted.
+[[
+{{info}} When viewing a foreign currency account allocations in other than their own currency, you may see foreign
+exchange difference documents that were not visible when displaying them in their own currency. This is the result
+of the system dynamically keeping track of profits and losses on exchange which have no effect on the foreign currency
+values themselves.
+]]

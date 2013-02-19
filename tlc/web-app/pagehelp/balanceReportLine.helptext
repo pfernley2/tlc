@@ -1,0 +1,78 @@
+== Report Format Lines
+=== Overview
+* Define what goes 'down the page' of a Balance Sheet report
+* Use line numbers to determine the sequence of printing
+* Specify Chart Sections, accumulations or simple text lines
+* Use a special 'divider' line to split the two 'halves' of the Balance Sheet
+=== Description
+Each line in your definition of what goes down the page of a Balance Sheet report
+can be one of three types: Chart Section, Accumulation or Text with there being one
+special 'divider' Text line allowed to split your Chart of Accounts in to the two
+'sides' of the Balance Sheet.
+
+==== Chart Section
+A line that defines a Chart of Accounts section will, at that point in the report, have the contents
+of that Chart Section printed. Whether this is just a summary total or a more detailed breakdown of
+the section is determined by the user running the report.
+
+[[
+{{exclaim}} The system does not check that you have included in your report all Balance Sheet
+Chart Sections that contain accounts. It is up to you to ensure that you include all relevant sections.
+]]
+
+==== Accumulation
+A line that specifies an Accumulation can be regarded as a sub-total that you would like printing on the report
+at this point. An accumulation 'formula' begins with either a plus sign (+) or a minus sign (-) to identify
+whether you expect the sub-total to be a debit or a credit value, respectively. This determines whether the
+resulting value is printed on the report as a positive or a negative figure. For example, if you started the
+Accumulation definition with a plus sign (i.e. you expect the total to be a debit value) but it turned out
+to be a credit value, then the total would be printed as a negative value since it was opposite to what you
+said you expected it to be.
+
+The remainder of the definition of an Accumulation is a comma separated list of line numbers and/or Chart
+Section codes. The lines you specify by line numbers and the values of charts sections you specify by code
+are summed up (allowing for debits versus credits) to give the value to be printed on the report for this
+Accumulation line.
+[[
+{{info}} It is possible that you may be entering line numbers in other than the Hindu-Arabic numerals 0 to 9
+(sometimes referred to as Western digits). If this is the case, when you specify line numbers in an Accumulation
+you __must__ use numerals 0 through 9 to refer to your line number(s). An Accumulation 'formula' will __not__
+recognize, for example, Thai numerals even if you that's how you enter the actual line numbers themselves.
+]]
+
+==== Text
+You may enter lines that specify neither a Chart Section nor an Accumulation. In such cases these lines will be
+treated as simple text lines to be printed on the report at the appropriate point. This is even true when the
+text line doesn't actually have any text! It will be treated as a blank line to be printed on the report.
+
+==== Divider
+There can be at most one divider line in your list of lines. A divider line is simply a text line where the text
+is '<=>' (without the apostrophes). At this point in your report, the preceding Accumulation line will be double
+underlined and then a blank line printed. This allows you to split your Balance Sheet report in to two 'sides'.
+
+All lines in your report format must be given a line number that uniquely identifies the line and its sequence
+within the report. It is recommended that you leave gaps between line numbers to allow for later alterations
+(e.g. 100, 200, 300 etc rather than 1, 2, 3). You do not have to enter lines in line number order. The lines
+will be redisplayed in line number order whenever you press the Update button or the Resequence button (which
+also resequences your line numbers after saving the lines to the database).
+
+[[
+{{exclaim}} Because the system is backed by a database that checks that each line number within a report format
+is unique, if you try, for example, to switch two line numbers around (e.g. line number 500 to 600 and line number
+600 to 500) then you are likely to get an error message saying that line number 600 must be unique. This is because
+the moment the database tries to update line number 500 to 600, it sees that ther is already a line number 600
+without realizing that you would like, next, to change line number 600 to 500. The way around this is to change
+line 500 to, say, 601 and line 600 to 501 then press the Resequence button.
+]]
+
+[[
+{{info}} Whenever you change an existing line number, whether to swap lines around as described above or simply
+to change the existing line number, you must also change all references in Accumulation lines to the new line
+number, where applicable, since the system will //not// do this for you automatically.
+]]
+
+At any time, you may press the More Lines button to give you some blank lines in which to add more data. You
+will //not// lose any changes you have made so far when you click the More Lines button.
+
+To delete an existing line, simply set it's line number to blank and then press the Update (or Resequence)
+button.

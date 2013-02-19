@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Budget_subreport1" language="groovy" pageWidth="802" pageHeight="555" orientation="Landscape" columnWidth="802" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="SmallStyle" isDefault="false" style="BodyStyle" fontSize="9"/>
+	<parameter name="offset" class="java.lang.Integer"/>
+	<parameter name="divisor" class="java.math.BigDecimal"/>
+	<parameter name="periodClause" class="java.lang.String"/>
+	<parameter name="accountId" class="java.lang.Long"/>
+	<parameter name="status" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+    b. company_budget AS companyBudget
+FROM
+    general_balance AS b,
+    accounting_period AS p
+WHERE
+    b.account_id = $P{accountId} AND
+    b.period_id = p.id AND
+    $P!{periodClause}
+ORDER BY
+    p.valid_from]]>
+	</queryString>
+	<field name="companyBudget" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMaximumFractionDigits(0)
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="lineCounter" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[1]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="value1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 1 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 2 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value3" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 3 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value4" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 4 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value5" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 5 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value6" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 6 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value7" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 7 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value8" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 8 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value9" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 9 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value10" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 10 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value11" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 11 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value12" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 12 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="value13" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{lineCounter} + $P{offset} == 13 ? ($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP) : 0.0]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[($F{companyBudget} / $P{divisor}).setScale(0, RoundingMode.HALF_UP)]]></variableExpression>
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<summary>
+		<band height="13">
+			<textField>
+				<reportElement style="SmallStyle" x="0" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 1]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value1} : -$V{value1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="53" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 2]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value2} : -$V{value2})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="106" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 3]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value3} : -$V{value3})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="159" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 4]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value4} : -$V{value4})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="212" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 5]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value5} : -$V{value5})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="265" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 6]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value6} : -$V{value6})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="318" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 7]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value7} : -$V{value7})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="371" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 8]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value8} : -$V{value8})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="424" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 9]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value9} : -$V{value9})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="477" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 10]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value10} : -$V{value10})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="530" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 11]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value11} : -$V{value11})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="583" y="0" width="53" height="13">
+					<printWhenExpression><![CDATA[$P{offset} < 12]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value12} : -$V{value12})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="636" y="0" width="53" height="13"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($P{status} == 'dr' ? $V{value13} : -$V{value13})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="689" y="0" width="56" height="13">
+					<printWhenExpression><![CDATA[$V{total} > 0.0 || ($V{total} == 0.0 && $P{status} == 'dr')]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format($V{total})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="SmallStyle" x="745" y="0" width="56" height="13">
+					<printWhenExpression><![CDATA[$V{total} < 0.0 || ($V{total} == 0.0 && $P{status} == 'cr')]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{nf}.format(-$V{total})]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

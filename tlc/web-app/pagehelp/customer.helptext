@@ -1,0 +1,19 @@
+== Customer Accounts
+=== Overview
+* An open-item accounts receivable system
+* Trading currency specified on a customer by customer basis
+* Data entry and viewing protected by access codes
+=== Description
+The customer accounts with their transaction data form the accounts receivable system.
+
+You may specify on a customer by customer basis what currency you trade in with that customer. Most data entry and
+display of data is then shown in the selected trading currency. Once transactions have been posted to a customer
+account, you may no longer change its trading currency.
+
+Roles are assigned to users and control which features (programs) of the system a user may use. By contrast,
+data access groups control which data the user can work with when using those features. Each customer account
+is assigned an access code and a user must be a member of a group with that same access code before they can
+work with that customer's data. Companies often divide their business either by region (East, Central, West etc),
+lines of business (Hardware, Software etc) or customer size (Large, Medium and Small enterprises etc) and have
+different employee groups assigned to each area. Access codes help to minimize one group accidentally interfering
+with the accounts of another group.

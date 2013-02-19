@@ -1,0 +1,37 @@
+== Accrual/Prepayment Entry
+=== Overview
+* Automatic reversal of provisions
+* Mark as an adjustment rather than as a 'normal transaction'
+* Automatic document number generation depending on configuration
+=== Description
+The Accrual/Prepayment provision entry system uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. For example, as you enter an account code and then press Tab,
+the system contacts the server to verify the account exists and to display the account name as confirmation. The system
+is therefore sensitive to the performance of your server and the communications between your server and your browser. A
+company's own server and intranet should provide high performance, the public Internet using a shared server much less so.
+
+Although both accruals and prepayments are types of provision, they have separate control accounts in the General Ledger
+(which must have already been set up). The accruals control account is normally held within the current liabilities section
+of the balance sheet since the analysis lines on an accrual are used to debit General Ledger accounts thus making the total
+of the accrual a credit to the accruals control account. By contrast the prepayments control account is normally held
+within the current assets section of the balance sheet since its analysis lines credit General Ledger accounts.
+
+When posting accruals or prepayments to a given accounting period, an automatic reversal will be made in the following period.
+This means that the period //following// the period you choose to post your document to must already exist and have a status
+of either 'open' or 'adjust'.
+
+In the top portion of the page is an Adjustment check box. If you check this box the values will be recorded as adjustment
+values rather than as normal values. The default, however, is to treat accruals and prepayments as normal transactions since
+their very purpose is to 'correct' the values in the General Ledger to more accurately reflect a true picture of normal trading.
+If you choose to leave the Adjustment check box unchecked, then the period you post the provision to must have a status of
+'open' rather than 'adjust'. It does not matter if the following period (to which the reversal will be posted) is marked
+as 'open' or 'adjust' since the reversal will still succeed.
+
+The General Ledger line by line area contains a scrolling list of lines for you to enter data in to. There are
+a reasonable number of lines to begin with, but should you require more lines, click the 'More Lines' button at the
+bottom of the page. You will not lose any data you have already entered by doing this.
+[[
+{{info}} Any blank lines will be ignored for posting purposes as will any line without a General Ledger code -
+even if there is other data on the line.
+]]
+When you have finished entering your data, click the Create button to save and post the provision.

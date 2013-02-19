@@ -1,0 +1,31 @@
+== Company Users
+=== Overview
+* Add registered users to a company
+* Specify which role(s) a user is a member of
+* Specify which access group(s) a user is a member of
+* Set user agent credentials for RESTful usage
+=== Description
+When a new user first wishes to use the system, they register themselves by specifying the login id
+they wish to use, their name and email address etc. Once they have registered themselves, they do
+not yet have permissions to access any company within the system. A Company Administrator must add
+the new user to their company, assign one or more roles to them (thus controlling which programs they
+can use) and assign them to one or more access groups (thus controlling the data - GL, AR and AP
+accounts - that they can work with).
+
+[[
+{{info}} A user with the Company Administrator role need not be a member of any access groups since they automatically
+have access to all GL, Customer and Supplier accounts. A user with the GL Accounts Administrator role automatically has
+access to all GL accounts but must be given specific access (via Access Groups) to any Customer or Supplier accounts
+they may need to work with. By contrast, users with Accounts Receivable or Accounts Payable Administrator roles must
+be granted specific access to the Customers and/or Suppliers they are to administer since it is often the case that AR
+and AP ledgers are broken down between a number of administrators who are responsible for certain groups of accounts.
+]]
+
+A user may be a member of more than one company and their roles and access groups may be different from
+one company to the next. At any time a Company Administrator may remove a user from their company without
+affecting the user's membership of other companies.
+
+A user within a company can be given one or more sets of Agent Credentials. If you give a user a set of agent credentials
+and set those credentials to Active, then you are authorizing other programs to access the system (via what is called a
+RESTful interface) as if they were this user. This means that these programs elsewhere in your intranet, or on the Internet,
+will have the rights and priviledges to access data as if they were this user.

@@ -1,0 +1,24 @@
+== Transaction List
+=== Overview
+* Display transactions on a period by period basis or all open transactions
+* Auto allocate the whole account
+* Manually allocate individual lines on the account
+* Set or clear hold flags on lines
+=== Description
+This screen displays the transactions for the selected account. Initially the screen displays only open items (i.e. lines
+that are not fully allocated) but you may change this by selecting a period from the Period drop down list and then
+pressing the Enquire button. All transactions, whether fully allocated or not, will be shown for the chosen period.
+
+If you press the Auto Allocation button, the system will attempt to set off all open items on the account against one
+another where possible. It does this by working through all lines on the account that are not fully allocated, and in the
+order they were entered in to the system, setting debits off against credits and vice versa.
+
+Alternatively, you may choose to manually allocate a specific line on the account against other lines on the account by
+clicking the 'drill down' button on the appropriate line in the list of transactions.
+
+You may also set or clear the hold flag on a line by simply clicking in the relevant line's On Hold checkbox in the list
+of transactions. Updating the state of hold flag uses a programming technique called Ajax to modify data on the page without you
+having to manually update the page by clicking a button. As you click in the On Hold checkbox, the system contacts the server
+to perform the update immediately. The system is therefore sensitive to the performance of your server and the communications
+between your server and your browser. A company's own server and intranet should provide high performance, the public Internet
+using a shared server much less so.

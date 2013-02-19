@@ -1,0 +1,30 @@
+== Supplier Accounts
+=== Overview
+* An open-item accounts payable system
+* Trading currency specified on a supplier by supplier basis
+* Data entry and viewing protected by access codes
+* Optionally specify that a supplier be paid automatically
+=== Description
+The supplier accounts with their transaction data form the accounts payable system.
+
+You may specify on a supplier by supplier basis what currency you trade in with that supplier. Most data entry and
+display of data is then shown in the selected trading currency. Once transactions have been posted to a supplier
+account, you may no longer change its trading currency.
+
+If you wish a supplier to be paid automatically, you may select an Auto-Payment Schedule, which determines
+when and how often they are paid, and an Auto-Payment Document Type which specifies which bank account they
+will be paid from. If no Auto-Payment Document Types are available to select from, ask your Company Administrator
+to modify the company's Document Type definitions to allow auto-payments.
+[[
+{{exclaim}} 'Out of the Box' the system does not attempt to actually contact your bank to make 'real' payments.
+It is up to your own IT department to extend the system to handle transfers of information between your
+company and its bank(s). Also, the standard system does no validation, other than a length check, on the Bank Sort
+Code, Bank Account Name and Bank Account Number fields since the requirements of these fields can vary from
+bank to bank and from country to country.
+]]
+Roles are assigned to users and control which features (programs) of the system a user may use. By contrast,
+data access groups control which data the user can work with when using those features. Each supplier account
+is assigned an access code and a user must be a member of a group with that same access code before they can
+work with that supplier's data. Companies often divide their business either by region (East, Central, West etc)
+or lines of business (Hardware, Software etc) and have different employee groups assigned to each area. Access
+codes help to minimize one group accidentally interfering with the accounts of another group.

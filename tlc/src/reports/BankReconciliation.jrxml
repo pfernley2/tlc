@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Bank Reconciliation" language="groovy" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d40edfb0-da07-449c-80e4-8fe221f7dba7">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="BodyStyle" isDefault="true" fontName="Code2000" fontSize="11" pdfFontName="CODE2000.TTF" pdfEncoding="Identity-H"/>
+	<style name="TitleStyle" style="BodyStyle" fontSize="16" isBold="true"/>
+	<style name="HeadingStyle" style="BodyStyle" isBold="true"/>
+	<style name="IncidentalStyle" style="BodyStyle" fontSize="10"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[".\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportTitle" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Report']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test Company']]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companySecurityCode" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyDecimals" class="java.lang.Byte">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userId" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="userName" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Test User']]></defaultValueExpression>
+	</parameter>
+	<parameter name="endOfReport" class="java.lang.String">
+		<defaultValueExpression><![CDATA['--End of Report--']]></defaultValueExpression>
+	</parameter>
+	<parameter name="reportParameters" class="java.lang.String">
+		<defaultValueExpression><![CDATA['Report Parameters']]></defaultValueExpression>
+	</parameter>
+	<parameter name="reconciliationId" class="java.lang.Long"/>
+	<parameter name="decimals" class="java.lang.Byte"/>
+	<parameter name="txtBF" class="java.lang.String"/>
+	<parameter name="txtCF" class="java.lang.String"/>
+	<parameter name="txtPartBF" class="java.lang.String"/>
+	<parameter name="txtFullBF" class="java.lang.String"/>
+	<parameter name="txtDate" class="java.lang.String"/>
+	<parameter name="txtDocument" class="java.lang.String"/>
+	<parameter name="txtReference" class="java.lang.String"/>
+	<parameter name="txtDescription" class="java.lang.String"/>
+	<parameter name="txtPart" class="java.lang.String"/>
+	<parameter name="txtPayment" class="java.lang.String"/>
+	<parameter name="txtReceipt" class="java.lang.String"/>
+	<parameter name="txtUnreconciledTotals" class="java.lang.String"/>
+	<parameter name="txtNoUnreconciledTotals" class="java.lang.String"/>
+	<parameter name="txtSummary" class="java.lang.String"/>
+	<parameter name="txtStatementBalance" class="java.lang.String"/>
+	<parameter name="txtAddReceipts" class="java.lang.String"/>
+	<parameter name="txtLessPayments" class="java.lang.String"/>
+	<parameter name="txtDifferenceShortReceipts" class="java.lang.String"/>
+	<parameter name="txtDifferenceShortPayments" class="java.lang.String"/>
+	<parameter name="txtBankAccountBalance" class="java.lang.String"/>
+	<parameter name="txtBankAccountName" class="java.lang.String"/>
+	<parameter name="txtOD" class="java.lang.String"/>
+	<parameter name="txtFinalized" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     statement_balance AS statementBalance,
+     bank_account_balance AS bankAccountBalance,
+     finalized_date AS finalizedDate
+FROM
+     reconciliation
+WHERE
+     id = $P{reconciliationId}]]>
+	</queryString>
+	<field name="statementBalance" class="java.math.BigDecimal"/>
+	<field name="bankAccountBalance" class="java.math.BigDecimal"/>
+	<field name="finalizedDate" class="java.util.Date"/>
+	<variable name="isLastPage" class="java.lang.Boolean">
+		<variableExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.get('lastPage')]]></variableExpression>
+		<initialValueExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}.put('lastPage', false)]]></initialValueExpression>
+	</variable>
+	<variable name="df" class="java.text.DateFormat">
+		<variableExpression><![CDATA[DateFormat.getDateInstance(DateFormat.SHORT, $P{REPORT_LOCALE})]]></variableExpression>
+	</variable>
+	<variable name="dtf" class="java.text.DateFormat">
+		<variableExpression><![CDATA[DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, $P{REPORT_LOCALE})]]></variableExpression>
+	</variable>
+	<variable name="nf" class="java.text.NumberFormat">
+		<variableExpression><![CDATA[NumberFormat.getInstance($P{REPORT_LOCALE})
+)
+value.setMinimumIntegerDigits(1)
+value.setMinimumFractionDigits($P{decimals}.intValue())
+value.setMaximumFractionDigits($P{decimals}.intValue())
+try {
+    value.setRoundingMode(RoundingMode.HALF_UP)
+} catch (UnsupportedOperationException uoe) {}
+value.setGroupingUsed(true]]></variableExpression>
+	</variable>
+	<variable name="lineCount" class="java.lang.Integer" calculation="System">
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="paymentTotal" class="java.math.BigDecimal" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<variable name="receiptTotal" class="java.math.BigDecimal" calculation="System">
+		<initialValueExpression><![CDATA[0.0]]></initialValueExpression>
+	</variable>
+	<pageHeader>
+		<band height="75" splitType="Stretch">
+			<textField>
+				<reportElement uuid="a4c7b1c5-7f1e-43b2-ab0e-86b4fb537be2" style="IncidentalStyle" x="0" y="0" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="eedc00f8-aea7-409c-83c8-6dc56559bef7" style="IncidentalStyle" x="397" y="0" width="158" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="ccd31da8-969f-4a5c-a42d-e61052c03e65" x="0" y="20" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="de3a9e94-3997-49f9-b16e-e939e10cd1e9" style="TitleStyle" x="0" y="24" width="555" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{txtBankAccountName}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="112972b2-2b11-4196-8a14-f1098325460c" x="0" y="70" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="e7828042-a45f-4720-8b8a-48ef0cf85eb8" style="TitleStyle" x="0" y="46" width="555" height="22"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{reportTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22">
+			<rectangle>
+				<reportElement uuid="833ffa6c-242a-46bb-816e-731281341e3b" x="0" y="0" width="555" height="18" forecolor="#CCCCCC" backcolor="#CCCCCC"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="b66404e8-cc5a-4501-a742-9b8b9e500f09" style="HeadingStyle" x="0" y="0" width="30" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtBF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="595415f7-f134-4ce9-9043-5def96f8bbeb" style="HeadingStyle" x="30" y="0" width="65" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtDate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="53692543-fdf9-43f7-9f08-7bc8a2846468" style="HeadingStyle" x="95" y="0" width="100" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtDocument}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d4d4b3d9-3f8e-443b-8be5-480d141be0c6" style="HeadingStyle" x="465" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtReceipt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ea610041-4516-4c59-acb0-3bec254ac926" style="HeadingStyle" x="375" y="0" width="90" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtPayment}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="2b1c2fe5-1276-48b2-94da-47bd8d1e4e57" style="HeadingStyle" x="345" y="0" width="30" height="18"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{txtPart}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eaa0c563-d643-4aa6-adc0-a9e2c2dc1429" style="HeadingStyle" x="195" y="0" width="150" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtReference}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="e6d5f816-a7ce-4d74-b862-45cb57ce58e9" x="0" y="0" width="555" height="14"/>
+				<subreportParameter name="decimals">
+					<subreportParameterExpression><![CDATA[$P{decimals}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtUnreconciledTotals">
+					<subreportParameterExpression><![CDATA[$P{txtUnreconciledTotals}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtPartBF">
+					<subreportParameterExpression><![CDATA[$P{txtPartBF}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="reconciliationId">
+					<subreportParameterExpression><![CDATA[$P{reconciliationId}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtBF">
+					<subreportParameterExpression><![CDATA[$P{txtBF}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtFullBF">
+					<subreportParameterExpression><![CDATA[$P{txtFullBF}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="txtCF">
+					<subreportParameterExpression><![CDATA[$P{txtCF}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<returnValue subreportVariable="lineCount" toVariable="lineCount"/>
+				<returnValue subreportVariable="paymentTotal" toVariable="paymentTotal"/>
+				<returnValue subreportVariable="receiptTotal" toVariable="receiptTotal"/>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "BankReconciliation_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<line>
+				<reportElement uuid="549008e3-99c9-4c46-9462-8de7717918db" x="0" y="4" width="555" height="1"/>
+			</line>
+			<textField>
+				<reportElement uuid="6ca6ed7d-6dad-417e-961a-884ef9160ded" style="IncidentalStyle" x="0" y="8" width="380" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{userName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3b1166e0-1949-4fa2-81b9-20029802cdd8" style="IncidentalStyle" x="485" y="8" width="40" height="18"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" /"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="bc5c685c-b37f-4a69-9ae7-1ec5e6b25e9b" style="IncidentalStyle" x="525" y="8" width="30" height="18"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="215" splitType="Prevent">
+			<printWhenExpression><![CDATA[!$P{REPORT_PARAMETERS_MAP}.put('lastPage', true)]]></printWhenExpression>
+			<textField>
+				<reportElement uuid="de240f20-1dc1-46aa-9419-1bde062111c4" x="0" y="201" width="555" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{endOfReport}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="49c31c86-93d3-4c4c-893c-f2e97c72de7f" x="0" y="0" width="555" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[!$V{lineCount}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{txtNoUnreconciledTotals}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="042757ab-0f44-4f65-a987-164128ce7e39" style="TitleStyle" x="0" y="27" width="555" height="22"/>
+				<textElement textAlignment="Center">
+					<font isUnderline="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtSummary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a43f6fdf-198f-414c-948a-a1dc52485987" x="0" y="73" width="265" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtStatementBalance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="3f6501f0-d76d-4cf9-b617-306717b1606c" x="270" y="73" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($F{statementBalance}.abs())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a32822fc-a8b1-4b0f-ac83-a801a94640f2" x="0" y="87" width="265" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{receiptTotal}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtAddReceipts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="a82f5aa3-56f8-49f6-8e64-5217113736e5" x="270" y="87" width="100" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{receiptTotal}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{receiptTotal})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="eebf308a-6a67-45b5-9785-b8f51aae661e" x="272" y="103" width="98" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{receiptTotal} && ($V{paymentTotal} || $F{statementBalance} + $V{receiptTotal} != $F{bankAccountBalance})]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement uuid="5342e4b2-4cab-4e96-93c4-d8cbebc7f404" x="270" y="106" width="100" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{receiptTotal} && ($V{paymentTotal} || $F{statementBalance} + $V{receiptTotal} != $F{bankAccountBalance})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format(($F{statementBalance} + $V{receiptTotal}).abs())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="5c5685d0-d9ac-431a-b6bd-bb7533b9569f" x="0" y="120" width="265" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{paymentTotal}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtLessPayments}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eb779850-2532-4028-977e-797ac217380e" x="270" y="120" width="100" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{paymentTotal}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($V{paymentTotal})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="b5be0044-6eaa-4d71-9394-12255e375cc0" x="272" y="135" width="98" height="1" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{paymentTotal} && ($F{statementBalance} + ($V{receiptTotal} ?: 0.0) - $V{paymentTotal} != $F{bankAccountBalance})]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement uuid="453651db-718a-4950-a291-cd529e2e7685" x="270" y="138" width="100" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$V{paymentTotal} && ($F{statementBalance} + ($V{receiptTotal} ?: 0.0) - $V{paymentTotal} != $F{bankAccountBalance})]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format(($F{statementBalance} + ($V{receiptTotal} ?: 0.0) - $V{paymentTotal}).abs())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c42e9fab-4fe3-40cf-bfbc-bb35c00682ee" x="0" y="152" width="265" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$F{statementBalance} + ($V{receiptTotal} ?: 0.0) - ($V{paymentTotal} ?: 0.0) != $F{bankAccountBalance}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{bankAccountBalance} - ($F{statementBalance} + ($V{receiptTotal} ?: 0.0) - ($V{paymentTotal} ?: 0.0)) < 0.0) ? $P{txtDifferenceShortPayments} : $P{txtDifferenceShortReceipts}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="27cecfce-b02c-4776-a669-c78d5da9a95c" x="270" y="152" width="100" height="14" isRemoveLineWhenBlank="true">
+					<printWhenExpression><![CDATA[$F{statementBalance} + ($V{receiptTotal} ?: 0.0) - ($V{paymentTotal} ?: 0.0) != $F{bankAccountBalance}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format(($F{bankAccountBalance} - ($F{statementBalance} + ($V{receiptTotal} ?: 0.0) - ($V{paymentTotal} ?: 0.0))).abs())]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="6534a6e0-4cfa-4a28-8638-9dec8c57de52" x="272" y="168" width="98" height="1" isRemoveLineWhenBlank="true"/>
+			</line>
+			<textField>
+				<reportElement uuid="86dde27d-72b4-4336-ac2c-f0d7ed0a9e66" x="0" y="171" width="265" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{txtBankAccountBalance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="eabee16b-4fc9-42e3-8d4e-2986c7a9ca55" x="270" y="171" width="100" height="14"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{nf}.format($F{bankAccountBalance}.abs())]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="def14380-0f2b-4f51-8924-e680b5c34d03" x="272" y="187" width="98" height="1" isRemoveLineWhenBlank="true"/>
+			</line>
+			<line>
+				<reportElement uuid="5f06d46f-41d3-4f00-8ceb-7f47dd95bcfc" x="272" y="190" width="98" height="1" isRemoveLineWhenBlank="true"/>
+			</line>
+			<textField>
+				<reportElement uuid="03efdcf5-4168-4f0a-a45b-9ab59f208191" x="372" y="73" width="100" height="14">
+					<printWhenExpression><![CDATA[$F{statementBalance} < 0.0]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="571f1062-7aed-48f7-8108-46fb3960cbb3" x="372" y="106" width="100" height="14">
+					<printWhenExpression><![CDATA[$V{receiptTotal} && $F{statementBalance} + $V{receiptTotal} < 0.0 && ($V{paymentTotal} || $F{statementBalance} + $V{receiptTotal} != $F{bankAccountBalance})]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="18195749-5d3f-438d-9b32-3a83e1cf71a2" x="372" y="138" width="100" height="14">
+					<printWhenExpression><![CDATA[$V{paymentTotal} && ($F{statementBalance} + ($V{receiptTotal} ?: 0.0) - $V{paymentTotal} < 0.0) && ($F{statementBalance} + ($V{receiptTotal} ?: 0.0) - $V{paymentTotal} != $F{bankAccountBalance})]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="0a3708a5-10d3-4eab-b3b1-5df7f5318960" x="372" y="171" width="100" height="14">
+					<printWhenExpression><![CDATA[$F{bankAccountBalance} < 0.0]]></printWhenExpression>
+				</reportElement>
+				<textElement/>
+				<textFieldExpression><![CDATA[$P{txtOD}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="373743c1-b5cd-404d-9ccf-672772db8815" style="IncidentalStyle" x="0" y="50" width="553" height="14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$P{txtFinalized}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

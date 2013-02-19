@@ -1,0 +1,20 @@
+== Balance Sheet Report
+=== Overview
+* Select from any number of report formats
+* Choose the period to run the report for
+* Group the report values by 'account number' code segment
+* Display underlying accounts making up the summary values
+=== Description
+Your Accounts Administrator will have created one or more report formats for you to select from. Each format can specify
+a different layout of data going across and down the page.
+
+By selecting a period to run the report for, you are also selecting the year containing that period for printing of
+cumulative year-to-date values up to and including the selected period, if these are included in the chosen report format.
+Also when you select the period to run the report for, you are effectively specifying the comparative year and period (i.e. the
+preceding year and the equivalent period within that year, if any), if these are included in the chosen report format.
+
+By default, a Balance Sheet report simply prints summary values by Chart Section as specified by the chosen
+report format. Using the Grouping facility, however, you may get the report to show, within each Chart
+Section, summary values by 'account number' code segment . You may also select to print the underlying
+detailed accounts making up the summary values, although this can produce a rather large report taking
+longer to prepare.

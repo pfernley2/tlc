@@ -1,0 +1,515 @@
+// Colours
+@baseBackground: #FFFFFF;
+@baseText: #333333;
+@baseLink: #666666;
+@baseBorder: #CCCCCC;
+@baseDivider: #AAAAAA;
+@baseInputBackground: #FCFCFC;
+@baseAlternateBackground: #F7F7F7;
+@baseAlternateText: #888888;
+@baseCrumbBackground: #EEEEEE;
+@baseListBorder: #DDDDDD;
+
+@themeBackground: #F3F8FC;
+@themeText: #006DBA;
+@themeBorder: #B2D1FF;
+@themeAlternateBackground: #F0F8FF;
+@themeAlternateText: #444444;
+
+@contrastBackground: #FFF3F3;
+@contrastText: #CC0000;
+@contrastBorder: #FF0000;
+@contrastAlternateBackground: #FFCCCC;
+
+@roleSystemBackground: #F5FFFA;
+@roleCompanyBackground: #F3F8FF;
+@roleAccountsBackground: #FFFFE8;
+
+// Padding and margin values - currently still specified in px but may, in
+// the future, be converted to em. Excludes border width and positioning
+// values which will continue to be specified in px. Also excludes zero
+// which does not have a unit.
+@size01: 1px;
+@size02: 2px;
+@size03: 3px;
+@size04: 4px;
+@size05: 5px;
+@size06: 6px;
+@size07: 7px;
+@size10: 10px;
+@size12: 12px;
+@size15: 15px;
+@size20: 20px;
+@size25: 25px;
+@size28: 28px;
+@size30: 30px;
+
+// Mixins
+.standardFont(@size) {
+    font: @size verdana, arial, helvetica, sans-serif;
+}
+.topButton(@img) {
+    background: url(~"../images/skin/@{img}") no-repeat center left;
+    color: @baseText;
+    padding-left: @size25;
+}
+.bottomButton(@img) {
+    background: transparent url(~"../images/skin/@{img}") no-repeat 5px 50%;
+    padding-left: @size28;
+}
+.appTextHeader(@margin, @weight: bold) {
+    margin: @margin;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: @weight;
+}
+
+// Stylesheet
+html {
+    * { margin: 0; }
+}
+.spinner {
+    padding: @size05;
+    position: absolute;
+    right: 0;
+}
+body {
+    background: @baseBackground;
+    color: @baseText;
+    .standardFont(68.75%);
+    &.system { background: @roleSystemBackground; }
+    &.company { background: @roleCompanyBackground; }
+    &.accounts { background: @roleAccountsBackground; }
+}
+a:link, a:visited, a:hover {
+    color: @baseLink;
+    font-weight: bold;
+    text-decoration: none;
+}
+.pageHelpTitle {
+    color: @themeText;
+    font-weight: normal;
+    font-size: 1.45em;
+    margin: .8em 0 .3em 0;
+	a:link, a:visited, a:hover {
+	    color: @themeText;
+	    font-weight: normal;
+	}
+}
+h1 {
+    color: @themeText;
+    font-weight: normal;
+    font-size: 1.45em;
+    margin: .8em 0 .3em 0;
+}
+h2 {
+    color: @themeText;
+    font-weight: normal;
+    font-size: 1.27em;
+    margin: .8em 0 .3em 0;
+}
+h3 {
+    color: @themeAlternateText;
+    font-weight: normal;
+    font-size: 1.18em;
+    margin: .8em 0 .3em 0;
+}
+ul {
+    padding-left: @size15;
+}
+input, select, textarea {
+    background-color: @baseInputBackground;
+    border: 1px solid @baseBorder;
+    .standardFont(1em);
+    margin: @size02 0;
+    padding: @size02 @size04;
+}
+input::-ms-clear { display: none; }
+select {
+    padding: @size02 @size02 @size02 0;
+}
+textarea {
+    width: 23em;
+    height: 9em;
+    vertical-align: top;
+}
+.largeArea {
+    textarea {
+        width: 37em;
+        height: 14em;
+    }
+}
+input:focus, select:focus, textarea:focus {
+    border: 1px solid @themeBorder;
+}
+.body {
+    float: left;
+    margin: 0 @size15 @size10 @size15;
+}
+.pageHelp {
+    p {
+        padding-top: @size03;
+        padding-bottom: @size03;
+    }
+}
+.conversion {
+    background-color: @contrastAlternateBackground;
+}
+.nav {
+    background: @baseBackground url(../images/skin/shadow.jpg) repeat-x bottom;
+    border: 1px solid @baseBorder;
+    border-style: solid none solid none;
+    margin-top: @size05;
+    padding: @size07 @size12;
+}
+.menuButton {
+    font-size: 0.91em;
+    padding: 0 @size05;
+    a {
+        color: @baseText;
+        padding: @size04 @size06;
+    }
+    a.create { .topButton("database_add.png") }
+    a.delete { .topButton("database_delete.png") }
+    a.edit { .topButton("database_edit.png") }
+    a.home { .topButton("house.png") }
+    a.import { .topButton("database_save.png") }
+    a.links { .topButton("links.png") }
+    a.list { .topButton("database_table.png") }
+    a.login { .topButton("login.png") }
+    a.menu { .topButton("menu.png") }
+    a.print { .topButton("print.png") }
+    a.search { .topButton("search.png") }
+    a.test { .topButton("test.png") }
+    a.tree { .topButton("tree.png") }
+}
+.message {
+    background: @themeBackground url(../images/skin/information.png) no-repeat 8px 50%;
+    border: 1px solid @themeBorder;
+    color: @themeText;
+    margin: @size10 0 @size05 0;
+    padding: @size05 @size05 @size05 @size30;
+}
+div.errors {
+    background: @contrastBackground;
+    border: 1px solid @contrastBorder;
+    color: @contrastText;
+    margin: @size10 0 @size05 0;
+    padding: @size05 0 @size05 0;
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        background: url(../images/skin/exclamation.png) no-repeat 8px 0;
+        line-height: 1.5em;
+        padding-left: @size30;
+    }
+}
+td.errors {
+    select { border: 1px solid @contrastBorder; }
+    input { border: 1px solid @contrastBorder; }
+}
+table {
+    border: 1px solid @baseBorder;
+    width: 100%;
+}
+tr {
+    border: 0;
+}
+td, th {
+    .standardFont(1em);
+    line-height: 1.1em;
+    padding: @size05 @size06;
+    text-align: left;
+    &.sortable a:link, a:visited, a:hover, { font-size: 1em; }
+}
+.narrow {
+    padding: @size01 @size06 @size01 @size06;
+}
+th {
+    background: @baseBackground url(../images/skin/shadow.jpg);
+    color: @baseLink;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 1.55em;
+    padding: @size02 @size06;
+	a:link, a:visited, a:hover {
+	    color: @baseText;
+	    display: block;
+	    font-size: 0.91em;
+	    text-decoration: none;
+	    width: 100%;
+	}
+}
+th.asc a, th.desc a {
+    background-position: right;
+    background-repeat: no-repeat;
+    padding-right: @size04;
+}
+th.asc {
+    a { background-image: url(../images/skin/sorted_asc.gif); }
+}
+th.desc {
+    a { background-image: url(../images/skin/sorted_desc.gif); }
+}
+.odd {
+    background: @baseAlternateBackground;
+}
+.even {
+    background: @baseBackground;
+}
+.list {
+    table { border-collapse: collapse; }
+	th, td {
+	    border-left: 1px solid @baseListBorder;
+        vertical-align: top;
+    }
+	th:hover, tr:hover { background: @themeBorder; }
+}
+.paginateButtons {
+    background: @baseBackground url(../images/skin/shadow.jpg) repeat-x bottom;
+    border: 1px solid @baseBorder;
+    border-top: 0;
+    color: @baseLink;
+    font-size: 0.91em;
+    overflow: hidden;
+    padding: @size10 @size03;
+    a {
+        background: @baseBackground;
+        border: 1px solid @baseBorder;
+        border-color: @baseBorder @baseDivider @baseDivider @baseBorder;
+        color: @baseLink;
+        margin: 0 @size03;
+        padding: @size02 @size06;
+    }
+    span { padding: @size02 @size03; }
+}
+.dialog {
+    table { padding: @size05 0; }
+}
+.prop {
+    padding: @size05;
+    .name {
+        text-align: right;
+        width: 15%;
+        white-space: nowrap;
+    }
+    .value {
+        text-align: left;
+        width: 85%;
+    }
+    .small-value {
+        padding: @size01;
+        text-align: left;
+        width: 85%;
+        white-space: nowrap;
+    }
+    .columnar {
+        text-align: right;
+        width: 11em;
+    }
+}
+.buttons {
+    background: @baseBackground url(../images/skin/shadow.jpg) repeat-x bottom;
+    border: 1px solid @baseBorder;
+    color: @baseLink;
+    font-size: 0.91em;
+    margin-top: @size05;
+    overflow: hidden;
+    padding: 0;
+    input {
+        background: @baseBackground;
+        border: 0;
+        color: @baseText;
+        cursor: pointer;
+        font-size: 0.91em;
+        font-weight: bold;
+        margin-left: @size03;
+        overflow: visible;
+        padding: @size02 @size06;
+    }
+    input.add { .bottomButton("database_add.png") }
+    input.delete { .bottomButton("database_delete.png") }
+    input.edit { .bottomButton("database_edit.png") }
+    input.exec { .bottomButton("exec.png") }
+    input.pause { .bottomButton("pause.png") }
+    input.reset { .bottomButton("reset.png") }
+    input.resize { .bottomButton("loop.png") }
+    input.save { .bottomButton("database_save.png") }
+    input.search { .bottomButton("search.png") }
+    input.start { .bottomButton("play.png") }
+    input.stop { .bottomButton("stop.png") }
+}
+#topbar {
+    text-align: left;
+    margin: 0 auto;
+    padding: @size05;
+    #menu {
+        float: right;
+        text-align: right;
+        font-size: 1em;
+    }
+}
+.logo {
+    padding: 0 @size05 0 @size05;
+    font-size: 1.64em;
+    font-weight: bold;
+    img { vertical-align: middle; }
+}
+#footer {
+    clear: both;
+    text-align: center;
+    font-size: 0.82em;
+    color: @baseAlternateText;
+    padding: @size05;
+    border-top: 1px solid @baseBorder;
+}
+.crumbs {
+    margin: @size20 0 @size20 @size30;
+    color: @baseLink;
+}
+.crumb {
+    border: 1px solid @baseDivider;
+    background: @baseCrumbBackground;
+    padding: @size02 @size04 @size02 @size04;
+}
+.options {
+    li {
+        font-size: 1.18em;
+        margin-left: @size30;
+        padding-bottom: @size04;
+    }
+}
+.criteria {
+    border: 1px solid @themeBorder;
+    background: @themeAlternateBackground;
+    margin: @size10;
+    padding: @size04;
+    text-align: center;
+    color: @themeText;
+    font-weight: normal;
+    .criteriaLabel { font-size: 1.27em; }
+    input.apply { background: @themeBorder; }
+}
+.helpbox {
+    border: 1px solid @themeBorder;
+    background: @themeAlternateBackground;
+    margin: @size10;
+    padding: @size04;
+    color: @themeText;
+}
+.tree {
+    td { vertical-align: middle; }
+}
+.entry {
+    width: 100%;
+    height: 20em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+a.skip {
+    position: absolute;
+    left: -9999px;
+}
+.fieldHelp img {
+	vertical-align: text-top;
+}
+.drillup {
+    border: 0;
+    vertical-align: text-bottom;
+}
+.standout {
+	.appTextHeader(@size30);
+}
+.comment {
+    .appTextHeader(@size30, normal);
+}
+.textual {
+    .appTextHeader(@size10);
+}
+.borderedList {
+	list-style: none;
+	border: 1px solid #ccc;
+	padding-top: @size10;
+	padding-bottom: @size10;
+}
+.checkboxStyle {
+	padding-top: @size01;
+	padding-bottom: 0;
+}
+.borderless {
+    border: 0;
+}
+.vtop {
+    vertical-align: top;
+}
+.helper {
+    cursor: help;
+}
+.pointer {
+    cursor: pointer;
+}
+.hidden {
+    visibility: hidden;
+}
+.left {
+    text-align: left;
+}
+.right {
+    text-align: right;
+}
+.center {
+    text-align: center;
+}
+.nowrap {
+    white-space: nowrap;
+}
+.highlighted {
+	font-weight: bold;
+}
+.emphasized {
+	font-style: italic;
+}
+.underlined {
+	text-decoration: underline;
+}
+.overlined {
+	border-top-style: solid;
+}
+.mediumTopPadding {
+    padding-top: @size15;
+}
+.smallBottomPadding {
+	padding-bottom: @size10;
+}
+.mediumBottomPadding {
+    padding-bottom: @size15;
+}
+.tinyTopMargin {
+	margin-top: @size05;
+}
+.smallTopMargin {
+    margin-top: @size10;
+}
+.mediumTopMargin {
+    margin-top: @size15;
+}
+.largeTopMargin {
+    margin-top: @size20;
+}
+.tinyBottomMargin {
+    margin-bottom: @size05;
+}
+.smallBottomMargin {
+    margin-bottom: @size10;
+}
+.mediumBottomMargin {
+    margin-bottom: @size15;
+}
+.largeBottomMargin {
+    margin-bottom: @size20;
+}
+.wideLeftMargin {
+	margin-left: @size30;
+}
