@@ -51,7 +51,7 @@ public class UnauthorizedAdvicesReport extends TaskExecutable {
         def pdfFile = createReportPDF('UnauthorizedAdvices', reportParams)
         yield()
         mailService.sendMail {
-			multipart true
+            multipart true
             to user.email
             subject title
             body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])

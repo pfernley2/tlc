@@ -72,7 +72,7 @@ class ReportService {
         if (virtualizer) virtualizer.cleanup()
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private prepare() {
 

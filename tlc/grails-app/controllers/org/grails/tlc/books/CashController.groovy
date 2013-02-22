@@ -252,7 +252,7 @@ class CashController {
         def valid = !documentInstance.hasErrors()
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshDocumentLines(documentInstance, params)
         if (num) {
             documentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")
@@ -291,7 +291,7 @@ class CashController {
                         bankRate = utilService.getExchangeRate(documentInstance.currency, bankAccount.currency, now)
                         if (!bankRate) {
                             documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, bankAccount.currency.code],
-                                    default: "No exchange rate available from ${documentInstance.currency.code} to ${bankAccount.currency.code}")
+                            default: "No exchange rate available from ${documentInstance.currency.code} to ${bankAccount.currency.code}")
                             valid = false
                         }
                     }
@@ -312,7 +312,7 @@ class CashController {
                     companyRate = utilService.getExchangeRate(documentInstance.currency, companyCurrency, now)
                     if (!companyRate) {
                         documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, companyCurrency.code],
-                                default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
+                        default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
                         valid = false
                     }
                 }
@@ -518,7 +518,7 @@ class CashController {
                             temp = utilService.getExchangeRate(documentInstance.currency, account.currency, now)
                             if (!temp) {
                                 documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, account.currency.code],
-                                        default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
+                                default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
                                 valid = false
                                 break
                             }
@@ -593,7 +593,7 @@ class CashController {
         if (valid) {
             def line = new Total(description: documentInstance.description, documentValue: documentInstance.sourceTotal,
                     generalValue: lineBankGoods + lineBankTaxes, companyValue: lineCompanyGoods + lineCompanyTaxes)
-			line.account = bankAccount
+            line.account = bankAccount
 
             // If there are taxes involved
             if (documentInstance.taxes) {
@@ -663,7 +663,7 @@ class CashController {
         model
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getModel(company, documentInstance) {
         def documentTypeList = DocumentType.findAll("from DocumentType as dt where dt.company = ? and dt.type.code in ('CP', 'CR')", [company])
@@ -691,7 +691,7 @@ class CashController {
         settings.decimals = documentInstance.currency.decimals
 
         return [documentInstance: documentInstance, bankAccountList: bankAccountList, documentTypeList: documentTypeList,
-                taxCodeList: taxCodeList, periodList: periodList, currencyList: currencyList, settings: settings]
+            taxCodeList: taxCodeList, periodList: periodList, currencyList: currencyList, settings: settings]
     }
 
     private getTemplateModel(company, templateDocumentInstance) {
@@ -715,7 +715,7 @@ class CashController {
         settings.decimals = templateDocumentInstance.currency.decimals
 
         return [templateDocumentInstance: templateDocumentInstance, bankAccountList: bankAccountList, documentTypeList: documentTypeList,
-                taxCodeList: taxCodeList, currencyList: currencyList, settings: settings]
+            taxCodeList: taxCodeList, currencyList: currencyList, settings: settings]
     }
 
     private saveTemplate(templateDocumentInstance, params) {
@@ -727,7 +727,7 @@ class CashController {
         def account, temp
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshTemplateLines(templateDocumentInstance, params)
         if (num) {
             templateDocumentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")

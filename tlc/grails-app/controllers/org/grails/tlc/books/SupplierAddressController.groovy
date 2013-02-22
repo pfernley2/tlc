@@ -62,7 +62,7 @@ class SupplierAddressController {
             redirect(action: 'list')
         } else {
             return [supplierAddressInstance: supplierAddressInstance,
-                    supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance, null, null, utilService.currentCompany().country)]
+                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance, null, null, utilService.currentCompany().country)]
         }
     }
 
@@ -95,8 +95,8 @@ class SupplierAddressController {
             redirect(action: 'list')
         } else {
             return [supplierAddressInstance: supplierAddressInstance,
-                    supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
-                    transferList: createTransferList(supplierAddressInstance)]
+                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
+                transferList: createTransferList(supplierAddressInstance)]
         }
     }
 
@@ -106,8 +106,8 @@ class SupplierAddressController {
             def modified = processModification(ddSource, params)
             if (modified) {
                 render(view: 'edit', model: [supplierAddressInstance: loadTransfers(modified, params),
-                        supplierAddressLines: addressService.getAsLineMaps(modified),
-                        transferList: createTransferList(modified)])
+                            supplierAddressLines: addressService.getAsLineMaps(modified),
+                            transferList: createTransferList(modified)])
             } else {
                 redirect(action: 'list')
             }
@@ -117,8 +117,8 @@ class SupplierAddressController {
                 if (version != null && supplierAddressInstance.version > version) {
                     supplierAddressInstance.errorMessage(code: 'locking.failure', domain: 'supplierAddress')
                     render(view: 'edit', model: [supplierAddressInstance: loadTransfers(supplierAddressInstance, params),
-                            supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
-                            transferList: createTransferList(supplierAddressInstance)])
+                                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
+                                transferList: createTransferList(supplierAddressInstance)])
                     return
                 }
 
@@ -145,8 +145,8 @@ class SupplierAddressController {
                     redirect(action: 'show', id: supplierAddressInstance.id)
                 } else {
                     render(view: 'edit', model: [supplierAddressInstance: supplierAddressInstance,
-                            supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
-                            transferList: createTransferList(supplierAddressInstance)])
+                                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
+                                transferList: createTransferList(supplierAddressInstance)])
                 }
             } else {
                 flash.message = utilService.standardMessage('not.found', 'supplierAddress', params.id)
@@ -167,8 +167,8 @@ class SupplierAddressController {
             }
 
             return [supplierAddressInstance: supplierAddressInstance,
-                    supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
-                    transferList: createTransferList(supplierAddressInstance)]
+                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
+                transferList: createTransferList(supplierAddressInstance)]
         } else {
             redirect(action: 'list')
         }
@@ -180,8 +180,8 @@ class SupplierAddressController {
             def modified = processModification(ddSource, params)
             if (modified) {
                 render(view: 'create', model: [supplierAddressInstance: loadTransfers(modified, params),
-                        supplierAddressLines: addressService.getAsLineMaps(modified),
-                        transferList: createTransferList(modified)])
+                            supplierAddressLines: addressService.getAsLineMaps(modified),
+                            transferList: createTransferList(modified)])
             } else {
                 redirect(action: 'list')
             }
@@ -216,8 +216,8 @@ class SupplierAddressController {
                     redirect(action: 'show', id: supplierAddressInstance.id)
                 } else {
                     render(view: 'create', model: [supplierAddressInstance: supplierAddressInstance,
-                            supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
-                            transferList: createTransferList(supplierAddressInstance)])
+                                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
+                                transferList: createTransferList(supplierAddressInstance)])
                 }
             } else {
                 redirect(action: 'list')
@@ -237,8 +237,8 @@ class SupplierAddressController {
             }
 
             return [supplierAddressInstance: supplierAddressInstance,
-                    supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
-                    transferList: createTransferList(supplierAddressInstance)]
+                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
+                transferList: createTransferList(supplierAddressInstance)]
         } else {
             redirect(controller: 'supplier', action: 'list')
         }
@@ -267,8 +267,8 @@ class SupplierAddressController {
                     redirect(controller: 'supplier', action: 'show', id: supplier.id)
                 } else {
                     render(view: 'initial', model: [supplierAddressInstance: supplierAddressInstance,
-                            supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
-                            transferList: null])
+                                supplierAddressLines: addressService.getAsLineMaps(supplierAddressInstance),
+                                transferList: null])
                 }
             } else {
                 redirect(controller: 'supplier', action: 'list')
@@ -276,7 +276,7 @@ class SupplierAddressController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private processModification(supplier, params) {
         def supplierAddressInstance, temp

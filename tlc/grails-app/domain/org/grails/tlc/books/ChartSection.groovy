@@ -30,9 +30,9 @@ class ChartSection {
     static traceDeleteCode = new AtomicLong()
 
     static belongsTo = [company: Company, segment1: CodeElement, segment2: CodeElement, segment3: CodeElement,
-            segment4: CodeElement, segment5: CodeElement, segment6: CodeElement, segment7: CodeElement, segment8: CodeElement]
+        segment4: CodeElement, segment5: CodeElement, segment6: CodeElement, segment7: CodeElement, segment8: CodeElement]
     static hasMany = [ranges: ChartSectionRange, accounts: Account, profitPercentages: ProfitReportPercent,
-            profitLines: ProfitReportLine, balanceLines: BalanceReportLine]
+        profitLines: ProfitReportLine, balanceLines: BalanceReportLine]
     static transients = ['parentObject']
 
     ChartSection parentObject
@@ -172,7 +172,7 @@ class ChartSection {
             if (val) {
                 if (!obj.segment4) return 'chartSection.segment.blank.inter'
                 if (val.id == obj.segment1?.id || val.id == obj.segment2?.id || val.id == obj.segment3?.id ||
-                        val.id == obj.segment4?.id) return ['chartSection.segment.dup.element', 5]
+                    val.id == obj.segment4?.id) return ['chartSection.segment.dup.element', 5]
                 if (val.elementNumber == 1) obj.accountSegment = (byte) 5
             }
 
@@ -182,7 +182,7 @@ class ChartSection {
             if (val) {
                 if (!obj.segment5) return 'chartSection.segment.blank.inter'
                 if (val.id == obj.segment1?.id || val.id == obj.segment2?.id || val.id == obj.segment3?.id ||
-                        val.id == obj.segment4?.id || val.id == obj.segment5?.id) return ['chartSection.segment.dup.element', 6]
+                    val.id == obj.segment4?.id || val.id == obj.segment5?.id) return ['chartSection.segment.dup.element', 6]
                 if (val.elementNumber == 1) obj.accountSegment = (byte) 6
             }
 
@@ -192,7 +192,7 @@ class ChartSection {
             if (val) {
                 if (!obj.segment6) return 'chartSection.segment.blank.inter'
                 if (val.id == obj.segment1?.id || val.id == obj.segment2?.id || val.id == obj.segment3?.id ||
-                        val.id == obj.segment4?.id || val.id == obj.segment5?.id || val.id == obj.segment6?.id) return ['chartSection.segment.dup.element', 7]
+                    val.id == obj.segment4?.id || val.id == obj.segment5?.id || val.id == obj.segment6?.id) return ['chartSection.segment.dup.element', 7]
                 if (val.elementNumber == 1) obj.accountSegment = (byte) 7
             }
 
@@ -202,8 +202,8 @@ class ChartSection {
             if (val) {
                 if (!obj.segment7) return 'chartSection.segment.blank.inter'
                 if (val.id == obj.segment1?.id || val.id == obj.segment2?.id || val.id == obj.segment3?.id ||
-                        val.id == obj.segment4?.id || val.id == obj.segment5?.id || val.id == obj.segment6?.id ||
-                        val.id == obj.segment7?.id) return ['chartSection.segment.dup.element', 8]
+                val.id == obj.segment4?.id || val.id == obj.segment5?.id || val.id == obj.segment6?.id ||
+                    val.id == obj.segment7?.id) return ['chartSection.segment.dup.element', 8]
                 if (val.elementNumber == 1) obj.accountSegment = (byte) 8
             }
 
@@ -375,11 +375,11 @@ class ChartSection {
     }
 
     private static isValidCodeValue(val, element) {
-		def result
-		CodeElementValue.withNewSession {session ->
-			result = (CodeElementValue.countByElementAndCode(element, val) > 0)
-		}
-		
+        def result
+        CodeElementValue.withNewSession {session ->
+            result = (CodeElementValue.countByElementAndCode(element, val) > 0)
+        }
+
         return result
     }
 

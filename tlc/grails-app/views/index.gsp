@@ -125,9 +125,9 @@
                 <p><g:link controller="systemMenu" action="display">Return to the application</g:link></p>
             </g:if>
             <g:else>
-	            <p><g:link controller="systemUser" action="login">Login as an existing user</g:link></p>
-	            <p><g:link controller="systemUser" action="register">Register as a new user</g:link></p>
-	        </g:else>
+                <p><g:link controller="systemUser" action="login">Login as an existing user</g:link></p>
+                <p><g:link controller="systemUser" action="register">Register as a new user</g:link></p>
+            </g:else>
             <p><g:link controller="system" action="noticeFile">View the NOTICE file</g:link></p>
             <p><g:link controller="system" action="licenseFile">View the LICENSE file</g:link></p>
             <p><a href="${resource(dir: '/documentation', file: 'technotes.pdf')}">View technical installation notes</a></p>

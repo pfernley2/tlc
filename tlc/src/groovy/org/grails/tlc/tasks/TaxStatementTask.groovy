@@ -44,7 +44,7 @@ class TaxStatementTask extends TaskExecutable {
         // Make sure the tax authority is ok
         def taxAuthority = TaxAuthority.get(params.authority)
         if (!taxAuthority || taxAuthority.securityCode != company.securityCode) {
-			completionMessage = utilService.standardMessage('not.found', 'taxAuthority', params.authority)
+            completionMessage = utilService.standardMessage('not.found', 'taxAuthority', params.authority)
             return false
         }
 
@@ -126,7 +126,7 @@ class TaxStatementTask extends TaskExecutable {
         return TaxStatement.executeQuery(sql, args)[0]
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private static createInputArguments() {
         def args = []
@@ -150,8 +150,10 @@ class TaxStatementTask extends TaskExecutable {
         def sql = MessageFormat.format('select x.taxCode.id, x.taxPercentage, sum(x.companyTax), sum(x.companyValue) ' + SELECTOR + 'group by x.taxCode.id, x.taxPercentage', args as String[])
 
         for (it in GeneralTransaction.executeQuery(sql, ['T' + statement.authority.id.toString(), statement.statementDate, statement.priorDate])) {
-            if (it[2] != 0.0 || it[3] != 0.0) statement.addToLines(new TaxStatementLine(taxCode: TaxCode.get(it[0]),
-                    currentStatement: current, expenditure: input, taxPercentage: it[1], companyGoodsValue: it[2], companyTaxValue: it[3]))
+            if (it[2] != 0.0 || it[3] != 0.0) {
+                statement.addToLines(new TaxStatementLine(taxCode: TaxCode.get(it[0]), currentStatement: current,
+                    expenditure: input, taxPercentage: it[1], companyGoodsValue: it[2], companyTaxValue: it[3]))
+            }
         }
     }
 }

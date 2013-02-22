@@ -34,11 +34,11 @@ class PurchaseController {
 
     // Security settings
     def activities = [default: 'aptemplate', template: 'apinvoice', invoice: 'apinvoice', lines: 'apinvoice', invoicing: 'apinvoice',
-            auto: 'apinvoice', manual: 'apinvoice', allocate: 'apinvoice', allocating: 'apinvoice', enquire: 'enquire']
+        auto: 'apinvoice', manual: 'apinvoice', allocate: 'apinvoice', allocating: 'apinvoice', enquire: 'enquire']
 
     // List of actions with specific request types
     static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', templateLines: 'POST', lines: 'POST', invoicing: 'POST',
-            auto: 'POST', manual: 'POST', allocating: 'POST']
+        auto: 'POST', manual: 'POST', allocating: 'POST']
 
     def index() { redirect(action: 'list', params: params) }
 
@@ -287,8 +287,8 @@ class PurchaseController {
         def allowDifference = utilService.setting('supplier.dataEntry.fxDiff.allowed', false)
 
         [supplierInstance: supplierInstance, lineInstance: lineInstance, allocationInstance: allocationInstance, transactionInstanceList: transactionInstanceList,
-                documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal, periodList: periodList, displayPeriod: displayPeriod,
-                allowDifference: allowDifference]
+                    documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal, periodList: periodList, displayPeriod: displayPeriod,
+                    allowDifference: allowDifference]
     }
 
     def allocating() {
@@ -316,7 +316,7 @@ class PurchaseController {
                     if (allocationInstance.accountDifference.abs() > temp) {
                         temp = "${utilService.setting('supplier.dataEntry.fxDiff.percent', 5)}"
                         allocationInstance.errorMessage(field: 'accountDifference', code: 'document.allocation.excess', args: [temp],
-                                default: "The exchange difference amount exceeds the maximum data entry write-off of ${temp} percent")
+                        default: "The exchange difference amount exceeds the maximum data entry write-off of ${temp} percent")
                         valid = false
                     }
                 }
@@ -352,8 +352,8 @@ class PurchaseController {
             def allowDifference = utilService.setting('supplier.dataEntry.fxDiff.allowed', false)
 
             render(view: 'allocate', model: [supplierInstance: supplierInstance, lineInstance: lineInstance, allocationInstance: allocationInstance,
-                    transactionInstanceList: transactionInstanceList, documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal,
-                    periodList: periodList, displayPeriod: displayPeriod, allowDifference: allowDifference])
+                        transactionInstanceList: transactionInstanceList, documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal,
+                        periodList: periodList, displayPeriod: displayPeriod, allowDifference: allowDifference])
         }
     }
 
@@ -387,7 +387,7 @@ class PurchaseController {
         model
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getTemplateModel(company, templateDocumentInstance) {
         def documentTypeList = DocumentType.findAll("from DocumentType as dt where dt.company = ? and dt.type.code in ('PI', 'PC')", [company])
@@ -418,7 +418,7 @@ class PurchaseController {
         def subAccount, account, temp
 
         // Load the template lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshTemplateLines(templateDocumentInstance, params)
         if (num) {
             templateDocumentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")

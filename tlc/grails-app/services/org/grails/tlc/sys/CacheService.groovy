@@ -32,22 +32,22 @@ class CacheService {
     public static final COMPANY_INSENSITIVE = Long.MIN_VALUE
     private static final cacheMap = [:]
     private static final listOfCaches = [
-            [code: 'conversion', key: KEY_FIRST_OR_LAST, dataSize: 200, maxKB: 32],                     // unitCode | unitCode
-            [code: 'exchangeRate', key: KEY_FIRST, dataSize: 20, maxKB: 16],                            // currencyCode | dateAsMillis
-            [code: 'message', key: KEY_FIRST, dataSize: LENGTH_DATA_SIZE, maxKB: 512],                  // messageCode | localeLanguageLocaleCountry
-            [code: 'setting', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 8],                    // settingCode
-            [code: 'actionActivity', key: KEY_FULL, dataSize: LENGTH_DATA_SIZE, maxKB: 48],             // 'controller.action'
-            [code: 'userActivity', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 48],      // userId | activityCode (Also sensitive to CompanyUser)
-            [code: 'menuCrumb', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 16],                 // menuOptionId
-            [code: 'pageHelp', key: KEY_FIRST, dataSize: LENGTH_DATA_SIZE, maxKB: 32],                  // pageHelpCode | localeLanguageLocaleCountry
-            [code: 'mnemonic', key: KEY_FIRST, dataSize: LENGTH_DATA_SIZE, maxKB: 16],                  // userId | mnemonicCode
-            [code: 'ranges', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 32],                    // sectionCode
-            [code: 'account', key: KEY_FULL, dataSize: LENGTH_DATA_SIZE, maxKB: 64],                    // accountCode (unexpanded for defaults)
-            [code: 'accessGroup', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 16],               // accessGroupCode
-            [code: 'userAccessGroup', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 8],            // userId (Also sensitive to CompanyUser)
-            [code: 'userAccount', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 1024],     // userId | accountCode (Also sensitive to CompanyUser)
-            [code: 'userCustomer', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 32],      // userId | customerAccessCode (Also sensitive to CompanyUser)
-            [code: 'userSupplier', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 32]       // userId | supplierAccessCode (Also sensitive to CompanyUser)
+        [code: 'conversion', key: KEY_FIRST_OR_LAST, dataSize: 200, maxKB: 32],                     // unitCode | unitCode
+        [code: 'exchangeRate', key: KEY_FIRST, dataSize: 20, maxKB: 16],                            // currencyCode | dateAsMillis
+        [code: 'message', key: KEY_FIRST, dataSize: LENGTH_DATA_SIZE, maxKB: 512],                  // messageCode | localeLanguageLocaleCountry
+        [code: 'setting', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 8],                    // settingCode
+        [code: 'actionActivity', key: KEY_FULL, dataSize: LENGTH_DATA_SIZE, maxKB: 48],             // 'controller.action'
+        [code: 'userActivity', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 48],      // userId | activityCode (Also sensitive to CompanyUser)
+        [code: 'menuCrumb', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 16],                 // menuOptionId
+        [code: 'pageHelp', key: KEY_FIRST, dataSize: LENGTH_DATA_SIZE, maxKB: 32],                  // pageHelpCode | localeLanguageLocaleCountry
+        [code: 'mnemonic', key: KEY_FIRST, dataSize: LENGTH_DATA_SIZE, maxKB: 16],                  // userId | mnemonicCode
+        [code: 'ranges', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 32],                    // sectionCode
+        [code: 'account', key: KEY_FULL, dataSize: LENGTH_DATA_SIZE, maxKB: 64],                    // accountCode (unexpanded for defaults)
+        [code: 'accessGroup', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 16],               // accessGroupCode
+        [code: 'userAccessGroup', key: KEY_FULL, dataSize: DYNAMIC_DATA_SIZE, maxKB: 8],            // userId (Also sensitive to CompanyUser)
+        [code: 'userAccount', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 1024],     // userId | accountCode (Also sensitive to CompanyUser)
+        [code: 'userCustomer', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 32],      // userId | customerAccessCode (Also sensitive to CompanyUser)
+        [code: 'userSupplier', key: KEY_FIRST_OR_LAST, dataSize: LENGTH_DATA_SIZE, maxKB: 32]       // userId | supplierAccessCode (Also sensitive to CompanyUser)
     ]
 
     static transactional = false
@@ -132,7 +132,6 @@ class CacheService {
     def resetAll(cacheCode, securityCode) {
         def entry = cacheMap.get(cacheCode)
         if (!entry) return
-
         if (entry.maxCacheSize) {
             def code = securityCode + IMPOSSIBLE_VALUE
             synchronized (entry) {
@@ -208,7 +207,6 @@ class CacheService {
     def resetByValue(cacheCode, securityCode, value) {
         def entry = cacheMap.get(cacheCode)
         if (!entry) return
-
         if (entry.maxCacheSize) {
             def code = securityCode + IMPOSSIBLE_VALUE
             synchronized (entry) {
@@ -252,7 +250,6 @@ class CacheService {
     def clearThis(cacheCode) {
         def entry = cacheMap.get(cacheCode)
         if (!entry) return
-
         synchronized (entry) {
             entry.cache.clear()
             entry.currentCacheSize = 0L
@@ -260,9 +257,7 @@ class CacheService {
             entry.cacheMisses = 0L
         }
 
-        if (entry.dependents) {
-            for (it in entry.dependents) clearThis(it)
-        }
+        if (entry.dependents) for (it in entry.dependents) clearThis(it)
     }
 
     // Global statistics for all caches (for all companies)

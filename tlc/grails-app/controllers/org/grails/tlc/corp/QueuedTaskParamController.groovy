@@ -26,7 +26,7 @@ class QueuedTaskParamController {
 
     // Security settings
     def activities = [default: 'coadmin', queueList: 'sysadmin', queueShow: 'sysadmin', queueEdit: 'sysadmin', queueUpdate: 'sysadmin',
-            usrList: 'attached', usrShow: 'attached', usrEdit: 'attached', usrUpdate: 'attached']
+        usrList: 'attached', usrShow: 'attached', usrEdit: 'attached', usrUpdate: 'attached']
 
     // List of actions with specific request types
     static allowedMethods = [update: 'POST', queueUpdate: 'POST', usrUpdate: 'POST']

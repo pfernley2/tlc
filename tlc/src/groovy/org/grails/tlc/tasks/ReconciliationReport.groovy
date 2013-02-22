@@ -34,7 +34,7 @@ public class ReconciliationReport extends TaskExecutable {
         def bankAccount = reconciliation.bankAccount
         def bankCurrency = bankAccount.currency
         def title = message(code: 'reconciliation.reportTitle', args: [utilService.format(reconciliation.statementDate, 1, null, locale), bankCurrency.code],
-                default: "Bank Reconciliation Statement on ${utilService.format(reconciliation.statementDate, 1, null, locale)} in ${bankCurrency.code}".toString())    // No GStrings in parameters
+        default: "Bank Reconciliation Statement on ${utilService.format(reconciliation.statementDate, 1, null, locale)} in ${bankCurrency.code}".toString())    // No GStrings in parameters
         def reportParams = [:]
         reportParams.reportTitle = title
         reportParams.reconciliationId = reconciliation.id
@@ -63,7 +63,7 @@ public class ReconciliationReport extends TaskExecutable {
         reportParams.txtOD = message(code: 'generic.od', default: 'o/d')
         if (reconciliation.finalizedDate) {
             reportParams.txtFinalized = message(code: 'reconciliation.reportFinalized', args: [utilService.format(reconciliation.finalizedDate, 1, null, locale)],
-                    default: "(This reconciliation was finalized on ${utilService.format(reconciliation.finalizedDate, 1, null, locale)})".toString())   // GStrings not allowed as Jasper parameters
+                default: "(This reconciliation was finalized on ${utilService.format(reconciliation.finalizedDate, 1, null, locale)})".toString())   // GStrings not allowed as Jasper parameters
         } else {
             reportParams.txtFinalized = message(code: 'reconciliation.reportNotFinalized', default: '(This reconciliation has not yet been finalized)')
         }
@@ -72,7 +72,7 @@ public class ReconciliationReport extends TaskExecutable {
         def pdfFile = createReportPDF('BankReconciliation', reportParams)
         yield()
         mailService.sendMail {
-			multipart true
+            multipart true
             to user.email
             subject title
             body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: bankAccount.name + ' ' + title])

@@ -140,7 +140,7 @@ class SystemPageHelpController {
         [displayInstance: model]
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private localeIsValid(locale) {
         if (locale) {

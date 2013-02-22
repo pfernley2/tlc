@@ -36,7 +36,7 @@ class DeleteYearTask extends TaskExecutable {
 
         yield()
         if (Year.countByCompanyAndValidFromGreaterThan(company, year.validTo) &&
-                Year.countByCompanyAndValidToLessThan(company, year.validFrom)) {
+            Year.countByCompanyAndValidToLessThan(company, year.validFrom)) {
             completionMessage = message(code: 'year.delete.gap', default: 'Deleting this year would leave a gap in the date ranges.')
             return false
         }

@@ -292,7 +292,7 @@ class SystemMessageController {
         redirect(action: 'imports')
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private localeIsValid(locale) {
         if (locale) {

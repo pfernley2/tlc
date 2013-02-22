@@ -52,16 +52,16 @@ class SystemConversion {
         multiplier(scale: 10, min: 0.0000000001, max: 999999999999.9999999999)
         postAddition(scale: 10)
         target(unique: 'source', validator: {val, obj ->
-                if (val && obj.source) {
-                    if (val.measure.id != obj.source.measure.id) return 'same.measure' // Must be same measure
-                    if (val.scale.id == obj.source.scale.id) return 'different.scale'   // Must be different scales
-                }
+            if (val && obj.source) {
+                if (val.measure.id != obj.source.measure.id) return 'same.measure' // Must be same measure
+                if (val.scale.id == obj.source.scale.id) return 'different.scale'   // Must be different scales
+            }
 
-                return true
-            })
+            return true
+        })
         securityCode(validator: {val, obj ->
-                return (val == 0)
-            })
+            return (val == 0)
+        })
     }
 
     def afterInsert() {

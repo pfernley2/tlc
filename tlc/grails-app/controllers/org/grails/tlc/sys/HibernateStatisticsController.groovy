@@ -100,7 +100,7 @@ class HibernateStatisticsController {
         redirect(action: 'list')
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private format(value, decimals) {
         if (value < 0) return msg(code: 'generic.not.applicable', default: 'n/a')

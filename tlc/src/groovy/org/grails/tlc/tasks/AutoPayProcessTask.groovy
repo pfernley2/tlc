@@ -129,7 +129,7 @@ class AutoPayProcessTask extends TaskExecutable {
                 bankRate = getRate(documentCurrency, bankCurrency, rates, today)
                 if (!bankRate) {
                     completionMessage = message(code: 'document.bad.exchangeRate', args: [documentCurrency.code, bankCurrency.code],
-                            default: "No exchange rate available from ${documentCurrency.code} to ${bankCurrency.code}")
+                        default: "No exchange rate available from ${documentCurrency.code} to ${bankCurrency.code}")
                     valid = false
                     break
                 }
@@ -137,7 +137,7 @@ class AutoPayProcessTask extends TaskExecutable {
                 companyRate = getRate(documentCurrency, currency, rates, today)
                 if (!companyRate) {
                     completionMessage = message(code: 'document.bad.exchangeRate', args: [documentCurrency.code, currency.code],
-                            default: "No exchange rate available from ${documentCurrency.code} to ${currency.code}")
+                        default: "No exchange rate available from ${documentCurrency.code} to ${currency.code}")
                     valid = false
                     break
                 }
@@ -260,7 +260,7 @@ class AutoPayProcessTask extends TaskExecutable {
                     def pdfFile = createReportPDF('Remittances', reportParams)
                     yield()
                     mailService.sendMail {
-						multipart true
+                        multipart true
                         to user.email
                         subject "${title} (${reportNum}/${lastBatch})"
                         body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])
@@ -284,7 +284,7 @@ class AutoPayProcessTask extends TaskExecutable {
         return valid
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getRate(fromCurrency, toCurrency, map, date) {
         if (fromCurrency.code == toCurrency.code) return 1.0
@@ -297,8 +297,9 @@ class AutoPayProcessTask extends TaskExecutable {
         return rate
     }
 
-    private processPayment(documentType, documentCode, documentPeriod, documentCurrency, bankAccount, bankCurrency, bankRate, companyRate, remittanceIds,
-                           remittances, apControlAccount, today, reference, description, rejections, customizationMap, pid) {
+    private processPayment(documentType, documentCode, documentPeriod, documentCurrency, bankAccount, bankCurrency,
+        bankRate, companyRate, remittanceIds, remittances, apControlAccount, today, reference, description, rejections,
+        customizationMap, pid) {
         def remittance, included, accountValue, bankValue, companyValue, document, line, objection, errorMessage, worker
         def accountTotal = 0.0
         def bankTotal = 0.0
@@ -324,7 +325,7 @@ class AutoPayProcessTask extends TaskExecutable {
                         }
                     } else {
                         objection = message(code: 'remittance.invalid.total', args: [utilService.format(-accountValue, documentCurrency.decimals, true, locale)],
-                                default: "Total is ${utilService.format(-accountValue, documentCurrency.decimals, true, locale)}")
+                            default: "Total is ${utilService.format(-accountValue, documentCurrency.decimals, true, locale)}")
                         reject(remittance, objection, rejections)
                         included = false
                     }
@@ -346,9 +347,10 @@ class AutoPayProcessTask extends TaskExecutable {
 
                     lineNumber++
                     line = new Line(supplier: remittance.supplier, documentValue: accountValue, accountValue: accountValue,
-                            accountUnallocated: accountValue, generalValue: companyValue, companyValue: companyValue, companyUnallocated: companyValue,
-                            description: documentType.code + documentCode + '/' + lineNumber.toString(), reconciled: today)
-					line.account = apControlAccount
+                            accountUnallocated: accountValue, generalValue: companyValue, companyValue: companyValue,
+                            companyUnallocated: companyValue, description: documentType.code + documentCode + '/' + lineNumber.toString(),
+                            reconciled: today)
+                    line.account = apControlAccount
                     document.addToLines(line)
                     remittance.paymentDate = today
                     remittance.sourceLine = line    // We will need to know the general transaction line created from the remittance for allocation purposes
@@ -369,7 +371,7 @@ class AutoPayProcessTask extends TaskExecutable {
 
             if (document && !errorMessage) {
                 line = new Total(description: description, documentValue: accountTotal, generalValue: bankTotal, companyValue: companyTotal)
-				line.account = bankAccount
+                line.account = bankAccount
                 document.addToTotal(line)
                 if (customizationMap) {
                     errorMessage = bookService.paymentService.preProcessDocument(customizationMap, document)
@@ -391,7 +393,7 @@ class AutoPayProcessTask extends TaskExecutable {
                     } else {
                         if (customizationMap) bookService.paymentService.postProcessDocument(customizationMap, document, false)
                         errorMessage = message(code: 'recurring.bad.document', args: [bankAccount.code, documentType.code + documentCode],
-                                default: "Bank account ${bankAccount.code}, reference ${documentType.code + documentCode}: Unable to post the document")
+                            default: "Bank account ${bankAccount.code}, reference ${documentType.code + documentCode}: Unable to post the document")
                         status.setRollbackOnly()
                     }
                 }
@@ -419,7 +421,7 @@ class AutoPayProcessTask extends TaskExecutable {
         def created = utilService.format(remittance.adviceDate, 1, null, locale)
         def authorized = utilService.format(remittance.authorizedDate, 1, null, locale)
         def msg = message(code: 'remittance.rejection', args: [supplier, created, authorized, objection],
-                default: "Remittance for supplier ${supplier} created on ${created} and authorised on ${authorized} rejected: ${objection}")
+            default: "Remittance for supplier ${supplier} created on ${created} and authorised on ${authorized} rejected: ${objection}")
         rejections << msg
         remittance.refresh()
         remittance.delete(flush: true)

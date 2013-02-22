@@ -39,13 +39,13 @@ class SystemMessage {
         code(blank: false, size: 1..250, matches: '[^:\\= ]+')
         locale(blank: false, matches: '\\*|([a-z][a-z]([A-Z][A-Z])?)', unique: 'code')
         relevance(validator: {val, obj ->
-                if (obj.locale) obj.relevance = obj.locale.length()
-                return true
-            })
+            if (obj.locale) obj.relevance = obj.locale.length()
+            return true
+        })
         text(blank: false, size: 1..2000)
         securityCode(validator: {val, obj ->
-                return (val == 0)
-            })
+            return (val == 0)
+        })
     }
 
     def afterInsert() {

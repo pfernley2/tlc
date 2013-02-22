@@ -339,7 +339,7 @@ class SecurityService {
         return maps
     }
 
-// --------------------------------------------- Static Methods ----------------------------------------------
+    // --------------------------------------------- Static Methods ----------------------------------------------
 
     // Used on startup to ensure we have an activity for each and every
     // controller.action combination. Also logs any undesirable situations
@@ -435,19 +435,19 @@ class SecurityService {
     }
 
     // Ensure the company administrator role has all non-system
-	// permissions other than the special systran activity
+    // permissions other than the special systran activity
     static syncCompanyAdminRole() {
-		
+
         def role = SystemRole.findByCode('companyAdmin')
         if (role) {
-			def allowedActivities = SystemActivity.findAllBySystemOnlyAndCodeNotEqual(false, 'systran')
-			def disallowedActivities = []
-			for (activity in role.activities) if (!allowedActivities.remove(activity)) disallowedActivities << activity
-			if (allowedActivities || disallowedActivities) {
-				for (activity in allowedActivities) role.addToActivities(activity)
-				for (activity in disallowedActivities) role.removeFromActivities(activity)
+            def allowedActivities = SystemActivity.findAllBySystemOnlyAndCodeNotEqual(false, 'systran')
+            def disallowedActivities = []
+            for (activity in role.activities) if (!allowedActivities.remove(activity)) disallowedActivities << activity
+            if (allowedActivities || disallowedActivities) {
+                for (activity in allowedActivities) role.addToActivities(activity)
+                for (activity in disallowedActivities) role.removeFromActivities(activity)
                 role.save()     // With deep validation
-			}
+            }
         }
     }
 
@@ -494,8 +494,8 @@ class SecurityService {
                         systemTracingInstance.delete(flush: true)
                     } else {
                         if (systemTracingInstance.insertSecurityCode != UtilService.TRACE_NONE ||
-                                systemTracingInstance.updateSecurityCode != UtilService.TRACE_NONE ||
-                                systemTracingInstance.deleteSecurityCode != UtilService.TRACE_NONE) {
+                            systemTracingInstance.updateSecurityCode != UtilService.TRACE_NONE ||
+                            systemTracingInstance.deleteSecurityCode != UtilService.TRACE_NONE) {
                             setTracing(systemTracingInstance.domainName, systemTracingInstance.insertSecurityCode, systemTracingInstance.updateSecurityCode, systemTracingInstance.deleteSecurityCode)
                         }
                     }
@@ -511,7 +511,7 @@ class SecurityService {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     // Returns true if the value passes one of the given tests, else false. If there are no tests or no value, returns false.
     private hasAccess(value, tests) {

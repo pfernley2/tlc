@@ -50,7 +50,7 @@ public class RevaluationTask extends TaskExecutable {
         def adjustment = (params.adjustment != null) ? params.adjustment : true
         if (!adjustment && period.status == 'adjust') {
             completionMessage = message(code: 'document.adjust.period', args: [period.code],
-                    default: "Period ${period.code} is an adjustment period and you may only post this document to it if you set the Adjustment flag")
+                default: "Period ${period.code} is an adjustment period and you may only post this document to it if you set the Adjustment flag")
             return false
         }
 
@@ -138,7 +138,7 @@ public class RevaluationTask extends TaskExecutable {
             converted = utilService.convertCurrency(account.currency, currency, balance.generalClosingBalance, period.validTo)
             if (converted == null) {
                 completionMessage = message(code: 'document.bad.exchangeRate', args: [account.currency.code, currency.code],
-                        default: "No exchange rate available from ${account.currency.code} to ${currency.code}")
+                    default: "No exchange rate available from ${account.currency.code} to ${currency.code}")
                 return false
             }
 
@@ -182,7 +182,7 @@ public class RevaluationTask extends TaskExecutable {
             converted = utilService.convertCurrency(account.currency, currency, accountBalance, period.validTo)
             if (converted == null) {
                 completionMessage = message(code: 'document.bad.exchangeRate', args: [account.currency.code, currency.code],
-                        default: "No exchange rate available from ${account.currency.code} to ${currency.code}")
+                    default: "No exchange rate available from ${account.currency.code} to ${currency.code}")
                 return false
             }
 
@@ -224,7 +224,7 @@ public class RevaluationTask extends TaskExecutable {
             converted = utilService.convertCurrency(account.currency, currency, accountBalance, period.validTo)
             if (converted == null) {
                 completionMessage = message(code: 'document.bad.exchangeRate', args: [account.currency.code, currency.code],
-                        default: "No exchange rate available from ${account.currency.code} to ${currency.code}")
+                    default: "No exchange rate available from ${account.currency.code} to ${currency.code}")
                 return false
             }
 
@@ -276,9 +276,9 @@ public class RevaluationTask extends TaskExecutable {
             for (tot in totals) {
                 control = controls.get(tot.key)
                 line = new Line(documentValue: tot.value, generalValue: tot.value, companyValue: tot.value, adjustment: adjustment)
-				line.account = control
+                line.account = control
                 reversalLine = new Line(documentValue: -tot.value, generalValue: -tot.value, companyValue: -tot.value, adjustment: adjustment)
-				reversalLine.account = control
+                reversalLine.account = control
                 if (control.is(arRevalue)) {
                     temp = message(code: 'document.revaluation.ar', default: 'AR account revaluations')
                     if (temp.length() > 50) temp = temp.substring(0, 50)
@@ -307,12 +307,12 @@ public class RevaluationTask extends TaskExecutable {
             description = message(code: 'document.revaluation.difference', default: 'FX Revaluation')
             if (description.length() > 50) description = description.substring(0, 50)
             line = new Line(description: description, documentValue: -grandTotal, generalValue: -grandTotal, companyValue: -grandTotal, adjustment: adjustment)
-			line.account = fxControl
+            line.account = fxControl
             document.addToLines(line)
             description = message(code: 'document.revaluation.diff.reversal', default: 'FX Reversal')
             if (description.length() > 50) description = description.substring(0, 50)
             reversalLine = new Line(description: description, documentValue: grandTotal, generalValue: grandTotal, companyValue: grandTotal, adjustment: adjustment)
-			reversalLine.account = fxControl
+            reversalLine.account = fxControl
             reversalDocument.addToLines(reversalLine)
 
             // Perform the updates
@@ -361,7 +361,7 @@ public class RevaluationTask extends TaskExecutable {
                 def pdfFile = createReportPDF('RevaluationBreakdown', reportParams, true)
                 yield()
                 mailService.sendMail {
-					multipart true
+                    multipart true
                     to user.email
                     subject title
                     body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])
@@ -380,7 +380,7 @@ public class RevaluationTask extends TaskExecutable {
         return true
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private makeText(value, decimals, dr, cr) {
         if (value > 0.0) return utilService.format(value, decimals, null, locale) + ' ' + dr

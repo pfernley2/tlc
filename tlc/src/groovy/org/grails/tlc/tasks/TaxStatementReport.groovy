@@ -27,7 +27,7 @@ public class TaxStatementReport extends TaskExecutable {
     def execute() {
         def statement = TaxStatement.get(params.stringId)
         if (statement?.securityCode != company.securityCode) {
-			completionMessage = utilService.standardMessage('not.found', 'taxStatement', params.stringId)
+            completionMessage = utilService.standardMessage('not.found', 'taxStatement', params.stringId)
             return false
         }
 
@@ -38,7 +38,7 @@ public class TaxStatementReport extends TaskExecutable {
 
         def reportParams = [:]
         def title = message(code: 'taxStatement.title', args: [utilService.format(statement.statementDate, 1, null, locale), statement.authority.name],
-                default: 'Tax Statement on ' + utilService.format(statement.statementDate, 1, null, locale) + ' for ' + statement.authority.name)
+            default: 'Tax Statement on ' + utilService.format(statement.statementDate, 1, null, locale) + ' for ' + statement.authority.name)
         reportParams.put('reportTitle', title)
         reportParams.put('statementId', statement.id)
         reportParams.put('colCode', message(code: 'taxStatementLine.taxCode.label', default: 'Tax Code'))
@@ -57,7 +57,7 @@ public class TaxStatementReport extends TaskExecutable {
         def pdfFile = createReportPDF('TaxStatement', reportParams)
         yield()
         mailService.sendMail {
-			multipart true
+            multipart true
             to user.email
             subject title
             body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])

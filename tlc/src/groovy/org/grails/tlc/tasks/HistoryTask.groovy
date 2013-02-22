@@ -102,7 +102,7 @@ public class HistoryTask extends TaskExecutable {
                         if (victim.bankAccount.id != lastBankId) {
                             lastBankId = victim.bankAccount.id
                             if (Reconciliation.executeQuery('select count(*) from Reconciliation where bankAccount = ? and statementDate >= ? and finalizedDate is not null',
-                                    [victim.bankAccount, cal.getTime()])[0] == 0) {
+                                [victim.bankAccount, cal.getTime()])[0] == 0) {
                                 session.evict(victim)
                                 continue
                             }
@@ -131,7 +131,7 @@ public class HistoryTask extends TaskExecutable {
                         if (victim.authority.id != lastAuthorityId) {
                             lastAuthorityId = victim.authority.id
                             if (TaxStatement.executeQuery('select count(*) from TaxStatement where authority = ? and statementDate >= ? and finalized = ?',
-                                    [victim.authority, cal.getTime(), true])[0] == 0) {
+                                [victim.authority, cal.getTime(), true])[0] == 0) {
                                 session.evict(victim)
                                 continue
                             }

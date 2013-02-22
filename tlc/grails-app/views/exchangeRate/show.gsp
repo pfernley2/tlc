@@ -109,13 +109,13 @@
         </table>
     </div>
     <g:if test="${exchangeRateInstance.currency.code != UtilService.BASE_CURRENCY_CODE}">
-	    <div class="buttons">
-	        <g:form>
-	            <input type="hidden" name="id" value="${exchangeRateInstance?.id}"/>
-	            <span class="button"><g:actionSubmit class="edit" action="Edit" value="${msg(code:'default.button.edit.label', 'default':'Edit')}"/></span>
-	            <span class="button"><g:actionSubmit class="delete" onclick="return confirm('${msg(code:'default.button.delete.confirm.message', 'default':'Are you sure?')}');" action="Delete" value="${msg(code:'default.button.delete.label', 'default':'Delete')}"/></span>
-	        </g:form>
-	    </div>
+        <div class="buttons">
+            <g:form>
+                <input type="hidden" name="id" value="${exchangeRateInstance?.id}"/>
+                <span class="button"><g:actionSubmit class="edit" action="Edit" value="${msg(code:'default.button.edit.label', 'default':'Edit')}"/></span>
+                <span class="button"><g:actionSubmit class="delete" onclick="return confirm('${msg(code:'default.button.delete.confirm.message', 'default':'Are you sure?')}');" action="Delete" value="${msg(code:'default.button.delete.label', 'default':'Delete')}"/></span>
+            </g:form>
+        </div>
     </g:if>
 </div>
 </body>

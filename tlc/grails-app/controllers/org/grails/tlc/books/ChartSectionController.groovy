@@ -132,9 +132,9 @@ class ChartSectionController {
             def oldSequencer = chartSectionInstance.sequencer
             def oldType = chartSectionInstance.type
             def oldSegments = [chartSectionInstance.segment1, chartSectionInstance.segment2, chartSectionInstance.segment3, chartSectionInstance.segment4,
-                    chartSectionInstance.segment5, chartSectionInstance.segment6, chartSectionInstance.segment7, chartSectionInstance.segment8]
+                chartSectionInstance.segment5, chartSectionInstance.segment6, chartSectionInstance.segment7, chartSectionInstance.segment8]
             chartSectionInstance.properties['path', 'name', 'type', 'autoCreate', 'segment1', 'segment2', 'segment3', 'segment4', 'segment5', 'segment6', 'segment7',
-                    'segment8', 'default1', 'default2', 'default3', 'default4', 'default5', 'default6', 'default7', 'default8', 'sequencer', 'status'] = params
+                'segment8', 'default1', 'default2', 'default3', 'default4', 'default5', 'default6', 'default7', 'default8', 'sequencer', 'status'] = params
             if (chartSectionInstance.path && chartSectionInstance.path.contains('.') && !chartSectionInstance.path.endsWith('.')) {
                 chartSectionInstance.parentObject = ChartSection.findByCompanyAndPath(chartSectionInstance.company, chartSectionInstance.path.substring(0, chartSectionInstance.path.lastIndexOf('.')))
             }
@@ -253,7 +253,7 @@ class ChartSectionController {
     def save() {
         def chartSectionInstance = new ChartSection()
         chartSectionInstance.properties['path', 'name', 'type', 'autoCreate', 'segment1', 'segment2', 'segment3', 'segment4', 'segment5', 'segment6', 'segment7',
-                'segment8', 'default1', 'default2', 'default3', 'default4', 'default5', 'default6', 'default7', 'default8', 'sequencer', 'status'] = params
+            'segment8', 'default1', 'default2', 'default3', 'default4', 'default5', 'default6', 'default7', 'default8', 'sequencer', 'status'] = params
         chartSectionInstance.company = utilService.currentCompany()   // Ensure correct company
         if (chartSectionInstance.path && chartSectionInstance.path.contains('.') && !chartSectionInstance.path.endsWith('.')) {
             chartSectionInstance.parentObject = ChartSection.findByCompanyAndPath(chartSectionInstance.company, chartSectionInstance.path.substring(0, chartSectionInstance.path.lastIndexOf('.')))
@@ -285,39 +285,39 @@ class ChartSectionController {
     }
 
     def tree() { }
-	
-	def dynatree() {
-		def results = []
-		if (params.id?.isLong()) {
-			
-			// Get the id of the chart section whose children we are being asked for
-			def parentId = params.id.toLong()
-			
-			// Only worth attempting to get the direct descendant accounts if we have a parent
-			// section id (i.e. we are not being asked for the children of the 'root node')
-			if (parentId) {
-				def parentInstance = ChartSection.findByIdAndSecurityCode(parentId, utilService.currentCompany().securityCode)
-				if (parentInstance) {
-					for (account in Account.findAllBySection(parentInstance, [sort: 'code'])) {
-						results << [title: account.name, tooltip: account.code]
-					}
-				}
-			}
-			
-			// Find any child sections (includes looking for the children of the 'root node')
-			for (section in ChartSection.findAllByCompanyAndParent(utilService.currentCompany(), parentId, [sort: 'treeSequence'])) {
-				results << [title: section.name, tooltip: section.path, id: section.id, isFolder: true, isLazy: true]
-			}
 
-			// If we were asked for the children of the 'root node' but there aren't any
-			// (i.e. the chart of accounts is empty) then pass back a message to that effect
-			if (!parentId && !results) {
-				results << [title: message(code: 'chartSection.empty', default: 'The chart of accounts is empty'), unselectable: true, icon: false]
-			}
-		}
+    def dynatree() {
+        def results = []
+        if (params.id?.isLong()) {
+
+            // Get the id of the chart section whose children we are being asked for
+            def parentId = params.id.toLong()
+
+            // Only worth attempting to get the direct descendant accounts if we have a parent
+            // section id (i.e. we are not being asked for the children of the 'root node')
+            if (parentId) {
+                def parentInstance = ChartSection.findByIdAndSecurityCode(parentId, utilService.currentCompany().securityCode)
+                if (parentInstance) {
+                    for (account in Account.findAllBySection(parentInstance, [sort: 'code'])) {
+                        results << [title: account.name, tooltip: account.code]
+                    }
+                }
+            }
+
+            // Find any child sections (includes looking for the children of the 'root node')
+            for (section in ChartSection.findAllByCompanyAndParent(utilService.currentCompany(), parentId, [sort: 'treeSequence'])) {
+                results << [title: section.name, tooltip: section.path, id: section.id, isFolder: true, isLazy: true]
+            }
+
+            // If we were asked for the children of the 'root node' but there aren't any
+            // (i.e. the chart of accounts is empty) then pass back a message to that effect
+            if (!parentId && !results) {
+                results << [title: message(code: 'chartSection.empty', default: 'The chart of accounts is empty'), unselectable: true, icon: false]
+            }
+        }
 
         render results as JSON
-	}
+    }
 
     def print() {
         def result = params.queueNumber ? params.queueNumber.toLong() : 0L
@@ -336,7 +336,7 @@ class ChartSectionController {
         redirect(action: 'print', params: params)
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private accountsAreValid(section, oldType, oldSegments = null) {
         if (section.type != oldType) {

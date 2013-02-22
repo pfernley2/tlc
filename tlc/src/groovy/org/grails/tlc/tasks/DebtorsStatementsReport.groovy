@@ -143,12 +143,12 @@ public class DebtorsStatementsReport extends TaskExecutable {
                             doc = tran.document
                             type = doc.type.code
                             code = doc.code
-                            val = new StatementLine(type: type, code: code, documentDate: doc.documentDate, dueDate: doc.dueDate,
-								reference: doc.reference, originalValue: tran.accountValue,
-								openingUnallocated: tran.reconciled ? tran.accountUnallocated : tran.accountValue,
-								closingUnallocated: tran.accountUnallocated, sequencer: tran.id,
-								currentStatement: setStatus(postingCutoff, documentCutoff, cutoffDate, tran.reconciled, tran.dateCreated, doc.documentDate))
-							val.source = tran
+                            val = new StatementLine(type: type, code: code, documentDate: doc.documentDate,
+                                dueDate: doc.dueDate, reference: doc.reference, originalValue: tran.accountValue,
+                                openingUnallocated: tran.reconciled ? tran.accountUnallocated : tran.accountValue,
+                                closingUnallocated: tran.accountUnallocated, sequencer: tran.id,
+                                currentStatement: setStatus(postingCutoff, documentCutoff, cutoffDate, tran.reconciled, tran.dateCreated, doc.documentDate))
+                            val.source = tran
 
                             lineMap.put(type + code, val)
                         }
@@ -190,7 +190,7 @@ public class DebtorsStatementsReport extends TaskExecutable {
                                     if (!val.source.saveThis()) {
                                         status.setRollbackOnly()
                                         completionMessage = message(code: 'customer.statement.bad.reconciled', args: [customer.code],
-                                                default: "Unable to modify the reconciled dates for customer ${customer.code}")
+                                            default: "Unable to modify the reconciled dates for customer ${customer.code}")
                                         valid = false
                                         break
                                     }
@@ -218,7 +218,7 @@ public class DebtorsStatementsReport extends TaskExecutable {
                                     } else {
                                         status.setRollbackOnly()
                                         completionMessage = message(code: 'customer.statement.bad.lines', args: [customer.code],
-                                                default: "Unable to save the statement lines for customer ${customer.code}")
+                                            default: "Unable to save the statement lines for customer ${customer.code}")
                                         valid = false
                                     }
                                 }
@@ -254,7 +254,7 @@ public class DebtorsStatementsReport extends TaskExecutable {
                 def pdfFile = createReportPDF('Statements', reportParams)
                 yield()
                 mailService.sendMail {
-					multipart true
+                    multipart true
                     to user.email
                     subject "${title} (${rpt}/${batch})"
                     body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])
@@ -286,11 +286,12 @@ public class DebtorsStatementsReport extends TaskExecutable {
         if (!val) {
             def tran = GeneralTransaction.get(alloc.targetId)
             def doc = tran.document
-            val = new StatementLine(type: type, code: code, documentDate: doc.documentDate, dueDate: doc.dueDate, reference: doc.reference,
-				originalValue: tran.accountValue, openingUnallocated: tran.reconciled ? tran.accountUnallocated : tran.accountValue,
-				closingUnallocated: tran.accountUnallocated, sequencer: tran.id,
-				currentStatement: setStatus(postingCutoff, documentCutoff, cutoffDate, tran.reconciled, tran.dateCreated, doc.documentDate))
-			val.source = tran
+            val = new StatementLine(type: type, code: code, documentDate: doc.documentDate, dueDate: doc.dueDate,
+                reference: doc.reference, originalValue: tran.accountValue,
+                openingUnallocated: tran.reconciled ? tran.accountUnallocated : tran.accountValue,
+                closingUnallocated: tran.accountUnallocated, sequencer: tran.id,
+                currentStatement: setStatus(postingCutoff, documentCutoff, cutoffDate, tran.reconciled, tran.dateCreated, doc.documentDate))
+            val.source = tran
 
             map.put(type + code, val)
         }

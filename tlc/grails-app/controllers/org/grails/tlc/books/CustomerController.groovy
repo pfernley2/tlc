@@ -32,19 +32,20 @@ class CustomerController {
     def postingService
 
     // Security settings
-    def activities = [default: 'aradmin', enquire: 'enquire', allocations: 'enquire', print: 'arreport', printing: 'arreport', aged: 'arreport', ageing: 'arreport',
-            statements: 'arreport', statement: 'arreport', statementEnquiry: 'enquire', statementPrint: 'enquire', reprint: 'arreport', reprinting: 'arreport']
+    def activities = [default: 'aradmin', enquire: 'enquire', allocations: 'enquire', print: 'arreport',
+        printing: 'arreport', aged: 'arreport', ageing: 'arreport', statements: 'arreport', statement: 'arreport',
+        statementEnquiry: 'enquire', statementPrint: 'enquire', reprint: 'arreport', reprinting: 'arreport']
 
     // List of actions with specific request types
-    static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', importing: 'POST', auto: 'POST', allocating: 'POST', printing: 'POST',
-            ageing: 'POST', statement: 'POST', reprinting: 'POST']
+    static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', importing: 'POST', auto: 'POST',
+        allocating: 'POST', printing: 'POST', ageing: 'POST', statement: 'POST', reprinting: 'POST']
 
     def index() { redirect(action: 'list', params: params) }
 
     def list() {
         params.max = utilService.max
         params.sort = ['code', 'name', 'accountCreditLimit', 'accountCurrentBalance', 'settlementDays',
-                'periodicSettlement', 'taxId', 'active', 'revaluationMethod'].contains(params.sort) ? params.sort : 'code'
+            'periodicSettlement', 'taxId', 'active', 'revaluationMethod'].contains(params.sort) ? params.sort : 'code'
 
         // Note that the selectList and selectCount calls below are inherently limited to the current
         // company since the list of accessCode objects is company (and user) specific
@@ -106,8 +107,8 @@ class CustomerController {
             redirect(action: 'list')
         } else {
             return [customerInstance: customerInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                    taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(),
-                    hasTransactions: customerInstance.hasTransactions(), companyCurrencyId: utilService.companyCurrency().id]
+                taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(),
+                hasTransactions: customerInstance.hasTransactions(), companyCurrencyId: utilService.companyCurrency().id]
         }
     }
 
@@ -119,14 +120,14 @@ class CustomerController {
             if (version != null && customerInstance.version > version) {
                 customerInstance.errorMessage(code: 'locking.failure', domain: 'customer')
                 render(view: 'edit', model: [customerInstance: customerInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                        taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(),
-                        hasTransactions: hasTransactions, companyCurrencyId: utilService.companyCurrency().id])
+                            taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(),
+                            hasTransactions: hasTransactions, companyCurrencyId: utilService.companyCurrency().id])
                 return
             }
 
             def oldCurrencyId = customerInstance.currency.id
             customerInstance.properties['taxCode', 'code', 'name', 'accountCreditLimit', 'accessCode', 'country', 'currency', 'taxId',
-                    'settlementDays', 'periodicSettlement', 'active', 'revaluationMethod'] = params
+                'settlementDays', 'periodicSettlement', 'active', 'revaluationMethod'] = params
             utilService.verify(customerInstance, ['currency', 'taxCode', 'accessCode'])             // Ensure correct references
             def valid = (!customerInstance.hasErrors() && bookService.hasCustomerAccess(customerInstance))
             if (valid && oldCurrencyId != customerInstance.currency.id && hasTransactions) {
@@ -140,8 +141,8 @@ class CustomerController {
                 redirect(action: 'show', id: customerInstance.id)
             } else {
                 render(view: 'edit', model: [customerInstance: customerInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                        taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(),
-                        hasTransactions: hasTransactions, companyCurrencyId: utilService.companyCurrency().id])
+                            taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(),
+                            hasTransactions: hasTransactions, companyCurrencyId: utilService.companyCurrency().id])
             }
         } else {
             flash.message = utilService.standardMessage('not.found', 'customer', params.id)
@@ -159,14 +160,14 @@ class CustomerController {
         customerInstance.settlementDays = utilService.setting('customer.settlement.days', 30)
         customerInstance.periodicSettlement = utilService.setting('customer.settlement.periodic', false)
         return [customerInstance: customerInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(), companyCurrencyId: utilService.companyCurrency().id]
+            taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(), companyCurrencyId: utilService.companyCurrency().id]
     }
 
     def save() {
         def customerInstance = new Customer()
         def company = utilService.currentCompany()
         customerInstance.properties['taxCode', 'code', 'name', 'accountCreditLimit', 'accessCode', 'country', 'currency', 'taxId', 'settlementDays',
-                'periodicSettlement', 'active', 'revaluationMethod'] = params
+            'periodicSettlement', 'active', 'revaluationMethod'] = params
         customerInstance.company = company   // Ensure correct company
         utilService.verify(customerInstance, ['currency', 'taxCode', 'accessCode'])             // Ensure correct references
         if (!customerInstance.hasErrors() && bookService.hasCustomerAccess(customerInstance) && bookService.insertCustomer(customerInstance)) {
@@ -174,7 +175,7 @@ class CustomerController {
             redirect(controller: 'customerAddress', action: 'initial', id: customerInstance.id)
         } else {
             render(view: 'create', model: [customerInstance: customerInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                    taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(), companyCurrencyId: utilService.companyCurrency().id])
+                        taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.customerAccessCodes(), companyCurrencyId: utilService.companyCurrency().id])
         }
     }
 
@@ -343,9 +344,9 @@ class CustomerController {
         periodList = periodList.reverse()   // More intuitive to see it in reverse order
 
         [customerInstance: customerInstance, transactionInstanceList: transactionInstanceList, turnoverList: turnoverList,
-                transactionInstanceTotal: transactionInstanceTotal, currencyList: currencyList, periodList: periodList,
-                displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass, displayPeriod: displayPeriod,
-                displayTurnover: displayTurnover, statementCount: statementCount]
+                    transactionInstanceTotal: transactionInstanceTotal, currencyList: currencyList, periodList: periodList,
+                    displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass, displayPeriod: displayPeriod,
+                    displayTurnover: displayTurnover, statementCount: statementCount]
     }
 
     def allocations() {
@@ -444,8 +445,8 @@ class CustomerController {
             line.errorMessage(code: 'document.invalid', default: 'Invalid document')
         }
 
-        [lineInstance: line, allocationInstanceList: allocationInstanceList, totalInstance: totalInstance, currencyList: currencyList,
-                displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass]
+        [lineInstance: line, allocationInstanceList: allocationInstanceList, totalInstance: totalInstance,
+            currencyList: currencyList, displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass]
     }
 
     def transactions() {
@@ -481,7 +482,7 @@ class CustomerController {
         transactionInstanceTotal = GeneralTransaction.executeQuery('select count(*) ' + sql, parameters)[0]
 
         [customerInstance: customerInstance, transactionInstanceList: transactionInstanceList, transactionInstanceTotal: transactionInstanceTotal,
-                periodList: periodList, displayPeriod: displayPeriod]
+                    periodList: periodList, displayPeriod: displayPeriod]
     }
 
     def auto() {
@@ -539,8 +540,8 @@ class CustomerController {
         def documentTypeList = DocumentType.findAll("from DocumentType as x where x.company = ? and x.type.customerAllocate = ?", [utilService.currentCompany(), true])
 
         [customerInstance: customerInstance, lineInstance: lineInstance, allocationInstance: allocationInstance, transactionInstanceList: transactionInstanceList,
-                documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal, periodList: periodList, displayPeriod: displayPeriod,
-                allowDifference: true, transactionPeriod: transactionPeriod]
+                    documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal, periodList: periodList, displayPeriod: displayPeriod,
+                    allowDifference: true, transactionPeriod: transactionPeriod]
     }
 
     def allocating() {
@@ -595,9 +596,11 @@ class CustomerController {
             def transactionInstanceTotal = GeneralTransaction.executeQuery('select count(*) ' + sql, parameters)[0]
             def documentTypeList = DocumentType.findAll("from DocumentType as x where x.company = ? and x.type.customerAllocate = ?", [utilService.currentCompany(), true])
 
-            render(view: 'allocate', model: [customerInstance: customerInstance, lineInstance: lineInstance, allocationInstance: allocationInstance,
-                    transactionInstanceList: transactionInstanceList, documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal,
-                    periodList: periodList, displayPeriod: displayPeriod, allowDifference: true, transactionPeriod: transactionPeriod])
+            render(view: 'allocate', model: [customerInstance: customerInstance, lineInstance: lineInstance,
+                allocationInstance: allocationInstance, transactionInstanceList: transactionInstanceList,
+                documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal,
+                periodList: periodList, displayPeriod: displayPeriod, allowDifference: true,
+                transactionPeriod: transactionPeriod])
         }
     }
 
@@ -727,7 +730,7 @@ class CustomerController {
                 def today = utilService.fixDate()
                 if (tmp < today - 30 || tmp > today + 1) {
                     customerInstance.errorMessage(field: 'dateCreated', code: 'customer.statement.date.range', args: [fmt.format(today - 30), fmt.format(today + 1)],
-                            default: "Statement Date must be between ${fmt.format(today - 30)} and ${fmt.format(today + 1)}")
+                    default: "Statement Date must be between ${fmt.format(today - 30)} and ${fmt.format(today + 1)}")
                     valid = false
                 } else {
                     statementDate = tmp
@@ -796,8 +799,9 @@ class CustomerController {
             customerInstance.errorMessage(code: 'document.customer.invalid', default: 'Invalid customer')
         }
 
-        [customerInstance: customerInstance, statementList: statementList, statementInstance: statementInstance, statementLineInstanceList: statementLineInstanceList,
-                statementLineInstanceTotal: statementLineInstanceTotal, displayPeriod: displayPeriod, displayCurrency: displayCurrency, due: due, overdue: overdue, locale: locale]
+        [customerInstance: customerInstance, statementList: statementList, statementInstance: statementInstance,
+            statementLineInstanceList: statementLineInstanceList, statementLineInstanceTotal: statementLineInstanceTotal,
+            displayPeriod: displayPeriod, displayCurrency: displayCurrency, due: due, overdue: overdue, locale: locale]
     }
 
     def statementPrint() {

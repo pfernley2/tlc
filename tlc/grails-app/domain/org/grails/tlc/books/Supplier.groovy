@@ -33,10 +33,11 @@ class Supplier {
     static traceUpdateCode = new AtomicLong()
     static traceDeleteCode = new AtomicLong()
 
-    static belongsTo = [company: Company, taxCode: TaxCode, country: SystemCountry, currency: ExchangeCurrency, accessCode: AccessCode,
-		schedule: PaymentSchedule, documentType: DocumentType]
-    static hasMany = [transactions: GeneralTransaction, turnovers: SupplierTurnover, templates: TemplateDocument, templateLines: TemplateLine,
-		recurringLines: RecurringLine, addresses: SupplierAddress, addressUsages: SupplierAddressUsage, remittances: Remittance]
+    static belongsTo = [company: Company, taxCode: TaxCode, country: SystemCountry, currency: ExchangeCurrency,
+        accessCode: AccessCode, schedule: PaymentSchedule, documentType: DocumentType]
+    static hasMany = [transactions: GeneralTransaction, turnovers: SupplierTurnover, templates: TemplateDocument,
+        templateLines: TemplateLine, recurringLines: RecurringLine, addresses: SupplierAddress,
+        addressUsages: SupplierAddressUsage, remittances: Remittance]
 
     String code
     String name

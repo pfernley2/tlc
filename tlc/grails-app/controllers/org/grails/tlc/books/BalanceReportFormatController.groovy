@@ -24,7 +24,7 @@ class BalanceReportFormatController {
 
     // Injected services
     def utilService
-	def postingService
+    def postingService
     def sessionFactory
 
     // Security settings
@@ -82,15 +82,15 @@ class BalanceReportFormatController {
         def balanceReportFormatInstance = BalanceReportFormat.findByIdAndSecurityCode(params.id, utilService.currentCompany().securityCode)
         if (balanceReportFormatInstance) {
             if (version != null && balanceReportFormatInstance.version > version) {
-				balanceReportFormatInstance.errorMessage(code: 'locking.failure', domain: 'balanceReportFormat')
+                balanceReportFormatInstance.errorMessage(code: 'locking.failure', domain: 'balanceReportFormat')
                 render(view: 'edit', model: [balanceReportFormatInstance: balanceReportFormatInstance])
                 return
             }
 
             balanceReportFormatInstance.properties['name', 'title', 'subTitle', 'column1Heading', 'column1SubHeading', 'column1PrimaryData', 'column1Calculation', 'column1SecondaryData',
-                    'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
-                    'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
-                    'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
+                'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
+                'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
+                'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
             if (!balanceReportFormatInstance.hasErrors() && balanceReportFormatInstance.saveThis()) {
                 if (params.linesClicked) {
                     redirect(action: 'lines', id: balanceReportFormatInstance.id)
@@ -116,9 +116,9 @@ class BalanceReportFormatController {
     def save() {
         def balanceReportFormatInstance = new BalanceReportFormat()
         balanceReportFormatInstance.properties['name', 'title', 'subTitle', 'column1Heading', 'column1SubHeading', 'column1PrimaryData', 'column1Calculation', 'column1SecondaryData',
-                'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
-                'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
-                'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
+            'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
+            'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
+            'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
         balanceReportFormatInstance.company = utilService.currentCompany()   // Ensure correct company
         if (!balanceReportFormatInstance.hasErrors() && balanceReportFormatInstance.saveThis()) {
             flash.message = utilService.standardMessage('created', balanceReportFormatInstance)
@@ -179,7 +179,7 @@ class BalanceReportFormatController {
                         } else if (line.text == '<=>') {
                             if (dividerSeen) {
                                 line.errorMessage(field: 'text', code: 'balanceReportLine.divider', args: [line.lineNumber.toString()],
-                                        default: "Report Format line number ${line.lineNumber} is a duplicate divider line")
+                                default: "Report Format line number ${line.lineNumber} is a duplicate divider line")
                                 valid = false
                             } else {
                                 dividerSeen = true
@@ -204,7 +204,7 @@ class BalanceReportFormatController {
                 for (item in items) {
                     if (seen.contains(item)) {
                         line.errorMessage(field: 'accumulation', code: 'balanceReportLine.dup.reference', args: [line.lineNumber.toString(), item],
-                                default: "Report Format line number ${line.lineNumber} contains a duplicate Accumulation reference to ${item}")
+                        default: "Report Format line number ${line.lineNumber} contains a duplicate Accumulation reference to ${item}")
                         valid = false
                         break
                     }
@@ -213,7 +213,7 @@ class BalanceReportFormatController {
                     if (item.isInteger()) {    // It's a line number
                         if (!valueLines.contains(item.toInteger())) {
                             line.errorMessage(field: 'accumulation', code: 'balanceReportLine.bad.reference', args: [line.lineNumber.toString(), item],
-                                    default: "Report Format line number ${line.lineNumber} refers to line number ${item} which is not a line that can be accumulated")
+                            default: "Report Format line number ${line.lineNumber} refers to line number ${item} which is not a line that can be accumulated")
                             valid = false
                             break
                         }
@@ -417,9 +417,9 @@ class BalanceReportFormatController {
             render(view: 'clone', model: [balanceReportFormatInstance: balanceReportFormatInstance])
         }
     }
-	
-	// --------------------------------------------- Support Methods ---------------------------------------------
-	
+
+    // --------------------------------------------- Support Methods ---------------------------------------------
+
     private createChartSectionList() {
         return ChartSection.findAll('from ChartSection where company = ? and type = ? and accountSegment > ? order by treeSequence', [utilService.currentCompany(), 'bs', (byte) 0])
     }

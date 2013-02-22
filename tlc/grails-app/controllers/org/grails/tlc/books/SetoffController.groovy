@@ -32,7 +32,7 @@ class SetoffController {
 
     // Security settings
     def activities = [default: 'sotemplate', template: 'sojournal', journal: 'sojournal', lines: 'sojournal',
-            auto: 'sojournal', journaling: 'sojournal', enquire: 'enquire']
+        auto: 'sojournal', journaling: 'sojournal', enquire: 'enquire']
 
     // List of actions with specific request types
     static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', templateLines: 'POST', lines: 'POST', auto: 'POST', journaling: 'POST']
@@ -294,7 +294,7 @@ class SetoffController {
         model
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private postDocument(documentInstance, params) {
         def company = utilService.currentCompany()
@@ -319,7 +319,7 @@ class SetoffController {
         def valid = !documentInstance.hasErrors()
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshDocumentLines(documentInstance, params)
         if (num) {
             documentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")
@@ -376,7 +376,7 @@ class SetoffController {
                 companyRate = utilService.getExchangeRate(documentInstance.currency, companyCurrency, now)
                 if (!companyRate) {
                     documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, companyCurrency.code],
-                            default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
+                    default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
                     valid = false
                 }
             }
@@ -494,7 +494,7 @@ class SetoffController {
                             temp = utilService.getExchangeRate(documentInstance.currency, account.currency, now)
                             if (!temp) {
                                 documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, account.currency.code],
-                                        default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
+                                default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
                                 valid = false
                                 break
                             }
@@ -603,7 +603,7 @@ class SetoffController {
         def suppliers = [:]
 
         // Load the template lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshTemplateLines(templateDocumentInstance, params)
         if (num) {
             templateDocumentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")

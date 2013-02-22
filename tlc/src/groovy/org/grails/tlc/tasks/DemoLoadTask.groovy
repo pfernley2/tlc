@@ -116,7 +116,7 @@ class DemoLoadTask extends TaskExecutable {
             revalue = new CodeElementValue(element: accountElement, code: '800000', shortName: 'Revalue', name: 'Foreign Exchange Revaluation').saveThis()
             capital = new CodeElementValue(element: accountElement, code: '900000', shortName: 'Capital', name: "Share Capital").saveThis()
             retained = new CodeElementValue(element: accountElement, code: '950000', shortName: 'Retained', name: 'Retained Profits').saveThis()
-			
+
             lobElement = new CodeElement(company: corp, elementNumber: (byte) 2, name: 'Line of Business', dataType: 'alphabetic', dataLength: (byte) 2).saveThis()
             hwLob = new CodeElementValue(element: lobElement, code: 'HW', shortName: 'Hardware', name: 'Hardware LOB').saveThis()
             swLob = new CodeElementValue(element: lobElement, code: 'SW', shortName: 'Software', name: 'Software LOB').saveThis()
@@ -144,55 +144,55 @@ class DemoLoadTask extends TaskExecutable {
             salesSection = new ChartSection(company: corp, path: 'ie.sales', code: 'sales', name: 'Sales', sequencer: 100, type: 'ie',
                     segment1: accountElement, segment2: lobElement, segment3: officeElement, segment4: projectElement,
                     default3: 'CHO', default4: '000', status: 'cr')
-			salesSection.parentObject = ieSection
-			salesSection.saveThis()
+            salesSection.parentObject = ieSection
+            salesSection.saveThis()
             new ChartSectionRange(section: salesSection, rangeFrom: '100000-*-*-*', rangeTo: '199999-*-*-*').saveThis()
             cosSection = new ChartSection(company: corp, path: 'ie.cos', code: 'cos', name: 'Cost of Sales', sequencer: 200, type: 'ie',
                     segment1: accountElement, segment2: lobElement, segment3: officeElement, segment4: projectElement,
                     default3: 'CHO', default4: '000', status: 'dr')
-			cosSection.parentObject = ieSection
-			cosSection.saveThis()
+            cosSection.parentObject = ieSection
+            cosSection.saveThis()
             new ChartSectionRange(section: cosSection, rangeFrom: '200000-*-*-*', rangeTo: '299999-*-*-*').saveThis()
             expensesSection = new ChartSection(company: corp, path: 'ie.expenses', code: 'expenses', name: 'Expenses', sequencer: 300, type: 'ie',
                     segment1: accountElement, segment2: officeElement,
                     default2: 'CHO', status: 'dr')
-			expensesSection.parentObject = ieSection
-			expensesSection.saveThis()
+            expensesSection.parentObject = ieSection
+            expensesSection.saveThis()
             new ChartSectionRange(section: expensesSection, rangeFrom: '300000-*', rangeTo: '399999-*').saveThis()
             otherSection = new ChartSection(company: corp, path: 'ie.other', code: 'other', name: 'Non-Trading Items', sequencer: 400, type: 'ie',
                     segment1: accountElement, status: 'dr')
-			otherSection.parentObject = ieSection
-			otherSection.saveThis()
+            otherSection.parentObject = ieSection
+            otherSection.saveThis()
             new ChartSectionRange(section: otherSection, rangeFrom: '400000', rangeTo: '499999').saveThis()
 
             bsSection = new ChartSection(company: corp, path: 'bs', code: 'bs', name: 'Balance Sheet', sequencer: 500, type: 'bs', status: 'dr').saveThis()
             fixedSection = new ChartSection(company: corp, path: 'bs.fixed', code: 'fixed', name: 'Fixed Assets', sequencer: 100, type: 'bs',
                     segment1: accountElement, status: 'dr')
-			fixedSection.parentObject = bsSection
-			fixedSection.saveThis()
+            fixedSection.parentObject = bsSection
+            fixedSection.saveThis()
             new ChartSectionRange(section: fixedSection, rangeFrom: '500000', rangeTo: '599999').saveThis()
             netSection = new ChartSection(company: corp, path: 'bs.net', code: 'net', name: 'Net Current Assets', sequencer: 200, type: 'bs', status: 'dr')
-			netSection.parentObject = bsSection
-			netSection.saveThis()
+            netSection.parentObject = bsSection
+            netSection.saveThis()
             caSection = new ChartSection(company: corp, path: 'bs.net.ca', code: 'ca', name: 'Current Assets', sequencer: 100, type: 'bs',
                     segment1: accountElement, status: 'dr')
-			caSection.parentObject = netSection
-			caSection.saveThis()
+            caSection.parentObject = netSection
+            caSection.saveThis()
             new ChartSectionRange(section: caSection, rangeFrom: '600000', rangeTo: '699999').saveThis()
             clSection = new ChartSection(company: corp, path: 'bs.net.cl', code: 'cl', name: 'Current Liabilities', sequencer: 200, type: 'bs',
                     segment1: accountElement, status: 'cr')
-			clSection.parentObject = netSection
-			clSection.saveThis()
+            clSection.parentObject = netSection
+            clSection.saveThis()
             new ChartSectionRange(section: clSection, rangeFrom: '700000', rangeTo: '799999').saveThis()
             nonSection = new ChartSection(company: corp, path: 'bs.non', code: 'non', name: 'Non-Current Assets', sequencer: 300, type: 'bs',
                     segment1: accountElement, status: 'dr')
-			nonSection.parentObject = bsSection
-			nonSection.saveThis()
+            nonSection.parentObject = bsSection
+            nonSection.saveThis()
             new ChartSectionRange(section: nonSection, rangeFrom: '800000', rangeTo: '899999').saveThis()
             equitySection = new ChartSection(company: corp, path: 'bs.equity', code: 'equity', name: "Shareholder's Equity", sequencer: 400, type: 'bs',
                     segment1: accountElement, status: 'cr')
-			equitySection.parentObject = bsSection
-			equitySection.saveThis()
+            equitySection.parentObject = bsSection
+            equitySection.saveThis()
             new ChartSectionRange(section: equitySection, rangeFrom: '900000', rangeTo: '999999').saveThis()
         }
 
@@ -205,15 +205,15 @@ class DemoLoadTask extends TaskExecutable {
         // GL Accounts
         Account.withTransaction {status ->
             createQuadAccounts(section: salesSection, currency: curr, status: 'cr', segment1: [domSales, intSales], segment2: [hwLob, swLob],
-                    segment3: [choOffice, redOffice, grnOffice, bluOffice], segment4: [noProject, alphaProject, betaProject, gammaProject])
+                segment3: [choOffice, redOffice, grnOffice, bluOffice], segment4: [noProject, alphaProject, betaProject, gammaProject])
             createQuadAccounts(section: cosSection, currency: curr, status: 'dr', segment1: [purchases], segment2: [hwLob, swLob],
-                    segment3: [choOffice, redOffice, grnOffice, bluOffice], segment4: [noProject, alphaProject, betaProject, gammaProject])
+                segment3: [choOffice, redOffice, grnOffice, bluOffice], segment4: [noProject, alphaProject, betaProject, gammaProject])
             createQuadAccounts(section: cosSection, currency: curr, status: 'dr', segment1: [invAdjust], segment2: [hwLob, swLob],
-                    segment3: [redOffice, grnOffice, bluOffice], segment4: [noProject])
+                segment3: [redOffice, grnOffice, bluOffice], segment4: [noProject])
             createQuadAccounts(section: cosSection, currency: curr, status: 'dr', segment1: [wages], segment2: [hwLob, swLob],
-                    segment3: [choOffice, redOffice, grnOffice, bluOffice], segment4: [noProject, alphaProject, betaProject, gammaProject])
+                segment3: [choOffice, redOffice, grnOffice, bluOffice], segment4: [noProject, alphaProject, betaProject, gammaProject])
             createDualAccounts(section: expensesSection, currency: curr, status: 'dr', segment1: [salaries, expenses, establishment, repairs, legal, depnCharge],
-                    segment2: [choOffice, redOffice, grnOffice, bluOffice])
+                segment2: [choOffice, redOffice, grnOffice, bluOffice])
             createAccount(section: otherSection, currency: curr, status: 'dr', segment1: assetSale)
             createAccount(section: otherSection, currency: curr, status: 'dr', segment1: fxDiff, type: 'fxDiff')
             def singles = createSingleAccounts(section: fixedSection, currency: curr, status: 'dr', segment1: [buildingsCost, fnfCost, carsCost])
@@ -267,12 +267,12 @@ class DemoLoadTask extends TaskExecutable {
             c100200 = new Customer(company: corp, taxCode: taxCode, country: ctry, currency: curr, accessCode: south, code: 'C100200', name: 'Second Editions').saveThis()
             c100300 = new Customer(company: corp, taxCode: taxCode, country: ctry, currency: curr, accessCode: east, code: 'C100300', name: 'Third Man Services').saveThis()
             c100400 = new Customer(company: corp, taxCode: taxCode, country: ctry, currency: curr, accessCode: west, code: 'C100400', name: 'Fourth Protocol Classics').saveThis()
-	
+
             s100100 = new Supplier(company: corp, taxCode: taxCode, country: ctry, currency: curr, accessCode: north, code: 'S100100', name: 'First Call Deliveries').saveThis()
             s100200 = new Supplier(company: corp, taxCode: taxCode, country: ctry, currency: curr, accessCode: south, code: 'S100200', name: 'Second Chance Services').saveThis()
             s100300 = new Supplier(company: corp, taxCode: taxCode, country: ctry, currency: curr, accessCode: east, code: 'S100300', name: 'Third Place Chemicals').saveThis()
             s100400 = new Supplier(company: corp, taxCode: taxCode, country: ctry, currency: curr, accessCode: west, code: 'S100400', name: 'Fourth Computing').saveThis()
-	
+
             if (addressFormat) {
                 def c100100Address = new CustomerAddress(customer: c100100, country: ctry, format: addressFormat,
                         location1: '27 Main Street', metro2: 'Stockport', area2: 'Cheshire').saveThis()
@@ -390,26 +390,26 @@ class DemoLoadTask extends TaskExecutable {
         docType = DocumentType.findByCompanyAndType(corp, SystemDocumentType.findByCode('FJ'))
         if (docType) {
             def jnl = new Document(currency: curr, type: docType, period: periods[0], code: '000000', description: 'Initial Balances', documentDate: periods[0].validFrom, reference: 'Demo')
-			def jnlLine = new Line(documentValue: 6239107.0, generalValue: 6239107.0, companyValue: 6239107.0, description: description)
-			jnlLine.account = buildingsCostAccount
+            def jnlLine = new Line(documentValue: 6239107.0, generalValue: 6239107.0, companyValue: 6239107.0, description: description)
+            jnlLine.account = buildingsCostAccount
             jnl.addToLines(jnlLine)
-			jnlLine = new Line(documentValue: 704219.0, generalValue: 704219.0, companyValue: 704219.0, description: description)
-			jnlLine.account = fnfCostAccount
+            jnlLine = new Line(documentValue: 704219.0, generalValue: 704219.0, companyValue: 704219.0, description: description)
+            jnlLine.account = fnfCostAccount
             jnl.addToLines(jnlLine)
-			jnlLine = new Line(documentValue: 1138002.0, generalValue: 1138002.0, companyValue: 1138002.0, description: description)
-			jnlLine.account = carsCostAccount
+            jnlLine = new Line(documentValue: 1138002.0, generalValue: 1138002.0, companyValue: 1138002.0, description: description)
+            jnlLine.account = carsCostAccount
             jnl.addToLines(jnlLine)
-			jnlLine = new Line(documentValue: 520798.0, generalValue: 520798.0, companyValue: 520798.0, description: description)
-			jnlLine.account = inventoryAccount
+            jnlLine = new Line(documentValue: 520798.0, generalValue: 520798.0, companyValue: 520798.0, description: description)
+            jnlLine.account = inventoryAccount
             jnl.addToLines(jnlLine)
-			jnlLine = new Line(documentValue: 5000.0, generalValue: 5000.0, companyValue: 5000.0, description: description)
-			jnlLine.account = cashAccount
+            jnlLine = new Line(documentValue: 5000.0, generalValue: 5000.0, companyValue: 5000.0, description: description)
+            jnlLine.account = cashAccount
             jnl.addToLines(jnlLine)
-			jnlLine = new Line(documentValue: 1392874.0, generalValue: 1392874.0, companyValue: 1392874.0, description: description)
-			jnlLine.account = bankAccount
+            jnlLine = new Line(documentValue: 1392874.0, generalValue: 1392874.0, companyValue: 1392874.0, description: description)
+            jnlLine.account = bankAccount
             jnl.addToLines(jnlLine)
-			jnlLine = new Line(documentValue: -10000000.0, generalValue: -10000000.0, companyValue: -10000000.0, description: description)
-			jnlLine.account = capitalAccount
+            jnlLine = new Line(documentValue: -10000000.0, generalValue: -10000000.0, companyValue: -10000000.0, description: description)
+            jnlLine.account = capitalAccount
             jnl.addToLines(jnlLine)
 
             postingService.post(jnl)

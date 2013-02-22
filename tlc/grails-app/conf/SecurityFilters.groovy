@@ -53,7 +53,7 @@ class SecurityFilters {
                 def nextStep = utilService.getNextStep()
                 if (nextStep) {
                     if (!(nextStep.sourceController == controllerName && nextStep.sourceAction == actionName) &&
-                            !(nextStep.targetController == controllerName && nextStep.targetAction == actionName)) {
+                    !(nextStep.targetController == controllerName && nextStep.targetAction == actionName)) {
 
                         redirect(controller: nextStep.sourceController, action: nextStep.sourceAction)
                         return false

@@ -239,7 +239,7 @@ class ProvisionController {
         def valid = !documentInstance.hasErrors()
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshDocumentLines(documentInstance, params)
         if (num) {
             documentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")
@@ -321,7 +321,7 @@ class ProvisionController {
                 companyRate = utilService.getExchangeRate(documentInstance.currency, companyCurrency, now)
                 if (!companyRate) {
                     documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, companyCurrency.code],
-                            default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
+                    default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
                     valid = false
                 }
             }
@@ -402,7 +402,7 @@ class ProvisionController {
                             temp = utilService.getExchangeRate(documentInstance.currency, account.currency, now)
                             if (!temp) {
                                 documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, account.currency.code],
-                                        default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
+                                default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
                                 valid = false
                                 break
                             }
@@ -432,9 +432,9 @@ class ProvisionController {
 
         // Create total line, remove any 'blank' lines, create the reversal and then and then post the two documents
         if (valid) {
-			def doc = new Total(description: documentInstance.description, documentValue: documentTotal,
+            def doc = new Total(description: documentInstance.description, documentValue: documentTotal,
                     generalValue: companyTotal, companyValue: companyTotal, adjustment: documentInstance.sourceAdjustment)
-			doc.account = provnControl
+            doc.account = provnControl
             documentInstance.addToTotal(doc)
 
             for (line in removables) {
@@ -446,15 +446,15 @@ class ProvisionController {
             reversalInstance.lines = new ListOrderedSet()
 
             for (line in documentInstance.lines) {
-				doc = new Line(description: line.description, documentValue: line.documentValue,
+                doc = new Line(description: line.description, documentValue: line.documentValue,
                         generalValue: line.generalValue, companyValue: line.companyValue, adjustment: line.adjustment)
-				doc.account = line.account
+                doc.account = line.account
                 reversalInstance.addToLines(doc)
             }
 
-			doc = new Total(description: documentInstance.description, documentValue: documentTotal,
+            doc = new Total(description: documentInstance.description, documentValue: documentTotal,
                     generalValue: companyTotal, companyValue: companyTotal, adjustment: documentInstance.sourceAdjustment)
-			doc.account = provnControl
+            doc.account = provnControl
             reversalInstance.addToTotal(doc)
 
             // This outer lock (the posting service will inner-lock for each document) is needed so that
@@ -502,7 +502,7 @@ class ProvisionController {
         model
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getModel(company, documentInstance) {
         def documentTypeList = DocumentType.findAll("from DocumentType as dt where dt.company = ? and dt.type.code in ('AC', 'PR')", [company])
@@ -540,7 +540,7 @@ class ProvisionController {
         def account, temp
 
         // Load the template lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshTemplateLines(templateDocumentInstance, params)
         if (num) {
             templateDocumentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")

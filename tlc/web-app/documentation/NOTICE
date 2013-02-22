@@ -1,10 +1,10 @@
    Three Ledger Core
    Copyright 2009-2013 Paul Fernley
 
-   This distribution includes portions of the cron4j software from
-   Sauron Software. It is available under the LGPL license.
+   This distribution uses the cron4j software from Sauron Software. It
+   is available under the LGPL license.
 
-   JasperReports and iText libraries are included in this distribution.
+   JasperReports and iText libraries are used by this distribution.
    JasperReports is included under the LGPL license. iText is available
    under the MPL license.
 

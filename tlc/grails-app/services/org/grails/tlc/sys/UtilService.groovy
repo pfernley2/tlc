@@ -97,15 +97,15 @@ class UtilService {
 
         return data
     }
-	
-	// Get an exchange rate Google or, if not available in Google, from Yahoo.
-	// Returns a BigDecimal exchange rate rounded to 6 decimal places or null
-	// if no exchange rate could be retrieved.
-	def readExchangeRate(code) {
-		def rate = readGoogleRate(code)
-		if (!rate) rate = readYahooRate(code)
-		return rate
-	}
+
+    // Get an exchange rate Google or, if not available in Google, from Yahoo.
+    // Returns a BigDecimal exchange rate rounded to 6 decimal places or null
+    // if no exchange rate could be retrieved.
+    def readExchangeRate(code) {
+        def rate = readGoogleRate(code)
+        if (!rate) rate = readYahooRate(code)
+        return rate
+    }
 
     // Convert between units of the same measure
     def convertUnit(from, to, value, decs) {
@@ -118,7 +118,7 @@ class UtilService {
         // If we've looked before but couldn't find it
         if (conversion == cacheService.IMPOSSIBLE_VALUE) {
             throw new IllegalArgumentException(message(code: 'conversion.no.conversion', args: [from.name, to.name],
-                    default: "No conversion from ${from.name} to ${to.name} available"))
+                default: "No conversion from ${from.name} to ${to.name} available"))
 
         }
 
@@ -139,7 +139,7 @@ class UtilService {
             if (!conversions) {
                 cacheService.put('conversion', from.securityCode, from.code + cacheService.IMPOSSIBLE_VALUE + to.code, null)
                 throw new IllegalArgumentException(message(code: 'conversion.no.conversion', args: [from.name, to.name],
-                        default: "No conversion from ${from.name} to ${to.name} available"))
+                    default: "No conversion from ${from.name} to ${to.name} available"))
             }
 
             def conv = bestConversion(from, conversions)
@@ -257,79 +257,79 @@ class UtilService {
         if (val == null) return ''
         if (val instanceof String) return val
         if (val instanceof Date) {
-			def dateFormat = DateFormat.SHORT
-			def fmt, timeFormat
-			if (scale == 1) {
-				fmt = DateFormat.getDateInstance(dateFormat, locale ?: currentLocale())
-			} else if (scale == 2) {
-				timeFormat = DateFormat.SHORT
-				fmt = DateFormat.getDateTimeInstance(dateFormat, timeFormat, locale ?: currentLocale())
-        	} else {
-				timeFormat = DateFormat.MEDIUM
-				fmt = DateFormat.getDateTimeInstance(dateFormat, timeFormat, locale ?: currentLocale())
-        	}
-			
-			// If the date is outside the 20/80 rule, we need to show the full year
-			if (val.time < System.currentTimeMillis() - 2520000000000L || val.time > System.currentTimeMillis() + 631000000000L) {
-				if (fmt instanceof SimpleDateFormat) {
-					def pat = fmt.toPattern()
-					if (pat.indexOf('yyyy') == -1) {
-						if (pat.indexOf('yyy') != -1) {
-							fmt.applyPattern(pat.replace('yyy', 'yyyy'))
-						} else if (pat.indexOf('yy') != -1) {
-							fmt.applyPattern(pat.replace('yy', 'yyyy'))
-						} else if (pat.indexOf('y') != -1) {
-							fmt.applyPattern(pat.replace('y', 'yyyy'))
-						} else {
-							dateFormat = DateFormat.MEDIUM
-							fmt = null
-						}
-					}
-				} else {
-					dateFormat = DateFormat.MEDIUM
-					fmt = null
-				}
-				
-				if (!fmt) {
-					if (timeFormat == null) {
-						fmt = DateFormat.getDateInstance(dateFormat, locale ?: currentLocale())
-					} else {
-						fmt = DateFormat.getDateTimeInstance(dateFormat, timeFormat, locale ?: currentLocale())
-					}
-				}
-			}
-			
-			return fmt.format(val)
+            def dateFormat = DateFormat.SHORT
+            def fmt, timeFormat
+            if (scale == 1) {
+                fmt = DateFormat.getDateInstance(dateFormat, locale ?: currentLocale())
+            } else if (scale == 2) {
+                timeFormat = DateFormat.SHORT
+                fmt = DateFormat.getDateTimeInstance(dateFormat, timeFormat, locale ?: currentLocale())
+            } else {
+                timeFormat = DateFormat.MEDIUM
+                fmt = DateFormat.getDateTimeInstance(dateFormat, timeFormat, locale ?: currentLocale())
+            }
+
+            // If the date is outside the 20/80 rule, we need to show the full year
+            if (val.time < System.currentTimeMillis() - 2520000000000L || val.time > System.currentTimeMillis() + 631000000000L) {
+                if (fmt instanceof SimpleDateFormat) {
+                    def pat = fmt.toPattern()
+                    if (pat.indexOf('yyyy') == -1) {
+                        if (pat.indexOf('yyy') != -1) {
+                            fmt.applyPattern(pat.replace('yyy', 'yyyy'))
+                        } else if (pat.indexOf('yy') != -1) {
+                            fmt.applyPattern(pat.replace('yy', 'yyyy'))
+                        } else if (pat.indexOf('y') != -1) {
+                            fmt.applyPattern(pat.replace('y', 'yyyy'))
+                        } else {
+                            dateFormat = DateFormat.MEDIUM
+                            fmt = null
+                        }
+                    }
+                } else {
+                    dateFormat = DateFormat.MEDIUM
+                    fmt = null
+                }
+
+                if (!fmt) {
+                    if (timeFormat == null) {
+                        fmt = DateFormat.getDateInstance(dateFormat, locale ?: currentLocale())
+                    } else {
+                        fmt = DateFormat.getDateTimeInstance(dateFormat, timeFormat, locale ?: currentLocale())
+                    }
+                }
+            }
+
+            return fmt.format(val)
         }
-		
+
         if (val instanceof Number) {
             def fmt = NumberFormat.getInstance(locale ?: currentLocale())
             fmt.setMinimumIntegerDigits(1)
-			if (val instanceof BigDecimal || val instanceof Double || val instanceof Float) {
-				if (grouped == null) grouped = true
-				if (scale == null || scale > 10) {
-					if (val instanceof BigDecimal) {
-						scale = (val.scale() >= 0) ? Math.min(val.scale(), 10) : 0
-					} else {
-						scale = (val == Math.round(val)) ? 0 : 10
-					}
-				} else if (scale < 0) {
-					scale = 0
-				}
-				
+            if (val instanceof BigDecimal || val instanceof Double || val instanceof Float) {
+                if (grouped == null) grouped = true
+                if (scale == null || scale > 10) {
+                    if (val instanceof BigDecimal) {
+                        scale = (val.scale() >= 0) ? Math.min(val.scale(), 10) : 0
+                    } else {
+                        scale = (val == Math.round(val)) ? 0 : 10
+                    }
+                } else if (scale < 0) {
+                    scale = 0
+                }
+
                 fmt.setMinimumFractionDigits(scale)
                 fmt.setMaximumFractionDigits(scale)
                 try {
                     fmt.setRoundingMode(RoundingMode.HALF_UP)
                 } catch (UnsupportedOperationException uoe) {}
-			} else {
-				if (grouped == null) grouped = false
-			}
-			
+            } else {
+                if (grouped == null) grouped = false
+            }
+
             fmt.setGroupingUsed(grouped)
             return fmt.format(val)
         }
-		
+
         if (val instanceof Class) return val.name
         if (val instanceof List || val instanceof Object[]) return val.collect {format(it, scale, grouped, locale)}
         if (val instanceof Map) {
@@ -342,7 +342,7 @@ class UtilService {
     }
 
     // Returns the value for the given setting code for the system, or null if no setting exists
-	// for the given code (unless a default is supplied, in which case the default value is returned)
+    // for the given code (unless a default is supplied, in which case the default value is returned)
     def systemSetting(code, dflt = null) {
         def val = cacheService.get('setting', 0L, code)
         if (val == null) {
@@ -401,17 +401,17 @@ class UtilService {
 
     // Returns a message String corresponding to the Spring error supplied.
     // NOTE that the returned message is 'raw' i.e. is not HTML encoded etc.
-	// This method started life many moons ago (around about Grails version 1.2)
-	// to correct some 'oddities' with the standard Grails error message
-	// resolution. It then evolved to also minimize the number of attempts to
-	// find a suitable message by using knowledge of how TLC is written (e.g.
-	// we never use package names in our error message keys as is allowed by
-	// Grails 2.2) thus minimizing useless database accesses and avoiding
-	// cluttering up the log with uninteresting messages about our attempts
-	// to find an appropriate message to use. Consequently, it only allows for
-	// the use of a single type of custom message to override Grails' default
-	// messages in the i18n/messages.properties file (plus normal custom validator
-	// error messages, of course).
+    // This method started life many moons ago (around about Grails version 1.2)
+    // to correct some 'oddities' with the standard Grails error message
+    // resolution. It then evolved to also minimize the number of attempts to
+    // find a suitable message by using knowledge of how TLC is written (e.g.
+    // we never use package names in our error message keys as is allowed by
+    // Grails 2.2) thus minimizing useless database accesses and avoiding
+    // cluttering up the log with uninteresting messages about our attempts
+    // to find an appropriate message to use. Consequently, it only allows for
+    // the use of a single type of custom message to override Grails' default
+    // messages in the i18n/messages.properties file (plus normal custom validator
+    // error messages, of course).
     def errorMessage(error) {
         def codes = []
         def arguments
@@ -423,7 +423,7 @@ class UtilService {
             if (error.isBindingFailure()) {
 
                 // Allow for custom binding error code. Note that the class name starts with an upper
-				// case letter, as in: typeMismatch.Author.name
+                // case letter, as in: typeMismatch.Author.name
                 codes << "typeMismatch.${GrailsNameUtils.getShortName(error.objectName)}.${error.field}"
 
                 // Pick out the default binding error code
@@ -435,8 +435,9 @@ class UtilService {
                 }
 
                 // Create some sensible arguments
-				arguments = [message(code: "${error.objectName}.${error.field}.label", default: GrailsNameUtils.getNaturalName(error.field)),
-					getDomainLabel(error.objectName), error.rejectedValue]
+                arguments = [message(code: "${error.objectName}.${error.field}.label",
+                    default: GrailsNameUtils.getNaturalName(error.field)),
+                    getDomainLabel(error.objectName), error.rejectedValue]
             } else {    // A validation error
 
                 // The last code in the list of codes is the generic id
@@ -526,10 +527,10 @@ class UtilService {
 
                     default:    // A custom message of some sort
                         if (error.code && error.code != 'null') {
-							if (!error.code.startsWith('null.')) codes << error.code
-							codes << "${GrailsNameUtils.getPropertyName(error.objectName)}.${error.field}.${error.code}"
+                            if (!error.code.startsWith('null.')) codes << error.code
+                            codes << "${GrailsNameUtils.getPropertyName(error.objectName)}.${error.field}.${error.code}"
                         }
-						
+
                         break
                 }
 
@@ -547,22 +548,22 @@ class UtilService {
 
         // Format all arguments into strings
         if (arguments) arguments = arguments.collect {format(it)}          // Format all arguments into strings
-		
-		// Assume no appropriate message can be found
+
+        // Assume no appropriate message can be found
         def msg = '_'
 
         // Work through the possible error codes
-		for (int i = 0; i < codes.size(); i++) {
-			
-			// For all except the last one, prepend the special value cacheService.DUMMY_VALUE
-			// to the front of the code to tell the message source that we only want to log
-			// this if at debug level (or higher, of course). Normally, the message source logs
-			// missing messages at info level or higher. This saves cluttering up the log file
-			// with our attempts to find an available message.
-			if (i < codes.size() - 1) codes[i] = CacheService.DUMMY_VALUE + codes[i]
+        for (int i = 0; i < codes.size(); i++) {
+
+            // For all except the last one, prepend the special value cacheService.DUMMY_VALUE
+            // to the front of the code to tell the message source that we only want to log
+            // this if at debug level (or higher, of course). Normally, the message source logs
+            // missing messages at info level or higher. This saves cluttering up the log file
+            // with our attempts to find an available message.
+            if (i < codes.size() - 1) codes[i] = CacheService.DUMMY_VALUE + codes[i]
             msg = message(code: codes[i], args: arguments, default: '_')
             if (msg != '_') break
-		}
+        }
 
         // Make sure we have something sensible to output
         if (msg == '_') {
@@ -573,39 +574,39 @@ class UtilService {
 
         return msg
     }
-	
-	// See the three parameter version below
-	def collate(values) {
-		collate(values, null, null)
-	}
-	
-	// See the three parameter version below
-	def collate(values, obj) {
-		(obj instanceof Closure) ? collate(values, null, obj) : collate(values, obj, null)
-	}
 
-	// Sort a list (or array), IN SITU, in to ascending order using a Collator. If no locale
-	// parameter is supplied, the locale of the current request will be used. If no closure
-	// parameter is supplied the sort will be based on the toString() value of each object
-	// in the values list. If a closure is supplied, then any value it returns will be forced
-	// in to a String by using the returned value's toString() method. This group of 'collate'
-	// methods can be called with something like: utilService.collate(domainList) {it.name}
-	//
-	// The intent of this method is to provide better i18n sorting than the standard Groovy
-	// sort facility without involving the programmer in too much additional hassle. NOTE that
-	// Collator based sorting is usually case insensitive and usually ignores accents, but
-	// that this is actually locale dependent in both cases.
-	def collate(values, locale, closure) {
-		if (values?.size() > 1) {
-			def collator = Collator.getInstance(locale ?: currentLocale())
-			def list = []
-			for (item in values) list << new Collatable(collator, item, closure)
-			Collections.sort(list)
-			for (int i = 0; i < list.size(); i++) values[i] = list[i].object
-		}
-	}
+    // See the three parameter version below
+    def collate(values) {
+        collate(values, null, null)
+    }
 
-// --------------------------------------------- Static Methods ----------------------------------------------
+    // See the three parameter version below
+    def collate(values, obj) {
+        (obj instanceof Closure) ? collate(values, null, obj) : collate(values, obj, null)
+    }
+
+    // Sort a list (or array), IN SITU, in to ascending order using a Collator. If no locale
+    // parameter is supplied, the locale of the current request will be used. If no closure
+    // parameter is supplied the sort will be based on the toString() value of each object
+    // in the values list. If a closure is supplied, then any value it returns will be forced
+    // in to a String by using the returned value's toString() method. This group of 'collate'
+    // methods can be called with something like: utilService.collate(domainList) {it.name}
+    //
+    // The intent of this method is to provide better i18n sorting than the standard Groovy
+    // sort facility without involving the programmer in too much additional hassle. NOTE that
+    // Collator based sorting is usually case insensitive and usually ignores accents, but
+    // that this is actually locale dependent in both cases.
+    def collate(values, locale, closure) {
+        if (values?.size() > 1) {
+            def collator = Collator.getInstance(locale ?: currentLocale())
+            def list = []
+            for (item in values) list << new Collatable(collator, item, closure)
+            Collections.sort(list)
+            for (int i = 0; i < list.size(); i++) values[i] = list[i].object
+        }
+    }
+
+    // --------------------------------------------- Static Methods ----------------------------------------------
 
     // Returns a unique identifier (as a Long)
     static getNextProcessId() {
@@ -855,7 +856,7 @@ class UtilService {
         return valid
     }
 
-// ---------------------------------------- Interactive Only Methods -----------------------------------------
+    // ---------------------------------------- Interactive Only Methods -----------------------------------------
 
     // Return the current user or null if no currently logged in user
     def currentUser() {
@@ -1122,8 +1123,8 @@ class UtilService {
     //              treated as the prefix of a dot separated path and all messages
     //              starting with that prefix (followed by the oldCode) will have their
     //              key changed to use the new code value. This is used for things such
-	//              as propagating a code change of a Task record to its Param and Result
-	//              child records.
+    //              as propagating a code change of a Task record to its Param and Result
+    //              child records.
     // field:       The name of the property that may be translated (see also text: below)
     // text:        If an absolute piece of text is to be used rather than a field value,
     //              supply the text here. If both field and text parameters are supplied,
@@ -1221,59 +1222,59 @@ class UtilService {
         return Company.findBySecurityCode(securityCode)
     }
 
-	// Returns a standard message from a list of known standard messages
-	// within Grails (initially defined in the messages.properties file.)
-	// The returned message is 'raw' in the sense that it is not HTML encoded.
-	// Throws an exception if the given code is not in the known list of codes.
-	def standardMessage(code, domain, value = null, forDomain = null) {
-		def text
-		def label = toDomainLabel(domain)
-		switch (code) {
-			case 'created':
-			case 'updated':
-			case 'deleted':
-				value = toDomainValue(domain, value)
-				text = message(code: "default.${code}.message", args: [label, value], default: "${label} ${value} ${code}")
-				break
-			
-			case 'not.deleted':
-				value = toDomainValue(domain, value)
-				text = message(code: 'default.not.deleted.message', args: [label, value], default: "${label} ${value} could not be deleted")
-				break
-				
-			case 'not.found':
-				value = toDomainValue(domain, value)
-				text = message(code: 'default.not.found.message', args: [label, value], default: "${label} not found with id ${value}")
-				break
-				
-			case 'locking.failure':
-				text = message(code: 'default.optimistic.locking.failure', args: [label],
-					default: "Another user has updated this ${label} while you were editing")
-				break
-				
-			case 'list':
-				text = message(code: 'default.list.label', args: [label], default: "${label} List")
-				break
-				
-			case 'list.for':
-				text = message(code: 'default.list.label', args: [label], default: "${label} List")
-				text += ": ${toDomainLabel(forDomain)} ${toDomainValue(forDomain, value)}"
-				break
-	
-			case 'add':
-			case 'new':
-			case 'create':
-			case 'show':
-			case 'edit':
-				text = message(code: "default.${code}.label", args: [label], default: "${GrailsNameUtils.getNaturalName(code)} ${label}")
-				break
-	
-			default:
-				throw new IllegalArgumentException("Invalid standard message code: ${code}")
-		}
-		
-		return text
-	}
+    // Returns a standard message from a list of known standard messages
+    // within Grails (initially defined in the messages.properties file.)
+    // The returned message is 'raw' in the sense that it is not HTML encoded.
+    // Throws an exception if the given code is not in the known list of codes.
+    def standardMessage(code, domain, value = null, forDomain = null) {
+        def text
+        def label = toDomainLabel(domain)
+        switch (code) {
+            case 'created':
+            case 'updated':
+            case 'deleted':
+                value = toDomainValue(domain, value)
+                text = message(code: "default.${code}.message", args: [label, value], default: "${label} ${value} ${code}")
+                break
+
+            case 'not.deleted':
+                value = toDomainValue(domain, value)
+                text = message(code: 'default.not.deleted.message', args: [label, value], default: "${label} ${value} could not be deleted")
+                break
+
+            case 'not.found':
+                value = toDomainValue(domain, value)
+                text = message(code: 'default.not.found.message', args: [label, value], default: "${label} not found with id ${value}")
+                break
+
+            case 'locking.failure':
+                text = message(code: 'default.optimistic.locking.failure', args: [label],
+                    default: "Another user has updated this ${label} while you were editing")
+                break
+
+            case 'list':
+                text = message(code: 'default.list.label', args: [label], default: "${label} List")
+                break
+
+            case 'list.for':
+                text = message(code: 'default.list.label', args: [label], default: "${label} List")
+                text += ": ${toDomainLabel(forDomain)} ${toDomainValue(forDomain, value)}"
+                break
+
+            case 'add':
+            case 'new':
+            case 'create':
+            case 'show':
+            case 'edit':
+                text = message(code: "default.${code}.label", args: [label], default: "${GrailsNameUtils.getNaturalName(code)} ${label}")
+                break
+
+            default:
+                throw new IllegalArgumentException("Invalid standard message code: ${code}")
+        }
+
+        return text
+    }
 
     // Perform a deletion of a domain object and deal with the removal of translations
     // in the SystemMessage or Message tables as appropriate. The translatables
@@ -1498,7 +1499,7 @@ class UtilService {
         if (!permitted(task.activity.code)) throw new IllegalArgumentException(message(code: 'queuedTask.demand.activity', default: 'You do not have permission to execute this task'))
         def parameters = []
         parameters << [code: 'preferredStart', prompt: message(code: 'queuedTask.demand.delay.label', default: 'Delay Until'),
-                type: 'date', value: params.preferredStart ?: '', help: 'queuedTask.demand.delay']
+                    type: 'date', value: params.preferredStart ?: '', help: 'queuedTask.demand.delay']
         for (it in TaskParam.findAllByTask(task, [sort: 'sequencer'])) {
             def name = message(code: "taskParam.name.${taskCode}.${it.code}", default: it.name)
             def val = params."p_${it.code}"
@@ -1534,20 +1535,20 @@ class UtilService {
 
         return parameters
     }
-	
-	def getMax() {
-		def max = getParams().max
-		max = max?.isInteger() ? max.toInteger() : 0
-		return (max > 0) ? Math.min(max, setting('pagination.max', 50)) : setting('pagination.default', 20)
-	}
-	
-	def getOffset() {
-		def offset = getParams().offset
-		offset = offset?.isInteger() ? offset.toInteger() : 0
-		return (offset >= 0) ? offset : 0
-	}
-	
-// --------------------------------------------- Support Methods ---------------------------------------------
+
+    def getMax() {
+        def max = getParams().max
+        max = max?.isInteger() ? max.toInteger() : 0
+        return (max > 0) ? Math.min(max, setting('pagination.max', 50)) : setting('pagination.default', 20)
+    }
+
+    def getOffset() {
+        def offset = getParams().offset
+        offset = offset?.isInteger() ? offset.toInteger() : 0
+        return (offset >= 0) ? offset : 0
+    }
+
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private reversedConversion(from, conversion) {
         return (from.scale.id != conversion.source.scale.id)
@@ -2032,19 +2033,19 @@ class UtilService {
 
         return null
     }
-	
-	private toDomainLabel(domain) {
-		if (!domain) return '???'
-		if (domain instanceof CharSequence) return getDomainLabel(domain.toString())
-		if (domain instanceof Class) return getDomainLabel(domain.getSimpleName())
-		return getDomainLabel(domain.getClass().getSimpleName())
-	}
-	
-	private getDomainLabel(name) {
-		return message(code: GrailsNameUtils.getPropertyName(name) + '.label', default: GrailsNameUtils.getNaturalName(name))
-	}
 
-	private toDomainValue(domain, value) {
-		return (value || !domain || domain instanceof CharSequence || domain instanceof Class) ? value?.toString() : domain.toString()
-	}
+    private toDomainLabel(domain) {
+        if (!domain) return '???'
+        if (domain instanceof CharSequence) return getDomainLabel(domain.toString())
+        if (domain instanceof Class) return getDomainLabel(domain.getSimpleName())
+        return getDomainLabel(domain.getClass().getSimpleName())
+    }
+
+    private getDomainLabel(name) {
+        return message(code: GrailsNameUtils.getPropertyName(name) + '.label', default: GrailsNameUtils.getNaturalName(name))
+    }
+
+    private toDomainValue(domain, value) {
+        return (value || !domain || domain instanceof CharSequence || domain instanceof Class) ? value?.toString() : domain.toString()
+    }
 }

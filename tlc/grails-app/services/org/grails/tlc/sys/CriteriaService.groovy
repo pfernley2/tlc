@@ -29,35 +29,35 @@ class CriteriaService {
 
     static transactional = false
 
-	static genericLabels = ['id', 'securityCode', 'dateCreated', 'lastUpdated', 'version']
+    static genericLabels = ['id', 'securityCode', 'dateCreated', 'lastUpdated', 'version']
     static HashSet criteriaTypes = new HashSet([
-            'char',
-            'java.lang.Character',
-            'java.lang.String',
-            'java.util.Currency',
-            'java.util.Locale',
-            'java.util.TimeZone',
-            'byte',
-            'java.lang.Byte',
-            'short',
-            'java.lang.Short',
-            'int',
-            'java.lang.Integer',
-            'long',
-            'java.lang.Long',
-            'java.math.BigInteger',
-            'float',
-            'java.lang.Float',
-            'double',
-            'java.lang.Double',
-            'java.math.BigDecimal',
-            'java.util.Date',
-            'java.sql.Date',
-            'java.sql.Time',
-            'java.sql.Timestamp',
-            'java.util.Calendar',
-            'boolean',
-            'java.lang.Boolean'
+        'char',
+        'java.lang.Character',
+        'java.lang.String',
+        'java.util.Currency',
+        'java.util.Locale',
+        'java.util.TimeZone',
+        'byte',
+        'java.lang.Byte',
+        'short',
+        'java.lang.Short',
+        'int',
+        'java.lang.Integer',
+        'long',
+        'java.lang.Long',
+        'java.math.BigInteger',
+        'float',
+        'java.lang.Float',
+        'double',
+        'java.lang.Double',
+        'java.math.BigDecimal',
+        'java.util.Date',
+        'java.sql.Date',
+        'java.sql.Time',
+        'java.sql.Timestamp',
+        'java.util.Calendar',
+        'boolean',
+        'java.lang.Boolean'
     ])
 
     def getDomainProperties(params, options = null) {
@@ -203,7 +203,7 @@ class CriteriaService {
         def removables = []
         def selector, members
         for (item in selectors) {
-			selector = item.value
+            selector = item.value
             members = selector.get('members')
             if (members?.containsKey('criteria')) {
                 members.remove('criteria')
@@ -279,11 +279,9 @@ class CriteriaService {
                 // A valid Like/Not like value cannot be type checked (e.g. for
                 // a valid Currency code etc), so just pass it back, but such
                 // tests can only be applied to string type fields
-                if (val.length() < 2
-                        || (type != 'java.lang.String'
-                        && type != 'java.util.Currency'
-                        && type != 'java.util.Locale'
-                        && type != 'java.util.TimeZone')) {
+                if (val.length() < 2 ||
+                    (type != 'java.lang.String' && type != 'java.util.Currency' && type != 'java.util.Locale' &&
+                        type != 'java.util.TimeZone')) {
 
                     val = null
                 }
@@ -291,9 +289,8 @@ class CriteriaService {
 
                 // Only String data types may be tested againt a blank value
                 val = null
-            } else if ((type == 'boolean' || type == 'java.lang.Boolean')
-                    && test != 'equal' && test != 'not.equal'
-                    && test != 'null' && test != 'not.null') {
+            } else if ((type == 'boolean' || type == 'java.lang.Boolean') &&
+                test != 'equal' && test != 'not.equal' && test != 'null' && test != 'not.null') {
 
                 // Boolean values can only be tested for equal, not equal, null and not null
                 val = null
@@ -510,7 +507,7 @@ class CriteriaService {
                 }
 
                 if (prop) {
-					if (genericLabels.contains(prop.name)) codePrefix = 'generic.'
+                    if (genericLabels.contains(prop.name)) codePrefix = 'generic.'
                     props << [name: name, type: type, code: codePrefix + prop.name, default: defaultPrefix + prop.naturalName]
                 }
             }

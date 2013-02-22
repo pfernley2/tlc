@@ -147,12 +147,12 @@
         </table>
         </g:compressor>
     </div>
-	<h1><g:msg code="system.environment.plugins" default="Installed Plugins"/></h1>
-	<ul class="borderedList">
-		<g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins.sort{it.name}}">
-			<li>${plugin.name} - ${plugin.version}</li>
-		</g:each>
-	</ul>
+    <h1><g:msg code="system.environment.plugins" default="Installed Plugins"/></h1>
+    <ul class="borderedList">
+        <g:each var="plugin" in="${applicationContext.getBean('pluginManager').allPlugins.sort{it.name}}">
+            <li>${plugin.name} - ${plugin.version}</li>
+        </g:each>
+    </ul>
 </div>
 </body>
 </html>

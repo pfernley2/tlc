@@ -59,7 +59,7 @@
     </script>
     <r:require module="core"/>
     <g:layoutHead/>
-	<r:layoutResources/>
+    <r:layoutResources/>
 </head>
 <body>
 <a href="#main-content" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

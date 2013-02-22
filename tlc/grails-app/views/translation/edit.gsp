@@ -44,27 +44,27 @@
         <input type="hidden" name="version" value="${systemMessageInstance?.version}"/>
         <g:mapAsFields params="${translationInstance.data}"/>
         <input type="hidden" name="translatedMessageId" value="${translatedMessageId}"/>
-		<div class="dialog">
-		    <table>
-		        <tbody>
+        <div class="dialog">
+            <table>
+                <tbody>
 
-		        <tr class="prop">
-		            <td class="name">
-		                <label for="code"><g:msg code="systemMessage.code.label" default="Code"/></label>
-		            </td>
-		            <td class="value ${hasErrors(bean: systemMessageInstance, field: 'code', 'errors')}">
-		                <input disabled="disabled" type="text" maxlength="250" size="40" id="code" name="code" value="${display(bean: systemMessageInstance, field: 'code')}"/>
-		            </td>
-		        </tr>
-		
-		        <tr class="prop">
-		            <td class="name vtop">
-		                <label for="text"><g:msg code="systemMessage.text.label" default="Text"/></label>
-		            </td>
-		            <td class="value largeArea ${hasErrors(bean: systemMessageInstance, field: 'text', 'errors')}">
-		                <textarea disabled="disabled" rows="5" cols="40" name="text">${display(bean: systemMessageInstance, field: 'text')}</textarea>
-		            </td>
-		        </tr>
+                <tr class="prop">
+                    <td class="name">
+                        <label for="code"><g:msg code="systemMessage.code.label" default="Code"/></label>
+                    </td>
+                    <td class="value ${hasErrors(bean: systemMessageInstance, field: 'code', 'errors')}">
+                        <input disabled="disabled" type="text" maxlength="250" size="40" id="code" name="code" value="${display(bean: systemMessageInstance, field: 'code')}"/>
+                    </td>
+                </tr>
+
+                <tr class="prop">
+                    <td class="name vtop">
+                        <label for="text"><g:msg code="systemMessage.text.label" default="Text"/></label>
+                    </td>
+                    <td class="value largeArea ${hasErrors(bean: systemMessageInstance, field: 'text', 'errors')}">
+                        <textarea disabled="disabled" rows="5" cols="40" name="text">${display(bean: systemMessageInstance, field: 'text')}</textarea>
+                    </td>
+                </tr>
         
                 <tr class="prop">
                     <td class="name vtop">
@@ -84,10 +84,10 @@
                            <g:checkBox name="propagate" value="${propagate}"></g:checkBox>&nbsp;<g:help code="translation.propagate"/>
                     </td>
                 </tr>
-		
-		        </tbody>
-		    </table>
-		</div>
+
+                </tbody>
+            </table>
+        </div>
         <div class="buttons">
             <span class="button"><g:actionSubmit class="save" action="Update" value="${msg(code:'default.button.update.label', 'default':'Update')}"/></span>
             <g:if test="${systemMessageInstance.locale == translationInstance.toLocale || translatedMessageId}">

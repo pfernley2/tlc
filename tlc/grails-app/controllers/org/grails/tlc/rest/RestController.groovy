@@ -88,7 +88,7 @@ class RestController {
         if (!valid) {
             response.status = 400
             render(text: [reason: getAnyError(documentInstance, message(code: 'rest.posting.error',
-                    default: 'Error posting the document'))] as JSON, contentType: 'text/plain', encoding: 'UTF-8')
+                        default: 'Error posting the document'))] as JSON, contentType: 'text/plain', encoding: 'UTF-8')
             return
         }
 
@@ -102,7 +102,7 @@ class RestController {
         render(text: [code: documentInstance.code] as JSON, contentType: 'text/plain', encoding: 'UTF-8')
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getAnyError(doc, defaultMessage) {
         return utilService.getFirstErrorMessage(doc) ?: (defaultMessage ?: message(code: 'rest.gen.error', default: 'Unspecified error'))

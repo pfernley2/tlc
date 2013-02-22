@@ -48,7 +48,7 @@ class ReconciliationController {
 
         if (bankAccount) {
             params.max = utilService.max
-			params.offset = params.changed ? 0 : utilService.offset
+            params.offset = params.changed ? 0 : utilService.offset
             if (!['statementDate', 'statementBalance', 'bankAccountBalance', 'finalizedDate'].contains(params.sort)) {
                 params.sort = 'statementDate'
                 params.order = 'desc'
@@ -65,7 +65,7 @@ class ReconciliationController {
         }
 
         [bankAccountList: bankAccountList, bankAccount: bankAccount, allFinalized: allFinalized,
-                reconciliationInstanceList: reconciliationInstanceList, reconciliationInstanceTotal: reconciliationInstanceTotal]
+                    reconciliationInstanceList: reconciliationInstanceList, reconciliationInstanceTotal: reconciliationInstanceTotal]
     }
 
     def show() {
@@ -140,9 +140,9 @@ class ReconciliationController {
         }
 
         [reconciliationInstance: reconciliationInstance, reconciliationLineInstanceList: reconciliationLineInstanceList,
-                reconciliationLineInstanceTotal: reconciliationLineInstanceTotal, bankAccount: reconciliationInstance.bankAccount,
-                unreconciled: utilService.format(unrec, decimals), subtotal: utilService.format(subtot, decimals),
-                difference: utilService.format(diff, decimals), decimals: decimals, canFinalize: (diff == 0.0), hasAdded: hasAdded]
+                    reconciliationLineInstanceTotal: reconciliationLineInstanceTotal, bankAccount: reconciliationInstance.bankAccount,
+                    unreconciled: utilService.format(unrec, decimals), subtotal: utilService.format(subtot, decimals),
+                    difference: utilService.format(diff, decimals), decimals: decimals, canFinalize: (diff == 0.0), hasAdded: hasAdded]
     }
 
     def create() {
@@ -182,14 +182,14 @@ class ReconciliationController {
         def valid = !reconciliationInstance.hasErrors()
 
         if (valid && (!reconciliationInstance.statementDate || reconciliationInstance.statementDate != utilService.fixDate(reconciliationInstance.statementDate) ||
-                Reconciliation.countByBankAccountAndStatementDateGreaterThanEquals(bankAccount, reconciliationInstance.statementDate) ||
-                reconciliationInstance.statementDate > new Date())) {
+        Reconciliation.countByBankAccountAndStatementDateGreaterThanEquals(bankAccount, reconciliationInstance.statementDate) ||
+        reconciliationInstance.statementDate > new Date())) {
             reconciliationInstance.errorMessage(field: 'statementDate', code: 'reconciliation.bad.date', default: 'Invalid Bank Statement Date')
             valid = false
         }
 
         if (valid && (reconciliationInstance.statementBalance == null ||
-                reconciliationInstance.statementBalance != utilService.round(reconciliationInstance.statementBalance, bankAccount.currency.decimals))) {
+        reconciliationInstance.statementBalance != utilService.round(reconciliationInstance.statementBalance, bankAccount.currency.decimals))) {
             reconciliationInstance.errorMessage(field: 'statementBalance', code: 'reconciliation.bad.balance', default: 'Invalid Bank Statement Balance')
             valid = false
         }
@@ -256,7 +256,7 @@ class ReconciliationController {
     def add() {
         def reconciliationInstance = Reconciliation.get(params.reconciliation)
         if (reconciliationInstance?.securityCode != utilService.currentCompany().securityCode || reconciliationInstance.finalizedDate ||
-                !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
+        !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
             flash.message = utilService.standardMessage('not.found', 'reconciliation', params.reconciliation)
             redirect(action: 'list')
             return
@@ -269,13 +269,13 @@ class ReconciliationController {
                 [key], [max: params.max, offset: params.offset])
         def transactionInstanceTotal = GeneralTransaction.countByReconciliationKeyAndReconciledIsNull(key)
         return [reconciliationInstance: reconciliationInstance, transactionInstanceList: transactionInstanceList,
-                transactionInstanceTotal: transactionInstanceTotal, decimals: reconciliationInstance.bankAccount.currency.decimals]
+            transactionInstanceTotal: transactionInstanceTotal, decimals: reconciliationInstance.bankAccount.currency.decimals]
     }
 
     def adding() {
         def reconciliationInstance = Reconciliation.get(params.reconciliation)
         if (reconciliationInstance?.securityCode != utilService.currentCompany().securityCode || reconciliationInstance.finalizedDate ||
-                !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
+        !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
             flash.message = utilService.standardMessage('not.found', 'reconciliation', params.reconciliation)
             redirect(action: 'list')
             return
@@ -283,7 +283,7 @@ class ReconciliationController {
 
         def transactionInstance = GeneralTransaction.get(params.id)
         if (transactionInstance?.securityCode != reconciliationInstance.securityCode || transactionInstance.reconciled ||
-                transactionInstance.balance.account.id != reconciliationInstance.bankAccount.id) {
+        transactionInstance.balance.account.id != reconciliationInstance.bankAccount.id) {
             flash.message = message(code: 'document.invalid', default: 'Invalid document')
         } else {
             def document = transactionInstance.document
@@ -406,13 +406,13 @@ class ReconciliationController {
         }
 
         [reconciliationInstance: reconciliationInstance, reconciliationLineInstanceList: reconciliationLineInstanceList,
-                reconciliationLineInstanceTotal: reconciliationLineInstanceTotal, decimals: decimals]
+                    reconciliationLineInstanceTotal: reconciliationLineInstanceTotal, decimals: decimals]
     }
 
     def removing() {
         def reconciliationInstance = Reconciliation.get(params.reconciliation)
         if (reconciliationInstance?.securityCode != utilService.currentCompany().securityCode || reconciliationInstance.finalizedDate ||
-                !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
+        !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
             flash.message = utilService.standardMessage('not.found', 'reconciliation', params.reconciliation)
             redirect(action: 'list')
             return
@@ -460,7 +460,7 @@ class ReconciliationController {
     def finalization() {
         def reconciliationInstance = Reconciliation.get(params.id)
         if (reconciliationInstance?.securityCode != utilService.currentCompany().securityCode || reconciliationInstance.finalizedDate ||
-                !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
+        !bookService.hasAccountAccess(reconciliationInstance.bankAccount)) {
             flash.message = utilService.standardMessage('not.found', 'reconciliation', params.reconciliation)
             redirect(action: 'list')
             return
@@ -531,9 +531,9 @@ class ReconciliationController {
         }
 
         [reconciliationInstance: reconciliationInstance, reconciliationLineInstanceList: reconciliationLineInstanceList,
-                reconciliationLineInstanceTotal: reconciliationLineInstanceTotal, bankAccount: reconciliationInstance.bankAccount,
-                unreconciled: utilService.format(unrec, decimals), subtotal: utilService.format(subtot, decimals),
-                difference: utilService.format(diff, decimals), decimals: decimals]
+                    reconciliationLineInstanceTotal: reconciliationLineInstanceTotal, bankAccount: reconciliationInstance.bankAccount,
+                    unreconciled: utilService.format(unrec, decimals), subtotal: utilService.format(subtot, decimals),
+                    difference: utilService.format(diff, decimals), decimals: decimals]
     }
 
     def print() {

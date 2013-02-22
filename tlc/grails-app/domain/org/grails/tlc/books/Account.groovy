@@ -31,10 +31,10 @@ class Account {
     static traceDeleteCode = new AtomicLong()
 
     static belongsTo = [section: ChartSection, type: SystemAccountType, currency: ExchangeCurrency, element1: CodeElementValue, element2: CodeElementValue,
-            element3: CodeElementValue, element4: CodeElementValue, element5: CodeElementValue, element6: CodeElementValue, element7: CodeElementValue,
-            element8: CodeElementValue]
+        element3: CodeElementValue, element4: CodeElementValue, element5: CodeElementValue, element6: CodeElementValue, element7: CodeElementValue,
+        element8: CodeElementValue]
     static hasMany = [balances: GeneralBalance, templates: TemplateDocument, templateLines: TemplateLine,
-            recurrences: Recurring, recurringLines: RecurringLine, reconciliations: Reconciliation]
+        recurrences: Recurring, recurringLines: RecurringLine, reconciliations: Reconciliation]
     static transients = ['autoCreateElementValues']
 
     String code
@@ -115,10 +115,7 @@ class Account {
     // Check if this account has any transactions
     def hasTransactions() {
         def balances = GeneralBalance.findAllByAccount(this)
-        for (bal in balances) {
-            if (GeneralTransaction.countByBalance(bal)) return true
-        }
-
+        for (bal in balances) if (GeneralTransaction.countByBalance(bal)) return true
         return false
     }
 

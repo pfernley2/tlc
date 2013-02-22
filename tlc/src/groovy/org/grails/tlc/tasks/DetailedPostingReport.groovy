@@ -37,7 +37,7 @@ class DetailedPostingReport extends TaskExecutable {
 
         def pid = utilService.getNextProcessId()
         def sql = 'insert into SystemWorkarea (process, identifier, decimal1, decimal2) select ' + pid.toString() +
-                        'L, id, companyClosingBalance, companyOpeningBalance from GeneralBalance where period = ?'
+                'L, id, companyClosingBalance, companyOpeningBalance from GeneralBalance where period = ?'
         def sqlParams = [pd]
         def temp
         def mainClause = ''
@@ -98,17 +98,17 @@ class DetailedPostingReport extends TaskExecutable {
         }
 
         def maxTransactionId = temp[0] ?: 0L
-		
-		// If requested, remove any records with opening and closing balances of zero
-		// and which do not have any transactions in the relevant period
-		if (params.omitZero) {
-			yield()
-			sql = 'delete from SystemWorkarea as gb where gb.process = ?' +
-				' and gb.decimal1 = 0.0 and gb.decimal2 = 0.0' +
-				' and not exists (select gt.id from GeneralTransaction as gt where gt.balance.id = gb.identifier and gt.id <= ?)'
-			SystemWorkarea.executeUpdate(sql, [pid, maxTransactionId])
-		}
-		
+
+        // If requested, remove any records with opening and closing balances of zero
+        // and which do not have any transactions in the relevant period
+        if (params.omitZero) {
+            yield()
+            sql = 'delete from SystemWorkarea as gb where gb.process = ?' +
+                    ' and gb.decimal1 = 0.0 and gb.decimal2 = 0.0' +
+                    ' and not exists (select gt.id from GeneralTransaction as gt where gt.balance.id = gb.identifier and gt.id <= ?)'
+            SystemWorkarea.executeUpdate(sql, [pid, maxTransactionId])
+        }
+
         yield()
         def reportParams = [:]
         reportParams.put('reportTitle', title)
@@ -128,8 +128,8 @@ class DetailedPostingReport extends TaskExecutable {
         reportParams.put('txtError', message(code: 'report.postings.txtError', default: '<<< Error >>>'))
         reportParams.put('pdStatusPrompt', message(code: 'report.postings.status', default: 'Period Status'))
         reportParams.put('pdStatus', message(code: 'period.status.' + pd.status, default: pd.status))
-		reportParams.put('txtOmitZero', message(code: 'report.omitZero.label', default: 'Omit Zero Values'))
-		reportParams.put('valOmitZero', params.omitZero)
+        reportParams.put('txtOmitZero', message(code: 'report.omitZero.label', default: 'Omit Zero Values'))
+        reportParams.put('valOmitZero', params.omitZero)
 
         if (params.scope == 'split') {
             reportParams.put('mainClause', 'and section_type = \'ie\'') // Jasper doesn't like GStrings in its parameters map
@@ -166,7 +166,7 @@ class DetailedPostingReport extends TaskExecutable {
         yield()
 
         mailService.sendMail {
-			multipart true
+            multipart true
             to user.email
             subject reportParams.reportTitle
             body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: reportParams.reportTitle])

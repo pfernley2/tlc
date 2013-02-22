@@ -29,11 +29,13 @@ class SystemAddressFormat {
     static traceUpdateCode = new AtomicLong()
     static traceDeleteCode = new AtomicLong()
 
-    static fieldTypes = ['location1', 'location2', 'location3', 'metro1', 'metro2', 'area1', 'area2', 'encoding', 'company', 'contact', 'identifier', 'country']
+    static fieldTypes = ['location1', 'location2', 'location3', 'metro1', 'metro2', 'area1', 'area2', 'encoding',
+        'company', 'contact', 'identifier', 'country']
     static fieldPlaceholders = ['company', 'contact', 'identifier', 'country']
-    static fieldPrompts = ['location1', 'location2', 'location3', 'community', 'village', 'suburb', 'zone', 'town', 'city', 'place', 'district', 'quarter',
-            'prefecture', 'ward', 'parish', 'locality', 'department', 'division', 'arrondissement', 'county', 'state', 'commonwealth', 'region',
-            'province', 'territory', 'island', 'zip', 'postcode', 'postalcode', 'country', 'contact', 'identifier', 'company', 'municipality', 'canton']
+    static fieldPrompts = ['location1', 'location2', 'location3', 'community', 'village', 'suburb', 'zone', 'town',
+        'city', 'place', 'district', 'quarter', 'prefecture', 'ward', 'parish', 'locality', 'department', 'division',
+        'arrondissement', 'county', 'state', 'commonwealth', 'region', 'province', 'territory', 'island', 'zip',
+        'postcode', 'postalcode', 'country', 'contact', 'identifier', 'company', 'municipality', 'canton']
 
     static hasMany = [countries: SystemCountry, customerAddresses: CustomerAddress, supplierAddresses: SupplierAddress]
 
@@ -653,7 +655,8 @@ class SystemAddressFormat {
         field7(nullable: true, size: 1..10, inList: fieldTypes, validator: {val, obj ->
             if (val) {
                 if (!obj.field6) return 'systemAddressFormat.field.prior'
-                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 || val == obj.field5 || val == obj.field6) {
+                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 ||
+                    val == obj.field5 || val == obj.field6) {
                     return 'systemAddressFormat.field.duplicate'
                 }
             }
@@ -753,7 +756,8 @@ class SystemAddressFormat {
         field8(nullable: true, size: 1..10, inList: fieldTypes, validator: {val, obj ->
             if (val) {
                 if (!obj.field7) return 'systemAddressFormat.field.prior'
-                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 || val == obj.field5 || val == obj.field6 || val == obj.field7) {
+                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 ||
+                    val == obj.field5 || val == obj.field6 || val == obj.field7) {
                     return 'systemAddressFormat.field.duplicate'
                 }
             }
@@ -853,8 +857,8 @@ class SystemAddressFormat {
         field9(nullable: true, size: 1..10, inList: fieldTypes, validator: {val, obj ->
             if (val) {
                 if (!obj.field8) return 'systemAddressFormat.field.prior'
-                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 || val == obj.field5 || val == obj.field6 || val == obj.field7 ||
-                        val == obj.field8) {
+                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 ||
+                    val == obj.field5 || val == obj.field6 || val == obj.field7 || val == obj.field8) {
                     return 'systemAddressFormat.field.duplicate'
                 }
             }
@@ -954,8 +958,8 @@ class SystemAddressFormat {
         field10(nullable: true, size: 1..10, inList: fieldTypes, validator: {val, obj ->
             if (val) {
                 if (!obj.field9) return 'systemAddressFormat.field.prior'
-                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 || val == obj.field5 || val == obj.field6 || val == obj.field7 ||
-                        val == obj.field8 || val == obj.field9) {
+                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 ||
+                    val == obj.field5 || val == obj.field6 || val == obj.field7 || val == obj.field8 || val == obj.field9) {
                     return 'systemAddressFormat.field.duplicate'
                 }
             }
@@ -1055,8 +1059,9 @@ class SystemAddressFormat {
         field11(nullable: true, size: 1..10, inList: fieldTypes, validator: {val, obj ->
             if (val) {
                 if (!obj.field10) return 'systemAddressFormat.field.prior'
-                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 || val == obj.field5 || val == obj.field6 || val == obj.field7 ||
-                        val == obj.field8 || val == obj.field9 || val == obj.field10) {
+                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 ||
+                    val == obj.field5 || val == obj.field6 || val == obj.field7 || val == obj.field8 ||
+                    val == obj.field9 || val == obj.field10) {
                     return 'systemAddressFormat.field.duplicate'
                 }
             }
@@ -1156,8 +1161,9 @@ class SystemAddressFormat {
         field12(nullable: true, size: 1..10, inList: fieldTypes, validator: {val, obj ->
             if (val) {
                 if (!obj.field11) return 'systemAddressFormat.field.prior'
-                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 || val == obj.field5 || val == obj.field6 || val == obj.field7 ||
-                        val == obj.field8 || val == obj.field9 || val == obj.field10 || val == obj.field11) {
+                if (val == obj.field1 || val == obj.field2 || val == obj.field3 || val == obj.field4 ||
+                    val == obj.field5 || val == obj.field6 || val == obj.field7 || val == obj.field8 ||
+                    val == obj.field9 || val == obj.field10 || val == obj.field11) {
                     return 'systemAddressFormat.field.duplicate'
                 }
             }

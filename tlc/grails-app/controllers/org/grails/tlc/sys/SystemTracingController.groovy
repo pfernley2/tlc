@@ -129,7 +129,7 @@ class SystemTracingController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private createSelectionList(systemOnly) {
         def selectionList = []

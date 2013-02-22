@@ -40,34 +40,34 @@ class SystemSetting {
         code(blank: false, size: 1..100, unique: true)
         dataType(blank: false, inList: ['string', 'integer', 'decimal', 'date', 'boolean'])
         dataScale(nullable: true, range: 1..10, validator: {val, obj ->
-                switch (obj.dataType) {
-                    case 'date':
+            switch (obj.dataType) {
+                case 'date':
                     if (val != 1 && val != 2) return 'date.error'
                     break
 
-                    case 'decimal':
+                case 'decimal':
                     if (!val) return 'decimal.error'
                     break
 
-                    default:
+                default:
                     if (val) return 'other.error'
                     break
-                }
+            }
 
-                return true
-            })
+            return true
+        })
         value(blank: false, size: 1..100, validator: {val, obj ->
-                if (val != null) {
-                    def result = UtilService.stringOf(obj.dataType, obj.dataScale, UtilService.valueOf(obj.dataType, obj.dataScale, val))
-                    if (result == null) return false
-                    obj.value = result
-                }
+            if (val != null) {
+                def result = UtilService.stringOf(obj.dataType, obj.dataScale, UtilService.valueOf(obj.dataType, obj.dataScale, val))
+                if (result == null) return false
+                obj.value = result
+            }
 
-                return true
-            })
+            return true
+        })
         securityCode(validator: {val, obj ->
-                return (val == 0)
-            })
+            return (val == 0)
+        })
     }
 
     def afterInsert() {

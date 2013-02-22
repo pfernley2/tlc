@@ -24,8 +24,8 @@ import org.grails.tlc.sys.SystemAddressFormat
 class AddressService {
 
     static transactional = false
-	
-	def utilService
+
+    def utilService
 
     // Get the dummy address for a customer or supplier, or null if there is no dummy address
     def getDummyAddress(owner) {
@@ -192,7 +192,7 @@ class AddressService {
         return valid
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private createLabel(format, index) {
         def prompt, label

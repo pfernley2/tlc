@@ -30,7 +30,7 @@ class Period {
 
     static belongsTo = [year: Year]
     static hasMany = [balances: GeneralBalance, documents: Document, allocations: Allocation,
-            customerTurnovers: CustomerTurnover, supplierTurnovers: SupplierTurnover, revaluations: PeriodRevaluation]
+        customerTurnovers: CustomerTurnover, supplierTurnovers: SupplierTurnover, revaluations: PeriodRevaluation]
 
     String code
     Date validFrom

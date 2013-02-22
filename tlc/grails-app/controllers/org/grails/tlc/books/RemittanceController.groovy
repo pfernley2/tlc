@@ -204,7 +204,7 @@ class RemittanceController {
         def advices = Remittance.executeQuery(sql, [utilService.currentCompany()])
         def summaries = []
         for (advice in advices) summaries << new PaymentBlock(advice[0], advice[1], advice[2])
-		utilService.collate(summaries) {it.bankCode + ' ' + it.currencyCode}
+        utilService.collate(summaries) {it.bankCode + ' ' + it.currencyCode}
         return [supplierInstance: supplierInstance, summaries: summaries]
     }
 
@@ -244,7 +244,7 @@ class RemittanceController {
             def advices = Remittance.executeQuery(sql, [utilService.currentCompany()])
             def summaries = []
             for (advice in advices) summaries << new PaymentBlock(advice[0], advice[1], advice[2])
-			utilService.collate(summaries) {it.bankCode + ' ' + it.currencyCode}
+            utilService.collate(summaries) {it.bankCode + ' ' + it.currencyCode}
             render(view: 'release', model: [supplierInstance: supplierInstance, summaries: summaries])
         }
     }

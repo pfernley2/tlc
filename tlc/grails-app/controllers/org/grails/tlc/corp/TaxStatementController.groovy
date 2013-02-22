@@ -188,7 +188,7 @@ class TaxStatementController {
                                             accountRate = utilService.getExchangeRate(companyCurrency, accountCurrency)
                                             if (!accountRate) {
                                                 taxStatementInstance.errorMessage(code: 'document.bad.exchangeRate', args: [companyCurrency.code, accountCurrency.code],
-                                                        default: "No exchange rate available from ${companyCurrency.code} to ${accountCurrency.code}")
+                                                default: "No exchange rate available from ${companyCurrency.code} to ${accountCurrency.code}")
                                                 valid = false
                                             }
                                         }
@@ -332,9 +332,9 @@ class TaxStatementController {
         if (valid) {
             def today = utilService.fixDate()
             if (!taxStatementInstance.statementDate ||
-                    taxStatementInstance.statementDate != utilService.fixDate(taxStatementInstance.statementDate) ||
-                    taxStatementInstance.statementDate < today - 365 ||
-                    taxStatementInstance.statementDate > today) {
+            taxStatementInstance.statementDate != utilService.fixDate(taxStatementInstance.statementDate) ||
+            taxStatementInstance.statementDate < today - 365 ||
+            taxStatementInstance.statementDate > today) {
                 taxStatementInstance.errorMessage(field: 'statementDate', code: 'taxStatement.statementDate.bad', default: 'Invalid statement date')
                 valid = false
             }
@@ -386,7 +386,7 @@ class TaxStatementController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getParameters(taxStatementInstance, documentInstance, documentLine) {
         def taxStatementLineList = TaxStatementLine.findAll('from TaxStatementLine as x where x.statement = ? order by x.currentStatement, x.expenditure, x.taxCode.code, x.taxPercentage',
@@ -444,6 +444,6 @@ class TaxStatementController {
         periodList = periodList.reverse()
 
         return [taxStatementInstance: taxStatementInstance, taxStatementLineList: taxStatementLineList, documentInstance: documentInstance,
-                documentLine: documentLine, documentTypeList: documentTypeList, periodList: periodList, settings: settings]
+            documentLine: documentLine, documentTypeList: documentTypeList, periodList: periodList, settings: settings]
     }
 }

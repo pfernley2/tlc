@@ -172,27 +172,27 @@ class PageHelpService {
                     if (line) line += '\n'
                     line += it
                 }
-				
+
                 line = "<p>${formatLine(line, applicationURI)}</p>"
                 lines.addAll(line.split('\n')*.replaceAll('\\s+$', ''))
                 break
-				
+
             case 'hr':
                 lines << '<hr/>'
                 break
-				
+
             case 'h1':
                 lines << "<h1>${formatLine(block.lines[0], applicationURI)}</h1>"
                 break
-				
+
             case 'h2':
                 lines << "<h2>${formatLine(block.lines[0], applicationURI)}</h2>"
                 break
-				
+
             case 'h3':
                 lines << "<h3>${formatLine(block.lines[0], applicationURI)}</h3>"
                 break
-				
+
             case 'table':
                 lines << '<div class="center" style="margin:10px;"><table>'
                 for (row in block.lines) {
@@ -201,29 +201,29 @@ class PageHelpService {
                     for (int i = 1; i < cols.size(); i++) {
                         lines << "<td>${formatLine(cols[i], applicationURI)}</td>"
                     }
-					
+
                     lines << '</tr>'
                 }
-				
+
                 lines << '</table></div>'
                 break
-				
+
             case 'ul':
                 lines << '<ul style="list-style-type:disc;list-style-position:inside;">'
                 for (it in block.lines) lines << "<li>${formatLine(it, applicationURI)}</li>"
                 lines << '</ul>'
                 break
-				
+
             case 'ol':
                 lines << '<ol style="list-style-type:decimal;list-style-position:inside;">'
                 for (it in block.lines) lines << "<li>${formatLine(it, applicationURI)}</li>"
                 lines << '</ol>'
                 break
-				
+
             case '+d':
                 lines << '<div class="helpbox">'
                 break
-				
+
             case '-d':
                 lines << '</div>'
                 break
@@ -314,39 +314,39 @@ class PageHelpService {
                         }
                         break
                     case '{':
-	                    if (peek(line, i) == '{') {
-	                        def e = line.indexOf('}}', i + 1)
-	                        if (e > i) {
-								def dflt
-	                            def img = line.substring(i + 2, e)
-	                            if (img.equalsIgnoreCase('exclaim')) {
-	                                img = 'exclamation'
-									dflt = 'Exclamation mark'
-	                            } else if (img.equalsIgnoreCase('question')) {
-	                                img = 'question'
-									dflt = 'Question mark'
-	                            } else if (img.equalsIgnoreCase('info')) {
-	                                img = 'information'
-									dflt = 'Information symbol'
-	                            } else {
-	                                img = null
-	                            }
-	
-	                            if (img) {
-	                                sb.append('<img src="')
-	                                sb.append("${applicationURI}/images/skin/${img}.png")
-	                                sb.append('" alt="')
-									sb.append(message(code: "generic.${img}.alt.text", default: dflt, encodeAs: 'HTML'))
-									sb.append('" class="borderless"/>')
-	                                i = e + 1
-	                                continue
-	                            }
-	                        }
-	                    }
-	
-	                    sb.append(line[i])
-	                    break
-						
+                        if (peek(line, i) == '{') {
+                            def e = line.indexOf('}}', i + 1)
+                            if (e > i) {
+                                def dflt
+                                def img = line.substring(i + 2, e)
+                                if (img.equalsIgnoreCase('exclaim')) {
+                                    img = 'exclamation'
+                                    dflt = 'Exclamation mark'
+                                } else if (img.equalsIgnoreCase('question')) {
+                                    img = 'question'
+                                    dflt = 'Question mark'
+                                } else if (img.equalsIgnoreCase('info')) {
+                                    img = 'information'
+                                    dflt = 'Information symbol'
+                                } else {
+                                    img = null
+                                }
+
+                                if (img) {
+                                    sb.append('<img src="')
+                                    sb.append("${applicationURI}/images/skin/${img}.png")
+                                    sb.append('" alt="')
+                                    sb.append(message(code: "generic.${img}.alt.text", default: dflt, encodeAs: 'HTML'))
+                                    sb.append('" class="borderless"/>')
+                                    i = e + 1
+                                    continue
+                                }
+                            }
+                        }
+
+                        sb.append(line[i])
+                        break
+
                     default:
                         sb.append(line[i])
                         break

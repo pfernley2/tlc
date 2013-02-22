@@ -57,22 +57,22 @@ class TaskScanner extends Thread {
             while (true) {
                 if (Thread.interrupted()) break
 
-                try {
-                    bindSession()
-                    executor.scan()
-                    unbindSession()
-                } catch (InterruptedException ie) {
-                    return
-                } catch (ClosedByInterruptException cbie) {
-                    return
-                } catch (Exception ex) {}
+                    try {
+                        bindSession()
+                        executor.scan()
+                        unbindSession()
+                    } catch (InterruptedException ie) {
+                        return
+                    } catch (ClosedByInterruptException cbie) {
+                        return
+                    } catch (Exception ex) {}
 
                 if (Thread.interrupted()) break
 
-                for (int i = 0; i < interval; i += snooze) {
-                    sleep(millis)
-                    if (executor.hint.getAndSet(false)) break
-                }
+                    for (int i = 0; i < interval; i += snooze) {
+                        sleep(millis)
+                        if (executor.hint.getAndSet(false)) break
+                    }
             }
         } catch (InterruptedException ex) {
         } finally {

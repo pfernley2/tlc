@@ -18,7 +18,7 @@
  *  along with TLC. If not, see <http://www.gnu.org/licenses/>.
  */
 class RegexCodec {
-	private static final String regexChars = '\\.^$?*+&|[]-(){},:<>=!'
+    private static final String regexChars = '\\.^$?*+&|[]-(){},:<>=!'
 
     static encode = {src ->
         if (src) {

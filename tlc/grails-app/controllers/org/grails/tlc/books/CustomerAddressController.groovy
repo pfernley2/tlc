@@ -62,7 +62,7 @@ class CustomerAddressController {
             redirect(action: 'list')
         } else {
             return [customerAddressInstance: customerAddressInstance,
-                    customerAddressLines: addressService.getAsLineMaps(customerAddressInstance, null, null, utilService.currentCompany().country)]
+                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance, null, null, utilService.currentCompany().country)]
         }
     }
 
@@ -95,8 +95,8 @@ class CustomerAddressController {
             redirect(action: 'list')
         } else {
             return [customerAddressInstance: customerAddressInstance,
-                    customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
-                    transferList: createTransferList(customerAddressInstance)]
+                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
+                transferList: createTransferList(customerAddressInstance)]
         }
     }
 
@@ -106,8 +106,8 @@ class CustomerAddressController {
             def modified = processModification(ddSource, params)
             if (modified) {
                 render(view: 'edit', model: [customerAddressInstance: loadTransfers(modified, params),
-                        customerAddressLines: addressService.getAsLineMaps(modified),
-                        transferList: createTransferList(modified)])
+                            customerAddressLines: addressService.getAsLineMaps(modified),
+                            transferList: createTransferList(modified)])
             } else {
                 redirect(action: 'list')
             }
@@ -117,8 +117,8 @@ class CustomerAddressController {
                 if (version != null && customerAddressInstance.version > version) {
                     customerAddressInstance.errorMessage(code: 'locking.failure', domain: 'customerAddress')
                     render(view: 'edit', model: [customerAddressInstance: loadTransfers(customerAddressInstance, params),
-                            customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
-                            transferList: createTransferList(customerAddressInstance)])
+                                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
+                                transferList: createTransferList(customerAddressInstance)])
                     return
                 }
 
@@ -145,8 +145,8 @@ class CustomerAddressController {
                     redirect(action: 'show', id: customerAddressInstance.id)
                 } else {
                     render(view: 'edit', model: [customerAddressInstance: customerAddressInstance,
-                            customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
-                            transferList: createTransferList(customerAddressInstance)])
+                                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
+                                transferList: createTransferList(customerAddressInstance)])
                 }
             } else {
                 flash.message = utilService.standardMessage('not.found', 'customerAddress', params.id)
@@ -167,8 +167,8 @@ class CustomerAddressController {
             }
 
             return [customerAddressInstance: customerAddressInstance,
-                    customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
-                    transferList: createTransferList(customerAddressInstance)]
+                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
+                transferList: createTransferList(customerAddressInstance)]
         } else {
             redirect(action: 'list')
         }
@@ -180,8 +180,8 @@ class CustomerAddressController {
             def modified = processModification(ddSource, params)
             if (modified) {
                 render(view: 'create', model: [customerAddressInstance: loadTransfers(modified, params),
-                        customerAddressLines: addressService.getAsLineMaps(modified),
-                        transferList: createTransferList(modified)])
+                            customerAddressLines: addressService.getAsLineMaps(modified),
+                            transferList: createTransferList(modified)])
             } else {
                 redirect(action: 'list')
             }
@@ -216,8 +216,8 @@ class CustomerAddressController {
                     redirect(action: 'show', id: customerAddressInstance.id)
                 } else {
                     render(view: 'create', model: [customerAddressInstance: customerAddressInstance,
-                            customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
-                            transferList: createTransferList(customerAddressInstance)])
+                                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
+                                transferList: createTransferList(customerAddressInstance)])
                 }
             } else {
                 redirect(action: 'list')
@@ -237,8 +237,8 @@ class CustomerAddressController {
             }
 
             return [customerAddressInstance: customerAddressInstance,
-                    customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
-                    transferList: createTransferList(customerAddressInstance)]
+                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
+                transferList: createTransferList(customerAddressInstance)]
         } else {
             redirect(controller: 'customer', action: 'list')
         }
@@ -267,8 +267,8 @@ class CustomerAddressController {
                     redirect(controller: 'customer', action: 'show', id: customer.id)
                 } else {
                     render(view: 'initial', model: [customerAddressInstance: customerAddressInstance,
-                            customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
-                            transferList: null])
+                                customerAddressLines: addressService.getAsLineMaps(customerAddressInstance),
+                                transferList: null])
                 }
             } else {
                 redirect(controller: 'customer', action: 'list')
@@ -276,7 +276,7 @@ class CustomerAddressController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private processModification(customer, params) {
         def customerAddressInstance, temp

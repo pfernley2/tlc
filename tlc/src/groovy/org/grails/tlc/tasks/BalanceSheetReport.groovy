@@ -151,8 +151,9 @@ public class BalanceSheetReport extends TaskExecutable {
         def accumulators = [:]
         def baseList = SystemWorkarea.findAllByProcess(baseSelectedPID)
         for (rec in baseList) {
-            if (!createInterimData(session, rec, format, baseSelectedPID, extraSelectedPID, openingSelectedPID, baseComparativePID, extraComparativePID, openingComparativePID, interimPID,
-                    needExtraSelected, needYearMovementSelected, needBaseComparative, needExtraComparative, needYearMovementComparative)) {
+            if (!createInterimData(session, rec, format, baseSelectedPID, extraSelectedPID, openingSelectedPID,
+                baseComparativePID, extraComparativePID, openingComparativePID, interimPID, needExtraSelected,
+                needYearMovementSelected, needBaseComparative, needExtraComparative, needYearMovementComparative)) {
                 clearWorkarea([baseSelectedPID, extraSelectedPID, openingSelectedPID, baseComparativePID, extraComparativePID, openingComparativePID, interimPID])
                 completionMessage = message(code: 'generic.workarea', default: 'Unable to update the work table')
                 return false
@@ -220,7 +221,7 @@ public class BalanceSheetReport extends TaskExecutable {
         yield()
 
         mailService.sendMail {
-			multipart true
+            multipart true
             to user.email
             subject title
             body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])
@@ -235,50 +236,52 @@ public class BalanceSheetReport extends TaskExecutable {
 
     private usesBaseSelected(format) {
         return (BASE_SELECTED_DATA.contains(format.column1PrimaryData) || BASE_SELECTED_DATA.contains(format.column1SecondaryData) ||
-                BASE_SELECTED_DATA.contains(format.column2PrimaryData) || BASE_SELECTED_DATA.contains(format.column2SecondaryData) ||
-                BASE_SELECTED_DATA.contains(format.column3PrimaryData) || BASE_SELECTED_DATA.contains(format.column3SecondaryData) ||
-                BASE_SELECTED_DATA.contains(format.column4PrimaryData) || BASE_SELECTED_DATA.contains(format.column4SecondaryData))
+            BASE_SELECTED_DATA.contains(format.column2PrimaryData) || BASE_SELECTED_DATA.contains(format.column2SecondaryData) ||
+            BASE_SELECTED_DATA.contains(format.column3PrimaryData) || BASE_SELECTED_DATA.contains(format.column3SecondaryData) ||
+            BASE_SELECTED_DATA.contains(format.column4PrimaryData) || BASE_SELECTED_DATA.contains(format.column4SecondaryData))
     }
 
     private usesExtraSelected(format) {
         return (EXTRA_SELECTED_DATA.contains(format.column1PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column1SecondaryData) ||
-                EXTRA_SELECTED_DATA.contains(format.column2PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column2SecondaryData) ||
-                EXTRA_SELECTED_DATA.contains(format.column3PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column3SecondaryData) ||
-                EXTRA_SELECTED_DATA.contains(format.column4PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column4SecondaryData))
+            EXTRA_SELECTED_DATA.contains(format.column2PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column2SecondaryData) ||
+            EXTRA_SELECTED_DATA.contains(format.column3PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column3SecondaryData) ||
+            EXTRA_SELECTED_DATA.contains(format.column4PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column4SecondaryData))
     }
 
     private usesYearMovementSelected(format) {
         return (OPENING_SELECTED_DATA.contains(format.column1PrimaryData) || OPENING_SELECTED_DATA.contains(format.column1SecondaryData) ||
-                OPENING_SELECTED_DATA.contains(format.column2PrimaryData) || OPENING_SELECTED_DATA.contains(format.column2SecondaryData) ||
-                OPENING_SELECTED_DATA.contains(format.column3PrimaryData) || OPENING_SELECTED_DATA.contains(format.column3SecondaryData) ||
-                OPENING_SELECTED_DATA.contains(format.column4PrimaryData) || OPENING_SELECTED_DATA.contains(format.column4SecondaryData))
+            OPENING_SELECTED_DATA.contains(format.column2PrimaryData) || OPENING_SELECTED_DATA.contains(format.column2SecondaryData) ||
+            OPENING_SELECTED_DATA.contains(format.column3PrimaryData) || OPENING_SELECTED_DATA.contains(format.column3SecondaryData) ||
+            OPENING_SELECTED_DATA.contains(format.column4PrimaryData) || OPENING_SELECTED_DATA.contains(format.column4SecondaryData))
     }
 
     private usesBaseComparative(format) {
         return (BASE_COMPARATIVE_DATA.contains(format.column1PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column1SecondaryData) ||
-                BASE_COMPARATIVE_DATA.contains(format.column2PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
-                BASE_COMPARATIVE_DATA.contains(format.column3PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
-                BASE_COMPARATIVE_DATA.contains(format.column4PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column4SecondaryData))
+            BASE_COMPARATIVE_DATA.contains(format.column2PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
+            BASE_COMPARATIVE_DATA.contains(format.column3PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
+            BASE_COMPARATIVE_DATA.contains(format.column4PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column4SecondaryData))
     }
 
     private usesExtraComparative(format) {
         return (EXTRA_COMPARATIVE_DATA.contains(format.column1PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column1SecondaryData) ||
-                EXTRA_COMPARATIVE_DATA.contains(format.column2PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
-                EXTRA_COMPARATIVE_DATA.contains(format.column3PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
-                EXTRA_COMPARATIVE_DATA.contains(format.column4PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column4SecondaryData))
+            EXTRA_COMPARATIVE_DATA.contains(format.column2PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
+            EXTRA_COMPARATIVE_DATA.contains(format.column3PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
+            EXTRA_COMPARATIVE_DATA.contains(format.column4PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column4SecondaryData))
     }
 
     private usesYearMovementComparative(format) {
         return (OPENING_COMPARATIVE_DATA.contains(format.column1PrimaryData) || OPENING_COMPARATIVE_DATA.contains(format.column1SecondaryData) ||
-                OPENING_COMPARATIVE_DATA.contains(format.column2PrimaryData) || OPENING_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
-                OPENING_COMPARATIVE_DATA.contains(format.column3PrimaryData) || OPENING_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
-                OPENING_COMPARATIVE_DATA.contains(format.column4PrimaryData) || OPENING_COMPARATIVE_DATA.contains(format.column4SecondaryData))
+            OPENING_COMPARATIVE_DATA.contains(format.column2PrimaryData) || OPENING_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
+            OPENING_COMPARATIVE_DATA.contains(format.column3PrimaryData) || OPENING_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
+            OPENING_COMPARATIVE_DATA.contains(format.column4PrimaryData) || OPENING_COMPARATIVE_DATA.contains(format.column4SecondaryData))
     }
 
-    // Loads system workarea table with the raw data needed to fill the report. Returns true if succeeded or false if the user has no access rights
-    private loadData(session, format, baseSelectedPID, extraSelectedPID, openingSelectedPID, baseComparativePID, extraComparativePID, openingComparativePID,
-                     selectedPeriod, selectedOpeningPeriod, comparativePeriod, comparativeOpeningPeriod, selectedPeriodList, comparativePeriodList,
-                     needYearMovementSelected, needExtraSelected, needBaseComparative, needYearMovementComparative, needExtraComparative, groupings, retainedAccount) {
+    // Loads system workarea table with the raw data needed to fill the report.
+    // Returns true if succeeded or false if the user has no access rights
+    private loadData(session, format, baseSelectedPID, extraSelectedPID, openingSelectedPID, baseComparativePID,
+        extraComparativePID, openingComparativePID, selectedPeriod, selectedOpeningPeriod, comparativePeriod,
+        comparativeOpeningPeriod, selectedPeriodList, comparativePeriodList, needYearMovementSelected, needExtraSelected,
+        needBaseComparative, needYearMovementComparative, needExtraComparative, groupings, retainedAccount) {
 
         // At the time of writing there was a fault in Hibernate which stopped us using HQL for the following.
         // We therefore use raw SQL - ugly, but it works! Hibernate was translating the HQL to SQL incorrectly.
@@ -535,9 +538,11 @@ public class BalanceSheetReport extends TaskExecutable {
         return text
     }
 
-    // Create the interim data to be used by the report and return true. Return false if could not save the data.
-    private createInterimData(session, baseSelected, format, baseSelectedPID, extraSelectedPID, openingSelectedPID, baseComparativePID, extraComparativePID, openingComparativePID, interimPID,
-                              needExtraSelected, needYearMovementSelected, needBaseComparative, needExtraComparative, needYearMovementComparative) {
+    // Create the interim data to be used by the report and return true.
+    // Return false if could not save the data.
+    private createInterimData(session, baseSelected, format, baseSelectedPID, extraSelectedPID, openingSelectedPID,
+        baseComparativePID, extraComparativePID, openingComparativePID, interimPID, needExtraSelected,
+        needYearMovementSelected, needBaseComparative, needExtraComparative, needYearMovementComparative) {
         def extraSelected, openingSelected, baseComparative, extraComparative, openingComparative
         if (needExtraSelected) extraSelected = SystemWorkarea.findByProcessAndIdentifier(extraSelectedPID, baseSelected.identifier)
         if (needYearMovementSelected) openingSelected = SystemWorkarea.findByProcessAndIdentifier(openingSelectedPID, baseSelected.identifier)

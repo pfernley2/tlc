@@ -38,6 +38,6 @@ class TaxStatementLineController {
         def transactions = TaxStatementTask.listStatementLineTransactions(ddSource, params.max, params.offset)
         def sums = TaxStatementTask.summarizeStatementLineTransactions(ddSource)
         [taxStatementInstance: ddSource.statement, taxStatementLineInstance: ddSource, transactionInstanceList: transactions,
-                transactionInstanceTotal: sums[0], goods: sums[1], tax: sums[2], decimals: utilService.companyCurrency().decimals]
+                    transactionInstanceTotal: sums[0], goods: sums[1], tax: sums[2], decimals: utilService.companyCurrency().decimals]
     }
 }

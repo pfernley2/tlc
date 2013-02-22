@@ -39,7 +39,7 @@ class SystemUserController {
 
     // Security settings
     def activities = [default: 'sysadmin', login: 'any', connect: 'any', logout: 'logout', forgot: 'any', notification: 'any', change: 'login',
-            proceed: 'login', profile: 'login', modify: 'login', register: 'any', registration: 'any', captcha: 'any']
+        proceed: 'login', profile: 'login', modify: 'login', register: 'any', registration: 'any', captcha: 'any']
 
     // List of actions with specific request types
     static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', connect: 'POST', notification: 'POST', registration: 'POST', proceed: 'POST', modify: 'POST']
@@ -57,9 +57,9 @@ class SystemUserController {
         if (!systemUserInstance) {
             flash.message = utilService.standardMessage('not.found', 'systemUser', params.id)
             redirect(action: 'list')
-			return
+            return
         }
-		
+
         [systemUserInstance: systemUserInstance]
     }
 
@@ -72,21 +72,21 @@ class SystemUserController {
             // Check if last system administrator
             if (systemUserInstance.administrator && SystemUser.countByAdministrator(true) < 2) {
                 systemUserInstance.errorMessage(code: 'systemUser.last.system.admin', args: [systemUserInstance.name],
-                        default: "User ${systemUserInstance.name} is the last system administrator and may not be disabled or deleted")
+                default: "User ${systemUserInstance.name} is the last system administrator and may not be disabled or deleted")
                 valid = false
             }
 
             // Check if owns task definitions
             if (valid && Task.countByUser(systemUserInstance) > 0) {
                 systemUserInstance.errorMessage(code: 'systemUser.owns.tasks', args: [systemUserInstance.name],
-                        default: "User ${systemUserInstance.name} owns task definitions. These tasks must be re-assigned to another user before continuing.")
+                default: "User ${systemUserInstance.name} owns task definitions. These tasks must be re-assigned to another user before continuing.")
                 valid = false
             }
 
             // Check if owns queued tasks that are awaiting execution
             if (valid && QueuedTask.countByUserAndCurrentStatus(systemUserInstance, 'waiting') > 0) {
                 systemUserInstance.errorMessage(code: 'systemUser.waiting.tasks', args: [systemUserInstance.name],
-                        default: "User ${systemUserInstance.name} has tasks in the queue awaiting execution. These tasks must be deleted, executed or re-assigned before continuing.")
+                default: "User ${systemUserInstance.name} has tasks in the queue awaiting execution. These tasks must be deleted, executed or re-assigned before continuing.")
                 valid = false
             }
 
@@ -106,7 +106,7 @@ class SystemUserController {
                     // If there is only one company administrator and it's this user, complain
                     if (coAdmins.size() == 1 && coAdmins[0].id == coUser.id) {
                         systemUserInstance.errorMessage(code: 'systemUser.last.company.admin', args: [systemUserInstance.name, coUser.company.name],
-                                default: "User ${systemUserInstance.name} is the last administrator in company ${coUser.company.name} and may not be deleted")
+                        default: "User ${systemUserInstance.name} is the last administrator in company ${coUser.company.name} and may not be deleted")
                         valid = false
                         break
                     }
@@ -161,7 +161,7 @@ class SystemUserController {
             def oldCountryId = systemUserInstance.country.id
             def oldLanguageId = systemUserInstance.language.id
             systemUserInstance.properties['loginId', 'name', 'email', 'password', 'passwordConfirmation', 'securityQuestion', 'securityAnswer', 'lastLogin', 'disabledUntil',
-                    'nextPasswordChange', 'administrator', 'country', 'language', 'oldPassword1', 'oldPassword2', 'oldPassword3', 'disableHelp'] = params
+                'nextPasswordChange', 'administrator', 'country', 'language', 'oldPassword1', 'oldPassword2', 'oldPassword3', 'disableHelp'] = params
             systemUserInstance.currentPassword = CacheService.IMPOSSIBLE_VALUE  // Not a real end-user password change
             def valid = !systemUserInstance.hasErrors()
 
@@ -170,7 +170,7 @@ class SystemUserController {
             // system administrator
             if (valid && !systemUserInstance.administrator && oldAdministrator && SystemUser.countByAdministrator(true) < 2) {
                 systemUserInstance.errorMessage(code: 'systemUser.last.system.admin', args: [systemUserInstance.name],
-                        default: "User ${systemUserInstance.name} is the last system administrator and may not be disabled or deleted")
+                default: "User ${systemUserInstance.name} is the last system administrator and may not be disabled or deleted")
                 valid = false
             }
 
@@ -225,7 +225,7 @@ class SystemUserController {
     def save() {
         def systemUserInstance = new SystemUser()
         systemUserInstance.properties['loginId', 'name', 'email', 'password', 'passwordConfirmation', 'securityQuestion', 'securityAnswer', 'lastLogin', 'disabledUntil',
-                'nextPasswordChange', 'administrator', 'country', 'language', 'oldPassword1', 'oldPassword2', 'oldPassword3', 'disableHelp'] = params
+            'nextPasswordChange', 'administrator', 'country', 'language', 'oldPassword1', 'oldPassword2', 'oldPassword3', 'disableHelp'] = params
         def valid = !systemUserInstance.hasErrors()
         if (valid) {
             SystemUser.withTransaction {status ->
@@ -275,7 +275,7 @@ class SystemUserController {
                             utilService.newCurrentUser(systemUserInstance)
                             if (systemUserInstance.passwordExpired()) {
                                 utilService.setNextStep([sourceController: 'systemUser', sourceAction: 'change',
-                                        targetController: 'systemUser', targetAction: 'proceed'])
+                                            targetController: 'systemUser', targetAction: 'proceed'])
                                 render(view: 'change', model: [systemUserInstance: systemUserInstance])
                             } else {
                                 utilService.setNextStep(null)
@@ -287,7 +287,7 @@ class SystemUserController {
                                     redirect(controller: 'systemMenu', action: 'display')
                                 } else {
                                     utilService.setNextStep([sourceController: 'companyUser', sourceAction: 'select',
-                                            targetController: 'companyUser', targetAction: 'attach'])
+                                                targetController: 'companyUser', targetAction: 'attach'])
                                     redirect(controller: 'companyUser', action: 'select')
                                 }
                             }
@@ -402,7 +402,7 @@ class SystemUserController {
                     redirect(controller: 'systemMenu', action: 'display')
                 } else {
                     utilService.setNextStep([sourceController: 'companyUser', sourceAction: 'select',
-                            targetController: 'companyUser', targetAction: 'attach'])
+                                targetController: 'companyUser', targetAction: 'attach'])
                     redirect(controller: 'companyUser', action: 'select')
                 }
             } else {
@@ -441,7 +441,7 @@ class SystemUserController {
             def oldCountryId = systemUserInstance.country.id
             def oldLanguageId = systemUserInstance.language.id
             systemUserInstance.properties['loginId', 'name', 'email', 'currentPassword', 'password', 'passwordConfirmation',
-                    'securityQuestion', 'securityAnswer', 'country', 'language', 'disableHelp'] = params
+                'securityQuestion', 'securityAnswer', 'country', 'language', 'disableHelp'] = params
             if (!systemUserInstance.hasErrors() && systemUserInstance.verifyPasswordStatus() && systemUserInstance.saveThis()) {
                 if (oldCountryId != systemUserInstance.country.id || oldLanguageId != systemUserInstance.language.id) {
                     utilService.setSessionLocale(new Locale(systemUserInstance.language.code, systemUserInstance.country.code))
@@ -468,7 +468,7 @@ class SystemUserController {
 
         def systemUserInstance = new SystemUser()
         systemUserInstance.properties['loginId', 'name', 'email', 'password', 'passwordConfirmation',
-                'securityQuestion', 'securityAnswer', 'country', 'language', 'accessCode'] = params
+            'securityQuestion', 'securityAnswer', 'country', 'language', 'accessCode'] = params
         if (!systemUserInstance.country && !systemUserInstance.language) {
             def locale = utilService.currentLocale()
             systemUserInstance.country = SystemCountry.findByCode(locale.getCountry() ?: 'US')
@@ -611,12 +611,12 @@ class SystemUserController {
 
     private generateNewPassword() {
         def words = ['anchor', 'ability', 'antonym', 'battery', 'beached', 'bedrock', 'canton', 'carbon', 'concise',
-                'decider', 'digital', 'dulcet', 'edited', 'effect', 'elastic', 'faster', 'feather', 'formic', 'general', 'glance', 'gnomic',
-                'habitat', 'halter', 'hiking', 'ignite', 'images', 'inboard', 'jointed', 'judges', 'justify', 'kaftan', 'kennel', 'kindled',
-                'linkup', 'loofah', 'lordly', 'majestic', 'manager', 'monarch', 'nearly', 'nickel', 'nutrient', 'oarlock', 'opaque', 'opulent',
-                'parkland', 'parsnip', 'popcorn', 'quaver', 'queried', 'quoted', 'rabbit', 'require', 'roadside', 'school', 'sender', 'sonnet',
-                'teacup', 'thorns', 'trumpet', 'unarmed', 'unbend', 'urgent', 'vizier', 'volatile', 'voyage', 'waffle', 'waiter', 'weight',
-                'xenophobia', 'xeroxed', 'xylophone', 'yachting', 'yarrow', 'yellow', 'zealous', 'zipped', 'zircon']
+            'decider', 'digital', 'dulcet', 'edited', 'effect', 'elastic', 'faster', 'feather', 'formic', 'general', 'glance', 'gnomic',
+            'habitat', 'halter', 'hiking', 'ignite', 'images', 'inboard', 'jointed', 'judges', 'justify', 'kaftan', 'kennel', 'kindled',
+            'linkup', 'loofah', 'lordly', 'majestic', 'manager', 'monarch', 'nearly', 'nickel', 'nutrient', 'oarlock', 'opaque', 'opulent',
+            'parkland', 'parsnip', 'popcorn', 'quaver', 'queried', 'quoted', 'rabbit', 'require', 'roadside', 'school', 'sender', 'sonnet',
+            'teacup', 'thorns', 'trumpet', 'unarmed', 'unbend', 'urgent', 'vizier', 'volatile', 'voyage', 'waffle', 'waiter', 'weight',
+            'xenophobia', 'xeroxed', 'xylophone', 'yachting', 'yarrow', 'yellow', 'zealous', 'zipped', 'zircon']
 
         def rnd = new Random()
         def word = words[rnd.nextInt(78)]

@@ -5,7 +5,7 @@ dataSource {
     driverClassName = 'com.mysql.jdbc.Driver'	// TODO: Change this if you are not using MySQL
 
     // TODO: The following sets up the Apache Commons DBCP database connection pooling
-	// to avoid potential connection timeout problems when used in a long-running
+    // to avoid potential connection timeout problems when used in a long-running
     // environment (such a Production system which only gets re-booted as infrequently
     // as possible). The following are assumptions and therefore you should check them
     // out. In particular, ensure that the validationQuery is a valid SQL statement

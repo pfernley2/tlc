@@ -27,47 +27,47 @@ class InitialSystemData {
     def loadSystem(servletContext, appVersion) {
 
         // Load data used in all environments
-		println "Tables and indexes created"
-		println "Loading system settings"
+        println "Tables and indexes created"
+        println "Loading system settings"
         loadSystemSettings(appVersion)
-		println "Loading language definitions"
+        println "Loading language definitions"
         loadSystemLanguages()
-		println "Loading currency information"
+        println "Loading currency information"
         loadSystemCurrencies()
-		println "Loading address and contact formats"
+        println "Loading address and contact formats"
         loadSystemAddressFormats()
         loadSystemCustomerAddressTypes()
         loadSystemSupplierAddressTypes()
         loadSystemCustomerContactTypes()
         loadSystemSupplierContactTypes()
-		println "Loading Geo, Region and Country settings"
+        println "Loading Geo, Region and Country settings"
         loadSystemGeos()
         loadSystemRegions()
         loadSystemCountries()
-		println "Loading Measures, Scales and Units"
+        println "Loading Measures, Scales and Units"
         loadSystemMeasures()
         loadSystemScales()
         loadSystemUnits()
         loadSystemConversions()
-		println "Loading basic accounting structures"
+        println "Loading basic accounting structures"
         loadSystemPaymentSchedules()
         loadSystemDocumentTypes()
         loadSystemAccountTypes()
-		println "Loading security data"
+        println "Loading security data"
         loadSystemMenus()
         loadSystemRoles()
         loadSystemUsers()
-		println "Creating the System company"
+        println "Creating the System company"
         loadCompanies()
         loadTasks()
-		println "Loading messages and texts"
+        println "Loading messages and texts"
         loadMessages(servletContext)
         loadPageHelp(servletContext)
 
-		println "Initializing the System company's data"
+        println "Initializing the System company's data"
         initializeCompanyData() // Must be last
-		println "Installation complete"
-		println ""
+        println "Installation complete"
+        println ""
     }
 
     private initializeCompanyData() {
@@ -1065,8 +1065,8 @@ class InitialSystemData {
         createTaskParam(task: tsk, code: 'stringId', name: 'String id of the period', sequencer: 10, dataType: 'string', dataScale: null, defaultValue: null, required: true)
         createTaskParam(task: tsk, code: 'scope', name: 'Code of the report scope', sequencer: 20, dataType: 'string', dataScale: null, defaultValue: null, required: true)
         createTaskParam(task: tsk, code: 'scopeId', name: 'Section or account id', sequencer: 30, dataType: 'string', dataScale: null, defaultValue: null, required: false)
-		createTaskParam(task: tsk, code: 'omitZero', name: 'Omit zero values', sequencer: 40, dataType: 'boolean', dataScale: null, defaultValue: 'true', required: false)
-		
+        createTaskParam(task: tsk, code: 'omitZero', name: 'Omit zero values', sequencer: 40, dataType: 'boolean', dataScale: null, defaultValue: 'true', required: false)
+
         tsk = createTask(code: 'customers', name: 'Customer List', executable: 'CustomerListReport', allowOnDemand: true, activity: 'arreport', retentionDays: 7)
         createTaskParam(task: tsk, code: 'codes', name: 'Specific access codes', sequencer: 10, dataType: 'string', dataScale: null, defaultValue: null, required: false)
         createTaskParam(task: tsk, code: 'active', name: 'Only active accounts', sequencer: 20, dataType: 'boolean', dataScale: null, defaultValue: null, required: true)
@@ -1318,29 +1318,30 @@ class InitialSystemData {
     }
 
     private loadSystemRoles() {
-        createRole(code: 'companyAdmin', name: 'Company Administrator', activities: SystemActivity.findAllBySystemOnly(false))
+        createRole(code: 'companyAdmin', name: 'Company Administrator',
+            activities: SystemActivity.findAllBySystemOnlyAndCodeNotEqual(false, 'systran'))
         createRole(code: 'accountsAdmin', name: 'GL Accounts Administrator', activities: ['general', 'actadmin', 'enquire', 'budgets', 'iereport', 'bsreport',
-                'viewarinv', 'viewapinv', 'viewbank', 'viewcash', 'viewfxdjnl', 'viewfxrjnl', 'viewgljnl', 'viewapjnl', 'viewarjnl', 'viewsojnl',
-                'viewiljnl', 'viewprovn', 'revalue', 'finjournal', 'gljournal', 'gltemplate', 'provision', 'provntempl', 'taxstmt', 'glreport'])
+            'viewarinv', 'viewapinv', 'viewbank', 'viewcash', 'viewfxdjnl', 'viewfxrjnl', 'viewgljnl', 'viewapjnl', 'viewarjnl', 'viewsojnl',
+            'viewiljnl', 'viewprovn', 'revalue', 'finjournal', 'gljournal', 'gltemplate', 'provision', 'provntempl', 'taxstmt', 'glreport'])
         createRole(code: 'glEntry', name: 'General Ledger Data Entry', activities: ['general', 'revalue', 'finjournal', 'gljournal', 'enquire',
-                'viewgljnl', 'viewiljnl', 'viewprovn', 'viewfxrjnl', 'provision'])
+            'viewgljnl', 'viewiljnl', 'viewprovn', 'viewfxrjnl', 'provision'])
         createRole(code: 'arAdmin', name: 'Accounts Receivable Administrator', activities: ['customer', 'aradmin', 'enquire', 'arinvoice',
-                'viewarinv', 'viewarjnl', 'viewfxdjnl', 'viewsojnl', 'viewiljnl', 'artemplate', 'arjournal', 'sojournal', 'sotemplate', 'arreport'])
+            'viewarinv', 'viewarjnl', 'viewfxdjnl', 'viewsojnl', 'viewiljnl', 'artemplate', 'arjournal', 'sojournal', 'sotemplate', 'arreport'])
         createRole(code: 'arInvoice', name: 'Sales Invoice/Cr. Note Entry', activities: ['customer', 'arinvoice', 'enquire',
-                'viewarinv', 'viewarjnl', 'viewfxdjnl', 'viewsojnl'])
+            'viewarinv', 'viewarjnl', 'viewfxdjnl', 'viewsojnl'])
         createRole(code: 'arJournal', name: 'Accounts Receivable Journal Entry', activities: ['customer', 'arjournal', 'enquire',
-                'viewarinv', 'viewarjnl', 'viewfxdjnl', 'viewsojnl'])
+            'viewarinv', 'viewarjnl', 'viewfxdjnl', 'viewsojnl'])
         createRole(code: 'apAdmin', name: 'Accounts Payable Administrator', activities: ['supplier', 'apadmin', 'enquire', 'apinvoice',
-                'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl', 'viewiljnl', 'aptemplate', 'apjournal', 'sojournal', 'sotemplate', 'apreport', 'apremit'])
+            'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl', 'viewiljnl', 'aptemplate', 'apjournal', 'sojournal', 'sotemplate', 'apreport', 'apremit'])
         createRole(code: 'apInvoice', name: 'Purchase Invoice/Cr. Note Entry', activities: ['supplier', 'apinvoice', 'enquire',
-                'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl'])
+            'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl'])
         createRole(code: 'apJournal', name: 'Accounts Payable Journal Entry', activities: ['supplier', 'apjournal', 'enquire',
-                'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl'])
+            'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl'])
         createRole(code: 'apRemit', name: 'Accounts Payable Remittances', activities: ['supplier', 'apremit', 'enquire',
-                'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl'])
+            'viewapinv', 'viewapjnl', 'viewfxdjnl', 'viewsojnl'])
         createRole(code: 'soJournal', name: 'Inter-Ledger Set-Off Journal Entry', activities: ['supplier', 'customer', 'sojournal', 'enquire', 'viewsojnl'])
         createRole(code: 'bankAdmin', name: 'Bank and Cash Administrator', activities: ['bank', 'cash', 'bankentry', 'cashentry', 'enquire', 'viewbank', 'viewcash',
-                'banktempl', 'cashtempl', 'recurring', 'apremit', 'bankrec'])
+            'banktempl', 'cashtempl', 'recurring', 'apremit', 'bankrec'])
         createRole(code: 'bankEntry', name: 'Bank Payment/Receipt Entry', activities: ['bank', 'bankentry', 'enquire', 'viewbank', 'bankrec'])
         createRole(code: 'cashEntry', name: 'Cash Payment/Receipt Entry', activities: ['cash', 'cashentry', 'enquire', 'viewcash'])
         createRole(code: 'translator', name: 'Translator', systemOnly: true, activities: ['systran'])
@@ -1349,13 +1350,13 @@ class InitialSystemData {
     private createRole(map) {
         def role = new SystemRole(code: map.code, name: map.name, systemOnly: map.systemOnly ?: false)
         role.saveThis()
-		def activity
+        def activity
         for (acty in map.activities) {
             if (acty instanceof SystemActivity) {
                 role.addToActivities(acty)
             } else {
-				activity = SystemActivity.findByCode(acty)
-				activity.refresh()
+                activity = SystemActivity.findByCode(acty)
+                activity.refresh()
                 role.addToActivities(activity)
             }
         }
@@ -1532,7 +1533,7 @@ class InitialSystemData {
         }
 
         map.activity = temp
-		temp = new SystemMenu(map)
+        temp = new SystemMenu(map)
         if (map.path.contains('.')) temp.parentObject = SystemMenu.findByPathAndType(map.path.substring(0, map.path.lastIndexOf('.')), 'submenu')
         temp.saveThis()
         new SystemMessage(code: "menu.option.${map.path}", locale: '*', text: map.title).saveThis()

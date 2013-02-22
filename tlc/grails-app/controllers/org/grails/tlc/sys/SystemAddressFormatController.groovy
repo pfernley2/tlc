@@ -92,13 +92,13 @@ class SystemAddressFormatController {
 
             def oldCode = systemAddressFormatInstance.code
             systemAddressFormatInstance.properties['code', 'name', 'field1', 'field1Prompt1', 'field1Prompt2', 'field1Prompt3', 'width1', 'mandatory1', 'pattern1', 'field2', 'field2Prompt1',
-                    'field2Prompt2', 'field2Prompt3', 'width2', 'mandatory2', 'pattern2', 'joinBy2', 'field3', 'field3Prompt1', 'field3Prompt2', 'field3Prompt3', 'width3', 'mandatory3',
-                    'pattern3', 'joinBy3', 'field4', 'field4Prompt1', 'field4Prompt2', 'field4Prompt3', 'width4', 'mandatory4', 'pattern4', 'joinBy4', 'field5', 'field5Prompt1', 'field5Prompt2',
-                    'field5Prompt3', 'width5', 'mandatory5', 'pattern5', 'joinBy5', 'field6', 'field6Prompt1', 'field6Prompt2', 'field6Prompt3', 'width6', 'mandatory6', 'pattern6', 'joinBy6',
-                    'field7', 'field7Prompt1', 'field7Prompt2', 'field7Prompt3', 'width7', 'mandatory7', 'pattern7', 'joinBy7', 'field8', 'field8Prompt1', 'field8Prompt2', 'field8Prompt3',
-                    'width8', 'mandatory8', 'pattern8', 'joinBy8', 'field9', 'field9Prompt1', 'field9Prompt2', 'field9Prompt3', 'width9', 'mandatory9', 'pattern9', 'joinBy9', 'field10',
-                    'field10Prompt1', 'field10Prompt2', 'field10Prompt3', 'width10', 'mandatory10', 'pattern10', 'joinBy10', 'field11', 'field11Prompt1', 'field11Prompt2', 'field11Prompt3',
-                    'width11', 'mandatory11', 'pattern11', 'joinBy11', 'field12', 'field12Prompt1', 'field12Prompt2', 'field12Prompt3', 'width12', 'mandatory12', 'pattern12', 'joinBy12'] = params
+                'field2Prompt2', 'field2Prompt3', 'width2', 'mandatory2', 'pattern2', 'joinBy2', 'field3', 'field3Prompt1', 'field3Prompt2', 'field3Prompt3', 'width3', 'mandatory3',
+                'pattern3', 'joinBy3', 'field4', 'field4Prompt1', 'field4Prompt2', 'field4Prompt3', 'width4', 'mandatory4', 'pattern4', 'joinBy4', 'field5', 'field5Prompt1', 'field5Prompt2',
+                'field5Prompt3', 'width5', 'mandatory5', 'pattern5', 'joinBy5', 'field6', 'field6Prompt1', 'field6Prompt2', 'field6Prompt3', 'width6', 'mandatory6', 'pattern6', 'joinBy6',
+                'field7', 'field7Prompt1', 'field7Prompt2', 'field7Prompt3', 'width7', 'mandatory7', 'pattern7', 'joinBy7', 'field8', 'field8Prompt1', 'field8Prompt2', 'field8Prompt3',
+                'width8', 'mandatory8', 'pattern8', 'joinBy8', 'field9', 'field9Prompt1', 'field9Prompt2', 'field9Prompt3', 'width9', 'mandatory9', 'pattern9', 'joinBy9', 'field10',
+                'field10Prompt1', 'field10Prompt2', 'field10Prompt3', 'width10', 'mandatory10', 'pattern10', 'joinBy10', 'field11', 'field11Prompt1', 'field11Prompt2', 'field11Prompt3',
+                'width11', 'mandatory11', 'pattern11', 'joinBy11', 'field12', 'field12Prompt1', 'field12Prompt2', 'field12Prompt3', 'width12', 'mandatory12', 'pattern12', 'joinBy12'] = params
 
             if (utilService.saveWithMessages(systemAddressFormatInstance, [prefix: 'systemAddressFormat.name', code: systemAddressFormatInstance.code, oldCode: oldCode, field: 'name'])) {
                 flash.message = utilService.standardMessage('updated', systemAddressFormatInstance)
@@ -120,13 +120,13 @@ class SystemAddressFormatController {
     def save() {
         def systemAddressFormatInstance = new SystemAddressFormat()
         systemAddressFormatInstance.properties['code', 'name', 'field1', 'field1Prompt1', 'field1Prompt2', 'field1Prompt3', 'width1', 'mandatory1', 'pattern1', 'field2', 'field2Prompt1',
-                'field2Prompt2', 'field2Prompt3', 'width2', 'mandatory2', 'pattern2', 'joinBy2', 'field3', 'field3Prompt1', 'field3Prompt2', 'field3Prompt3', 'width3', 'mandatory3',
-                'pattern3', 'joinBy3', 'field4', 'field4Prompt1', 'field4Prompt2', 'field4Prompt3', 'width4', 'mandatory4', 'pattern4', 'joinBy4', 'field5', 'field5Prompt1', 'field5Prompt2',
-                'field5Prompt3', 'width5', 'mandatory5', 'pattern5', 'joinBy5', 'field6', 'field6Prompt1', 'field6Prompt2', 'field6Prompt3', 'width6', 'mandatory6', 'pattern6', 'joinBy6',
-                'field7', 'field7Prompt1', 'field7Prompt2', 'field7Prompt3', 'width7', 'mandatory7', 'pattern7', 'joinBy7', 'field8', 'field8Prompt1', 'field8Prompt2', 'field8Prompt3',
-                'width8', 'mandatory8', 'pattern8', 'joinBy8', 'field9', 'field9Prompt1', 'field9Prompt2', 'field9Prompt3', 'width9', 'mandatory9', 'pattern9', 'joinBy9', 'field10',
-                'field10Prompt1', 'field10Prompt2', 'field10Prompt3', 'width10', 'mandatory10', 'pattern10', 'joinBy10', 'field11', 'field11Prompt1', 'field11Prompt2', 'field11Prompt3',
-                'width11', 'mandatory11', 'pattern11', 'joinBy11', 'field12', 'field12Prompt1', 'field12Prompt2', 'field12Prompt3', 'width12', 'mandatory12', 'pattern12', 'joinBy12'] = params
+            'field2Prompt2', 'field2Prompt3', 'width2', 'mandatory2', 'pattern2', 'joinBy2', 'field3', 'field3Prompt1', 'field3Prompt2', 'field3Prompt3', 'width3', 'mandatory3',
+            'pattern3', 'joinBy3', 'field4', 'field4Prompt1', 'field4Prompt2', 'field4Prompt3', 'width4', 'mandatory4', 'pattern4', 'joinBy4', 'field5', 'field5Prompt1', 'field5Prompt2',
+            'field5Prompt3', 'width5', 'mandatory5', 'pattern5', 'joinBy5', 'field6', 'field6Prompt1', 'field6Prompt2', 'field6Prompt3', 'width6', 'mandatory6', 'pattern6', 'joinBy6',
+            'field7', 'field7Prompt1', 'field7Prompt2', 'field7Prompt3', 'width7', 'mandatory7', 'pattern7', 'joinBy7', 'field8', 'field8Prompt1', 'field8Prompt2', 'field8Prompt3',
+            'width8', 'mandatory8', 'pattern8', 'joinBy8', 'field9', 'field9Prompt1', 'field9Prompt2', 'field9Prompt3', 'width9', 'mandatory9', 'pattern9', 'joinBy9', 'field10',
+            'field10Prompt1', 'field10Prompt2', 'field10Prompt3', 'width10', 'mandatory10', 'pattern10', 'joinBy10', 'field11', 'field11Prompt1', 'field11Prompt2', 'field11Prompt3',
+            'width11', 'mandatory11', 'pattern11', 'joinBy11', 'field12', 'field12Prompt1', 'field12Prompt2', 'field12Prompt3', 'width12', 'mandatory12', 'pattern12', 'joinBy12'] = params
 
         if (utilService.saveWithMessages(systemAddressFormatInstance, [prefix: 'systemAddressFormat.name', code: systemAddressFormatInstance.code, field: 'name'])) {
             flash.message = utilService.standardMessage('created', systemAddressFormatInstance)
@@ -167,19 +167,19 @@ class SystemAddressFormatController {
         render(view: 'test', model: model)
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private createFieldList() {
         def list = []
         for (it in SystemAddressFormat.fieldTypes) list << [code: it, name: message(code: 'systemAddressFormat.field.' + it, default: it)]
-		utilService.collate(list) {it.name}
+        utilService.collate(list) {it.name}
         return list
     }
 
     private createPromptList() {
         def list = []
         for (it in SystemAddressFormat.fieldPrompts) list << [code: it, name: message(code: 'address.prompt.' + it, default: it)]
-		utilService.collate(list) {it.name}
+        utilService.collate(list) {it.name}
         return list
     }
 }

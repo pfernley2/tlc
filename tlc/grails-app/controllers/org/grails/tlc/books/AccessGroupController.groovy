@@ -141,7 +141,7 @@ class AccessGroupController {
         accessGroupInstance.properties['code', 'name', 'element1', 'element2', 'element3', 'element4', 'element5', 'element6', 'element7', 'element8', 'customers', 'suppliers'] = params
         accessGroupInstance.company = utilService.currentCompany()   // Ensure correct company
         if (!accessGroupInstance.hasErrors() && accessGroupInstance.saveThis()) {
-			flash.message = utilService.standardMessage('created', accessGroupInstance)
+            flash.message = utilService.standardMessage('created', accessGroupInstance)
             redirect(action: 'show', id: accessGroupInstance.id)
         } else {
             render(view: 'create', model: [accessGroupInstance: accessGroupInstance, elementList: makeElementList()])

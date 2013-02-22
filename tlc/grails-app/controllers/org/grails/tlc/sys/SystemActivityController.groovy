@@ -125,9 +125,9 @@ class SystemActivityController {
 
     def links() {
         def ddSource = utilService.reSource('systemRole.list')
-		def allActivities = (ddSource.code == 'companyAdmin') ?
-			SystemActivity.findAllBySystemOnlyAndCodeNotEqual(false, 'systran') :
-			SystemActivity.findAllBySystemOnly(false)
+        def allActivities = (ddSource.code == 'companyAdmin') ?
+                SystemActivity.findAllBySystemOnlyAndCodeNotEqual(false, 'systran') :
+                SystemActivity.findAllBySystemOnly(false)
         [allActivities: allActivities, roleActivities: SystemActivity.selectList(action: 'list'), ddSource: ddSource]
     }
 

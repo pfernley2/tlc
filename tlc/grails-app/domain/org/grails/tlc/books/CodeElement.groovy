@@ -31,9 +31,9 @@ class CodeElement {
 
     static belongsTo = [company: Company]
     static hasMany = [values: CodeElementValue, sections1: ChartSection, sections2: ChartSection, sections3: ChartSection,
-            sections4: ChartSection, sections5: ChartSection, sections6: ChartSection, sections7: ChartSection, sections8: ChartSection]
+        sections4: ChartSection, sections5: ChartSection, sections6: ChartSection, sections7: ChartSection, sections8: ChartSection]
     static mappedBy = [sections1: 'segment1', sections2: 'segment2', sections3: 'segment3', sections4: 'segment4',
-            sections5: 'segment5', sections6: 'segment6', sections7: 'segment7', sections8: 'segment8']
+        sections5: 'segment5', sections6: 'segment6', sections7: 'segment7', sections8: 'segment8']
 
     Byte elementNumber
     String name

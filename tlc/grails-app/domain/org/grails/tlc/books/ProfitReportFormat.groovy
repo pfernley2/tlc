@@ -25,11 +25,11 @@ import java.util.concurrent.atomic.AtomicLong
 
 class ProfitReportFormat {
 
-    static final DATA_OPTIONS = ['selectedPeriodActual', 'selectedPeriodAdjusted', 'selectedPeriodBudget',
-            'selectedYearActual', 'selectedYearAdjusted', 'selectedYearBudget',
-            'comparativePeriodActual', 'comparativePeriodAdjusted', 'comparativePeriodBudget',
-            'comparativeYearActual', 'comparativeYearAdjusted', 'comparativeYearBudget']
     static final CALC_OPTIONS = ['difference', 'variance', 'percentage']
+    static final DATA_OPTIONS = ['selectedPeriodActual', 'selectedPeriodAdjusted', 'selectedPeriodBudget',
+        'selectedYearActual', 'selectedYearAdjusted', 'selectedYearBudget', 'comparativePeriodActual',
+        'comparativePeriodAdjusted', 'comparativePeriodBudget', 'comparativeYearActual', 'comparativeYearAdjusted',
+        'comparativeYearBudget']
 
     static traceInsertCode = new AtomicLong()
     static traceUpdateCode = new AtomicLong()

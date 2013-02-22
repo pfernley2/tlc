@@ -30,9 +30,9 @@ class CodeElementValue {
 
     static belongsTo = [element: CodeElement]
     static hasMany = [accounts1: Account, accounts2: Account, accounts3: Account, accounts4: Account,
-            accounts5: Account, accounts6: Account, accounts7: Account, accounts8: Account]
+        accounts5: Account, accounts6: Account, accounts7: Account, accounts8: Account]
     static mappedBy = [accounts1: 'element1', accounts2: 'element2', accounts3: 'element3', accounts4: 'element4',
-            accounts5: 'element5', accounts6: 'element6', accounts7: 'element7', accounts8: 'element8']
+        accounts5: 'element5', accounts6: 'element6', accounts7: 'element7', accounts8: 'element8']
 
     String code
     String shortName

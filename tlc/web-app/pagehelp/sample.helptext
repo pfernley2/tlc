@@ -5,14 +5,14 @@ Your browser should have JavaScript enabled. Browsers usually have this enabled 
 
 === Locales
 When you are on the home page of the system or are on the login or registration pages, what
-language you see will depend upon two things: 1) What language transalations we have available
+language you see will depend upon two things: 1) What language translations we have available
 and 2) The locale (i.e. language and country) setting of your browser. If you are unsure as to
 whether the locale is set correctly in your browser, the following list may be useful for the
 more popular browsers at the time of writing:
 
 * **Microsoft Internet Explorer 10.** Under Tools, Internet Options click the Languages button on the General tab and set the language preference you require.
-* **Mozilla Firefox 17.** Install the Quick Locale Switcher add-on and you can then quickly change between locales.
-* **Google Chrome 23.** Click the menu button and select Settings. Click the 'Show advanced settings' link. Click the 'Languages and spellchecker settings' button. Choose the required language.
+* **Mozilla Firefox 18.** Install the Quick Locale Switcher add-on and you can then quickly change between locales.
+* **Google Chrome 25.** Click the menu button and select Settings. Click the 'Show advanced settings' link. Click the 'Languages and input settings' button. Choose the required language.
 * **Opera 12.** Under Settings, Preferences the General tab has a drop down list of the languages available. On Apple computers you may need to download and install languages files instead.
 * **Apple Safari 5.** There is currently no easy way to do this.
 

@@ -24,8 +24,8 @@ import org.apache.log4j.Logger
 
 // Based on the runtime loggin plugin by Jason Morris (jason.morris@torusit.com)
 class RuntimeLoggingController {
-	
-	static final levelList = ['OFF','TRACE','DEBUG','INFO','WARN','ERROR','FATAL']
+
+    static final levelList = ['OFF','TRACE','DEBUG','INFO','WARN','ERROR','FATAL']
 
     static final grailsLogs = [
         [name: 'Apache Commons', logger: 'org.codehaus.groovy.grails.commons'],
@@ -41,9 +41,9 @@ class RuntimeLoggingController {
     ]
 
     static final otherLogs = [
-		[name: 'Ehcache', logger: 'net.sf.ehcache.hibernate'],
+        [name: 'Ehcache', logger: 'net.sf.ehcache.hibernate'],
         [name: 'Hibernate', logger: 'org.hibernate'],
-		[name: 'Message Source', logger: 'org.grails.tlc.sys.DatabaseMessageSource'],
+        [name: 'Message Source', logger: 'org.grails.tlc.sys.DatabaseMessageSource'],
         [name: 'Spring', logger: 'org.springframework'],
         [name: 'SQL', logger: 'org.hibernate.SQL']
     ]
@@ -56,8 +56,8 @@ class RuntimeLoggingController {
 
     // By default render the standard "chooser" view
     def index() {
-		def rootLevel = Logger.rootLogger.level
-		
+        def rootLevel = Logger.rootLogger.level
+
         def domainLoggers = buildArtefactLoggerMapList('Domain')
         addCurrentLevelToLoggerMapList(domainLoggers, rootLevel)
 
@@ -82,8 +82,8 @@ class RuntimeLoggingController {
                     domainLoggers: domainLoggers,
                     grailsLoggers: grailsLoggers,
                     otherLoggers: otherLoggers,
-					levelList: levelList,
-					rootLevel: rootLevel.toString()
+                    levelList: levelList,
+                    rootLevel: rootLevel.toString()
                 ])
     }
 
@@ -113,7 +113,7 @@ class RuntimeLoggingController {
     }
 
     private classCase(s) {
-		
+
         // Effectively ucFirst() i.e. first letter of artefacts must be upper case
         if (!s) return s;
 
@@ -133,7 +133,7 @@ class RuntimeLoggingController {
         def artefacts = grailsApplication.getArtefacts(artefactType)
         def artefactList = []
         for (it in artefacts) artefactList << it
-		
+
         // sort the artefacts into alphabetical order
         Collections.sort(artefactList, new GrailsArtefactComparator())
         def logMapList = []

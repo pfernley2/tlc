@@ -253,7 +253,7 @@ class GeneralController {
         def valid = !documentInstance.hasErrors()
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshDocumentLines(documentInstance, params)
         if (num) {
             documentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")
@@ -297,7 +297,7 @@ class GeneralController {
                 companyRate = utilService.getExchangeRate(documentInstance.currency, companyCurrency, now)
                 if (!companyRate) {
                     documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, companyCurrency.code],
-                            default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
+                    default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
                     valid = false
                 }
             }
@@ -402,7 +402,7 @@ class GeneralController {
                             temp = utilService.getExchangeRate(documentInstance.currency, account.currency, now)
                             if (!temp) {
                                 documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, account.currency.code],
-                                        default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
+                                default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
                                 valid = false
                                 break
                             }
@@ -489,7 +489,7 @@ class GeneralController {
         model
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getModel(company, documentInstance) {
         def documentTypeList = DocumentType.findAll("from DocumentType as dt where dt.company = ? and dt.type.code = 'GLJ'", [company])
@@ -527,7 +527,7 @@ class GeneralController {
         def account, temp
 
         // Load the template lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshTemplateLines(templateDocumentInstance, params)
         if (num) {
             templateDocumentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")

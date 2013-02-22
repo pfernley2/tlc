@@ -107,7 +107,7 @@ class RestTest {
             def hdrs = new TreeMap()
             def val
             for (hdr in headers) {
-                val = hdr.key.toLowerCase(Locale.US)	// Need to use US locale to avoid things like the Turkish undotted i
+                val = hdr.key.toLowerCase(Locale.US)    // Use US locale to avoid things like the Turkish undotted i
                 if (val.startsWith('tlc-') && val.length() > 4 && val != 'tlc-signature') hdrs.put(val, hdr.value)
             }
 

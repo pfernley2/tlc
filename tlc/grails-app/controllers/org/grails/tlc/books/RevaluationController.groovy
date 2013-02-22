@@ -36,7 +36,7 @@ class RevaluationController {
     def index() { }
 
     def revalue() {
-		def revaluationInstance = new Revaluation()
+        def revaluationInstance = new Revaluation()
         def periodList = bookService.getActivePeriods(utilService.currentCompany())
         def accountList = []
         if (periodList) revaluationInstance.period = periodList[0]
@@ -60,7 +60,7 @@ class RevaluationController {
         if (temp) accountList << temp
         if (revaluationInstance?.period?.status == 'adjust' && !revaluationInstance?.adjustment) {
             revaluationInstance.errorMessage(field: 'adjustment', code: 'document.adjust.period', args: [revaluationInstance.period.code],
-				default: "Period ${revaluationInstance.period.code} is an adjustment period and you may only post this document to it if you set the Adjustment flag")
+            default: "Period ${revaluationInstance.period.code} is an adjustment period and you may only post this document to it if you set the Adjustment flag")
         } else {
             if (!revaluationInstance.hasErrors() && revaluationInstance.validate()) {
                 def valid = true
@@ -68,7 +68,7 @@ class RevaluationController {
                     if (periodList[i].id == revaluationInstance.period.id) {
                         if (i == periodList.size() - 1) {
                             revaluationInstance.errorMessage(field: 'reverse', code: 'document.next.period', args: [revaluationInstance.period.code],
-								default: "No active period found after ${revaluationInstance.period.code} to which the reversal could be posted")
+                            default: "No active period found after ${revaluationInstance.period.code} to which the reversal could be posted")
                             valid = false
                         }
 
@@ -80,14 +80,14 @@ class RevaluationController {
                     temp = 'arRevalue'
                     if (!bookService.getControlAccount(utilService.currentCompany(), temp)) {
                         revaluationInstance.errorMessage(code: 'document.no.control', args: [temp],
-							default: "Could not find the ${temp} control account in the General Ledger")
+                        default: "Could not find the ${temp} control account in the General Ledger")
                         valid = false
                     }
 
                     temp = 'apRevalue'
                     if (!bookService.getControlAccount(utilService.currentCompany(), temp)) {
                         revaluationInstance.errorMessage(code: 'document.no.control', args: [temp],
-							default: "Could not find the ${temp} control account in the General Ledger")
+                        default: "Could not find the ${temp} control account in the General Ledger")
                         valid = false
                     }
                 }

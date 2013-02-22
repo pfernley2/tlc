@@ -56,7 +56,7 @@ class TaskController {
         if (taskInstance) {
             if (QueuedTask.countByTaskAndCurrentStatus(taskInstance, 'waiting') > 0) {
                 taskInstance.errorMessage(code: 'task.waiting.tasks', args: [taskInstance.name],
-                        default: "Task ${taskInstance.name} has entries in the queue awaiting execution. These queue entries must be deleted or executed before continuing.")
+                default: "Task ${taskInstance.name} has entries in the queue awaiting execution. These queue entries must be deleted or executed before continuing.")
                 render(view: 'show', model: [taskInstance: taskInstance])
             } else {
                 try {

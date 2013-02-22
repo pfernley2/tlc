@@ -30,7 +30,7 @@ class SystemController {
 
     // Security settings
     def activities = [default: 'sysadmin', access: 'any', loginDisabled: 'any', actionsDisabled: 'any', intro: 'login', assign: 'login', assigned: 'login',
-            create: 'login', attach: 'login', paymentProgram: 'any', restProgram: 'any', noticeFile: 'any', licenseFile: 'any']
+        create: 'login', attach: 'login', paymentProgram: 'any', restProgram: 'any', noticeFile: 'any', licenseFile: 'any']
 
     // List of actions with specific request types
     static allowedMethods = [resize: 'POST', clear: 'POST', clearAll: 'POST', operate: 'POST', assigned: 'POST', create: 'POST', attach: 'POST']
@@ -77,7 +77,7 @@ class SystemController {
     def operation() {
         def queueStatus = utilService.taskService.statistics()
         if (queueStatus) queueStatus.status = message(code: "queuedTask.queue.status.${queueStatus.status}", default: queueStatus.status)
-		def operationInstance = new Operation()
+        def operationInstance = new Operation()
         operationInstance.state = UtilService.getCurrentOperatingState()
         return [operationInstance: operationInstance, queueStatus: queueStatus]
     }
@@ -112,7 +112,7 @@ class SystemController {
             redirect(controller: 'systemMenu', action: 'display')
         } else {
             utilService.setNextStep([sourceController: 'companyUser', sourceAction: 'select',
-                    targetController: 'companyUser', targetAction: 'attach'])
+                        targetController: 'companyUser', targetAction: 'attach'])
             redirect(controller: 'companyUser', action: 'select')
         }
     }
@@ -153,10 +153,10 @@ class SystemController {
             if (currency.code != utilService.BASE_CURRENCY_CODE) {
                 if (currency.autoUpdate) {
                     rate = utilService.readExchangeRate(currency.code)
-					if (!rate) {
-						rate = 1.0
-						rateValid = false
-					}
+                    if (!rate) {
+                        rate = 1.0
+                        rateValid = false
+                    }
                 } else {
                     rateValid = false
                 }
@@ -216,29 +216,29 @@ class SystemController {
             utilService.newCurrentCompany(companies[0].company.id)
         } else {
             utilService.setNextStep([sourceController: 'companyUser', sourceAction: 'select',
-                    targetController: 'companyUser', targetAction: 'attach'])
+                        targetController: 'companyUser', targetAction: 'attach'])
             redirect(controller: 'companyUser', action: 'select')
             return
         }
     }
-	
-	// Display the /documentation/sample_payment_service.groovy program text from the index page of the application
-	def paymentProgram() {
-		render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/PaymentService.groovy').getText('UTF-8'))
-	}
-	
-	// Display the /documentation/rest_test.groovy program text from the index page of the application
-	def restProgram() {
-		render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/RestTest.groovy').getText('UTF-8'))
-	}
-	
-	// Display the /documentation/NOTICE text file from the index page of the application
-	def noticeFile() {
-		render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/NOTICE').getText('UTF-8'))
-	}
-	
-	// Display the /documentation/LICENSE text file from the index page of the application
-	def licenseFile() {
-		render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/LICENSE').getText('UTF-8'))
-	}
+
+    // Display the /documentation/sample_payment_service.groovy program text from the index page of the application
+    def paymentProgram() {
+        render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/PaymentService.groovy').getText('UTF-8'))
+    }
+
+    // Display the /documentation/rest_test.groovy program text from the index page of the application
+    def restProgram() {
+        render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/RestTest.groovy').getText('UTF-8'))
+    }
+
+    // Display the /documentation/NOTICE text file from the index page of the application
+    def noticeFile() {
+        render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/NOTICE').getText('UTF-8'))
+    }
+
+    // Display the /documentation/LICENSE text file from the index page of the application
+    def licenseFile() {
+        render(contentType: 'text/plain', encoding: 'UTF-8', text: utilService.realFile('/documentation/LICENSE').getText('UTF-8'))
+    }
 }

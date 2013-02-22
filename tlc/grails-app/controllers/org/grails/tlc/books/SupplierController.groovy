@@ -32,18 +32,20 @@ class SupplierController {
     def postingService
 
     // Security settings
-    def activities = [default: 'apadmin', enquire: 'enquire', remittanceEnquiry: 'enquire', remittancePrint: 'enquire', allocations: 'enquire',
-            print: 'apreport', printing: 'apreport', aged: 'apreport', ageing: 'apreport', reprint: 'apreport', reprinting: 'apreport']
+    def activities = [default: 'apadmin', enquire: 'enquire', remittanceEnquiry: 'enquire', remittancePrint: 'enquire',
+        allocations: 'enquire', print: 'apreport', printing: 'apreport', aged: 'apreport', ageing: 'apreport',
+        reprint: 'apreport', reprinting: 'apreport']
 
     // List of actions with specific request types
-    static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', importing: 'POST', auto: 'POST', allocating: 'POST', printing: 'POST', ageing: 'POST', reprinting: 'POST']
+    static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', importing: 'POST', auto: 'POST',
+        allocating: 'POST', printing: 'POST', ageing: 'POST', reprinting: 'POST']
 
     def index() { redirect(action: 'list', params: params) }
 
     def list() {
         params.max = utilService.max
         params.sort = ['code', 'name', 'accountCreditLimit', 'accountCurrentBalance', 'settlementDays',
-                'periodicSettlement', 'taxId', 'active', 'nextAutoPaymentDate', 'revaluationMethod'].contains(params.sort) ? params.sort : 'code'
+            'periodicSettlement', 'taxId', 'active', 'nextAutoPaymentDate', 'revaluationMethod'].contains(params.sort) ? params.sort : 'code'
 
         // Note that the selectList and selectCount calls below are inherently limited to the current
         // company since the list of accessCode objects is company (and user) specific
@@ -105,9 +107,9 @@ class SupplierController {
             redirect(action: 'list')
         } else {
             return [supplierInstance: supplierInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                    taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(),
-                    hasTransactions: supplierInstance.hasTransactions(), scheduleList: PaymentSchedule.findAllByCompany(company),
-                    documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company), companyCurrencyId: utilService.companyCurrency().id]
+                taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(),
+                hasTransactions: supplierInstance.hasTransactions(), scheduleList: PaymentSchedule.findAllByCompany(company),
+                documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company), companyCurrencyId: utilService.companyCurrency().id]
         }
     }
 
@@ -119,17 +121,18 @@ class SupplierController {
             if (version != null && supplierInstance.version > version) {
                 supplierInstance.errorMessage(code: 'locking.failure', domain: 'supplier')
                 render(view: 'edit', model: [supplierInstance: supplierInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                        taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(), hasTransactions: hasTransactions,
-                        scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
-                        companyCurrencyId: utilService.companyCurrency().id])
+                            taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(), hasTransactions: hasTransactions,
+                            scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
+                            companyCurrencyId: utilService.companyCurrency().id])
                 return
             }
 
             def oldCurrencyId = supplierInstance.currency.id
             def oldDocumentType = supplierInstance.documentType
-            supplierInstance.properties['taxCode', 'code', 'name', 'accountCreditLimit', 'accessCode', 'country', 'currency', 'taxId', 'settlementDays', 'periodicSettlement',
-                    'active', 'bankSortCode', 'bankAccountName', 'bankAccountNumber', 'schedule', 'documentType', 'revaluationMethod'] = params
-            utilService.verify(supplierInstance, ['currency', 'taxCode', 'accessCode', 'schedule', 'documentType'])             // Ensure correct references
+            supplierInstance.properties['taxCode', 'code', 'name', 'accountCreditLimit', 'accessCode', 'country',
+                'currency', 'taxId', 'settlementDays', 'periodicSettlement', 'active', 'bankSortCode', 'bankAccountName',
+                'bankAccountNumber', 'schedule', 'documentType', 'revaluationMethod'] = params
+            utilService.verify(supplierInstance, ['currency', 'taxCode', 'accessCode', 'schedule', 'documentType']) // Ensure correct references
             def valid = (!supplierInstance.hasErrors() && bookService.hasSupplierAccess(supplierInstance))
             if (valid && oldCurrencyId != supplierInstance.currency.id && hasTransactions) {
                 supplierInstance.errorMessage(field: 'currency', code: 'supplier.currency.change', default: 'You may not change the currency of a supplier once transactions have been posted to the account')
@@ -155,9 +158,9 @@ class SupplierController {
                 redirect(action: 'show', id: supplierInstance.id)
             } else {
                 render(view: 'edit', model: [supplierInstance: supplierInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                        taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(), hasTransactions: hasTransactions,
-                        scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
-                        companyCurrencyId: utilService.companyCurrency().id])
+                            taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(), hasTransactions: hasTransactions,
+                            scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
+                            companyCurrencyId: utilService.companyCurrency().id])
             }
         } else {
             flash.message = utilService.standardMessage('not.found', 'supplier', params.id)
@@ -175,26 +178,27 @@ class SupplierController {
         supplierInstance.settlementDays = utilService.setting('supplier.settlement.days', 30)
         supplierInstance.periodicSettlement = utilService.setting('supplier.settlement.periodic', false)
         return [supplierInstance: supplierInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(),
-                scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
-                companyCurrencyId: utilService.companyCurrency().id]
+            taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(),
+            scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
+            companyCurrencyId: utilService.companyCurrency().id]
     }
 
     def save() {
         def supplierInstance = new Supplier()
         def company = utilService.currentCompany()
-        supplierInstance.properties['taxCode', 'currency', 'country', 'accessCode', 'code', 'name', 'accountCreditLimit', 'taxId', 'settlementDays', 'periodicSettlement',
-                'active', 'bankSortCode', 'bankAccountName', 'bankAccountNumber', 'schedule', 'documentType', 'revaluationMethod'] = params
+        supplierInstance.properties['taxCode', 'currency', 'country', 'accessCode', 'code', 'name', 'accountCreditLimit',
+            'taxId', 'settlementDays', 'periodicSettlement', 'active', 'bankSortCode', 'bankAccountName',
+            'bankAccountNumber', 'schedule', 'documentType', 'revaluationMethod'] = params
         supplierInstance.company = company   // Ensure correct company
-        utilService.verify(supplierInstance, ['currency', 'taxCode', 'accessCode', 'schedule', 'documentType'])             // Ensure correct references
+        utilService.verify(supplierInstance, ['currency', 'taxCode', 'accessCode', 'schedule', 'documentType']) // Ensure correct references
         if (!supplierInstance.hasErrors() && bookService.hasSupplierAccess(supplierInstance) && bookService.insertSupplier(supplierInstance)) {
             flash.message = utilService.standardMessage('created', supplierInstance)
             redirect(controller: 'supplierAddress', action: 'initial', id: supplierInstance.id)
         } else {
             render(view: 'create', model: [supplierInstance: supplierInstance, currencyList: ExchangeCurrency.findAllByCompany(company, [cache: true]),
-                    taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(),
-                    scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
-                    companyCurrencyId: utilService.companyCurrency().id])
+                        taxList: TaxCode.findAllByCompany(company, [cache: true]), accessList: bookService.supplierAccessCodes(),
+                        scheduleList: PaymentSchedule.findAllByCompany(company), documentTypeList: DocumentType.findAllByCompanyAndAutoBankAccountIsNotNull(company),
+                        companyCurrencyId: utilService.companyCurrency().id])
         }
     }
 
@@ -328,7 +332,8 @@ class SupplierController {
                     sql += 'x.accountUnallocated != 0'
                 }
 
-                // Don't display documents with a zero account value (e.g. automatic foreign exchange differences) when viewing in account currency
+                // Don't display documents with a zero account value (e.g. automatic foreign exchange differences) when
+                // viewing in account currency
                 if (!displayCurrency || displayCurrency.id == supplierInstance.currency.id) sql += ' and x.accountValue != 0'
 
                 transactionInstanceList = GeneralTransaction.findAll(sql + ' order by x.document.documentDate desc, x.document.id desc', parameters, [max: params.max, offset: params.offset])
@@ -346,6 +351,7 @@ class SupplierController {
                             val = utilService.format(-val, parameters.scale) + ' ' + message(code: 'generic.dr', default: 'Dr')
                         }
                     }
+
                     turnoverList << [id: turnover.period.id, data: turnover.period.code + ': ' + val]
                 }
                 displayTurnover = displayPeriod ?: bookService.selectPeriod(periodList)
@@ -362,9 +368,9 @@ class SupplierController {
         periodList = periodList.reverse()   // More intuitive to see it in reverse order
 
         [supplierInstance: supplierInstance, transactionInstanceList: transactionInstanceList, turnoverList: turnoverList,
-                transactionInstanceTotal: transactionInstanceTotal, currencyList: currencyList, periodList: periodList,
-                displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass, displayPeriod: displayPeriod,
-                displayTurnover: displayTurnover, remittanceCount: remittanceCount]
+                    transactionInstanceTotal: transactionInstanceTotal, currencyList: currencyList, periodList: periodList,
+                    displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass, displayPeriod: displayPeriod,
+                    displayTurnover: displayTurnover, remittanceCount: remittanceCount]
     }
 
     def allocations() {
@@ -406,9 +412,10 @@ class SupplierController {
 
             for (alloc in line.allocations) {
 
-                // Don't display allocations with a zero account value (e.g. automatic foreign exchange differences) when viewing in account currency
+                // Don't display allocations with a zero account value (e.g. automatic foreign exchange differences)
+                // when viewing in account currency
                 if (!alloc.accountValue && (!displayCurrency || displayCurrency.id == account.currency.id)) continue
-                value = bookService.getBookValue(context: account, allocation: alloc, field: 'value', currency: displayCurrency)
+                    value = bookService.getBookValue(context: account, allocation: alloc, field: 'value', currency: displayCurrency)
                 if (value == null || value instanceof String) {
                     debit = value ?: ''
                     credit = ''
@@ -463,8 +470,8 @@ class SupplierController {
             line.errorMessage(code: 'document.invalid', default: 'Invalid document')
         }
 
-        [lineInstance: line, allocationInstanceList: allocationInstanceList, totalInstance: totalInstance, currencyList: currencyList,
-                displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass]
+        [lineInstance: line, allocationInstanceList: allocationInstanceList, totalInstance: totalInstance,
+            currencyList: currencyList, displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass]
     }
 
     def transactions() {
@@ -499,8 +506,8 @@ class SupplierController {
         transactionInstanceList = GeneralTransaction.findAll(sql + ' order by x.document.documentDate desc, x.document.id desc', parameters, [max: params.max, offset: params.offset])
         transactionInstanceTotal = GeneralTransaction.executeQuery('select count(*) ' + sql, parameters)[0]
 
-        [supplierInstance: supplierInstance, transactionInstanceList: transactionInstanceList, transactionInstanceTotal: transactionInstanceTotal,
-                periodList: periodList, displayPeriod: displayPeriod]
+        [supplierInstance: supplierInstance, transactionInstanceList: transactionInstanceList,
+            transactionInstanceTotal: transactionInstanceTotal, periodList: periodList, displayPeriod: displayPeriod]
     }
 
     def auto() {
@@ -557,9 +564,10 @@ class SupplierController {
         def transactionInstanceTotal = GeneralTransaction.executeQuery('select count(*) ' + sql, parameters)[0]
         def documentTypeList = DocumentType.findAll("from DocumentType as x where x.company = ? and x.type.supplierAllocate = ?", [utilService.currentCompany(), true])
 
-        [supplierInstance: supplierInstance, lineInstance: lineInstance, allocationInstance: allocationInstance, transactionInstanceList: transactionInstanceList,
-                documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal, periodList: periodList, displayPeriod: displayPeriod,
-                allowDifference: true, transactionPeriod: transactionPeriod]
+        [supplierInstance: supplierInstance, lineInstance: lineInstance, allocationInstance: allocationInstance,
+            transactionInstanceList: transactionInstanceList, documentTypeList: documentTypeList,
+            transactionInstanceTotal: transactionInstanceTotal, periodList: periodList, displayPeriod: displayPeriod,
+            allowDifference: true, transactionPeriod: transactionPeriod]
     }
 
     def allocating() {
@@ -614,9 +622,11 @@ class SupplierController {
             def transactionInstanceTotal = GeneralTransaction.executeQuery('select count(*) ' + sql, parameters)[0]
             def documentTypeList = DocumentType.findAll("from DocumentType as x where x.company = ? and x.type.supplierAllocate = ?", [utilService.currentCompany(), true])
 
-            render(view: 'allocate', model: [supplierInstance: supplierInstance, lineInstance: lineInstance, allocationInstance: allocationInstance,
-                    transactionInstanceList: transactionInstanceList, documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal,
-                    periodList: periodList, displayPeriod: displayPeriod, allowDifference: true, transactionPeriod: transactionPeriod])
+            render(view: 'allocate', model: [supplierInstance: supplierInstance, lineInstance: lineInstance,
+                allocationInstance: allocationInstance, transactionInstanceList: transactionInstanceList,
+                documentTypeList: documentTypeList, transactionInstanceTotal: transactionInstanceTotal,
+                periodList: periodList, displayPeriod: displayPeriod, allowDifference: true,
+                transactionPeriod: transactionPeriod])
         }
     }
 
@@ -727,9 +737,10 @@ class SupplierController {
             supplierInstance.errorMessage(code: 'document.supplier.invalid', default: 'Invalid supplier')
         }
 
-        [supplierInstance: supplierInstance, remittanceList: remittanceList, remittanceInstance: remittanceInstance, remittanceLineInstanceList: remittanceLineInstanceList,
-                remittanceLineInstanceTotal: remittanceLineInstanceTotal, displayPeriod: displayPeriod, displayCurrency: displayCurrency,
-                debitTotal: debitTotal, creditTotal: creditTotal, locale: locale]
+        [supplierInstance: supplierInstance, remittanceList: remittanceList, remittanceInstance: remittanceInstance,
+            remittanceLineInstanceList: remittanceLineInstanceList, remittanceLineInstanceTotal: remittanceLineInstanceTotal,
+            displayPeriod: displayPeriod, displayCurrency: displayCurrency, debitTotal: debitTotal,
+            creditTotal: creditTotal, locale: locale]
     }
 
     def remittancePrint() {

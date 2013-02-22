@@ -161,28 +161,28 @@ public class ReconciliationTask extends TaskExecutable {
         // the GL transaction records as being included in a reconciliation
         def valid = true
         Reconciliation.withTransaction {status ->
-           if (reconciliation.save(flush: true)) {      // With deep validation
-               for (tran in transactions) {
-                   tran.reconciled = statementDate
-                   if (!tran.saveThis()) {
-                       completionMessage = message(code: 'reconciliation.gl.save', default: 'Unable to update the General Ledger transaction(s)')
-                       status.setRollbackOnly()
-                       valid = false
-                       break
-                   }
-               }
+            if (reconciliation.save(flush: true)) {      // With deep validation
+                for (tran in transactions) {
+                    tran.reconciled = statementDate
+                    if (!tran.saveThis()) {
+                        completionMessage = message(code: 'reconciliation.gl.save', default: 'Unable to update the General Ledger transaction(s)')
+                        status.setRollbackOnly()
+                        valid = false
+                        break
+                    }
+                }
 
-               // Final integrity check
-               if (valid && Reconciliation.countByBankAccountAndFinalizedDateIsNull(bankAccount) != 1) {
-                   completionMessage = message(code: 'reconciliation.duplicate', default: 'Another user has created a new reconciliation whilst this one was being created')
-                   status.setRollbackOnly()
-                   valid = false
-               }
-           } else {
-               completionMessage = message(code: 'reconciliation.bad.save', default: 'Unable to save the bank reconciliation')
-               status.setRollbackOnly()
-               valid = false
-           }
+                // Final integrity check
+                if (valid && Reconciliation.countByBankAccountAndFinalizedDateIsNull(bankAccount) != 1) {
+                    completionMessage = message(code: 'reconciliation.duplicate', default: 'Another user has created a new reconciliation whilst this one was being created')
+                    status.setRollbackOnly()
+                    valid = false
+                }
+            } else {
+                completionMessage = message(code: 'reconciliation.bad.save', default: 'Unable to save the bank reconciliation')
+                status.setRollbackOnly()
+                valid = false
+            }
         }
 
         return valid

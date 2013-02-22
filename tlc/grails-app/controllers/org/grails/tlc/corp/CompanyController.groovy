@@ -55,7 +55,7 @@ class CompanyController {
             it.displayCurrency = ExchangeCurrency.findByCompanyAndCompanyCurrency(it, true, [cache: true])
             it.displayTaxCode = TaxCode.findByCompanyAndCompanyTaxCode(it, true, [cache: true])
         }
-		
+
         [companyInstanceList: lst, companyInstanceTotal: Company.selectCount()]
     }
 
@@ -113,10 +113,10 @@ class CompanyController {
                 }
 
                 if (deleted) {
-					flash.message = utilService.standardMessage('deleted', companyInstance)
+                    flash.message = utilService.standardMessage('deleted', companyInstance)
                     redirect(action: 'list')
                 } else {
-					flash.message = utilService.standardMessage('not.deleted', companyInstance)
+                    flash.message = utilService.standardMessage('not.deleted', companyInstance)
                     redirect(action: 'show', id: params.id)
                 }
             }
@@ -223,11 +223,11 @@ class CompanyController {
             def rate = 1.0
             if (currency.code != utilService.BASE_CURRENCY_CODE) {
                 if (currency.autoUpdate) {
-					rate = utilService.readExchangeRate(currency.code)
-					if (!rate) {
-						rate = 1.0
-						ratevalid = false
-					}
+                    rate = utilService.readExchangeRate(currency.code)
+                    if (!rate) {
+                        rate = 1.0
+                        ratevalid = false
+                    }
                 } else {
                     ratevalid = false
                 }
@@ -270,7 +270,7 @@ class CompanyController {
             } else {
                 flash.message = message(code: 'company.created.warning', args: ["${companyInstance.id}", currency.name], default: "Company ${companyInstance.toString()} created. NOTE that if you intend to use foreign currencies, you should now set the exchange rate for ${currency.name}.")
             }
-			
+
             redirect(action: 'show', id: companyInstance.id)
         } else {
             render(view: 'create', model: [companyInstance: companyInstance])

@@ -1,6 +1,0 @@
-# Ignore everything in this directory. We need to keep this here
-# so that GIT will track the directory even though there are no
-# files that we really need to track - we just want the directory.
-*
-# Except this file
-!.gitignore

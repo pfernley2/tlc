@@ -175,15 +175,14 @@ class BookService {
 
                     // Ignore segements not to be tested
                     if (fromSet[i] == '*' && toSet[i] == '*') continue
-
                     rangeList = rangeTests[i]
                     if (fromSet[i] != '*' && minSet[i] != '*' && fromSet[i] < minSet[i]) {
                         if (rangeRec.type == 'exclude') {
                             victim.errorMessage(code: 'chartSectionRange.exclude.min.low', args: [section.toString(), fromSet[i], i + 1, minSet[i]],
-                                    default: "Section ${section.toString()} exclusion minimum of ${fromSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
+                                default: "Section ${section.toString()} exclusion minimum of ${fromSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
                         } else {
                             victim.errorMessage(code: 'chartSectionRange.disallow.min.low', args: [section.toString(), fromSet[i], i + 1, minSet[i]],
-                                    default: "Section ${section.toString()} disallowed minimum of ${fromSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
+                                default: "Section ${section.toString()} disallowed minimum of ${fromSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
                         }
 
                         return false
@@ -192,10 +191,10 @@ class BookService {
                     if (fromSet[i] != '*' && maxSet[i] != '*' && fromSet[i] > maxSet[i]) {
                         if (rangeRec.type == 'exclude') {
                             victim.errorMessage(code: 'chartSectionRange.exclude.min.high', args: [section.toString(), fromSet[i], i + 1, maxSet[i]],
-                                    default: "Section ${section.toString()} exclusion minimum of ${fromSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
+                                default: "Section ${section.toString()} exclusion minimum of ${fromSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
                         } else {
                             victim.errorMessage(code: 'chartSectionRange.disallow.min.high', args: [section.toString(), fromSet[i], i + 1, maxSet[i]],
-                                    default: "Section ${section.toString()} disallowed minimum of ${fromSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
+                                default: "Section ${section.toString()} disallowed minimum of ${fromSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
                         }
 
                         return false
@@ -204,10 +203,10 @@ class BookService {
                     if (toSet[i] != '*' && maxSet[i] != '*' && toSet[i] > maxSet[i]) {
                         if (rangeRec.type == 'exclude') {
                             victim.errorMessage(code: 'chartSectionRange.exclude.max.high', args: [section.toString(), toSet[i], i + 1, maxSet[i]],
-                                    default: "Section ${section.toString()} exclusion maximum of ${toSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
+                                default: "Section ${section.toString()} exclusion maximum of ${toSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
                         } else {
                             victim.errorMessage(code: 'chartSectionRange.disallow.max.high', args: [section.toString(), toSet[i], i + 1, maxSet[i]],
-                                    default: "Section ${section.toString()} disallowed maximum of ${toSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
+                                default: "Section ${section.toString()} disallowed maximum of ${toSet[i]} for segment ${i + 1} is above the overall maximum of ${maxSet[i]}")
                         }
 
                         return false
@@ -216,10 +215,10 @@ class BookService {
                     if (toSet[i] != '*' && minSet[i] != '*' && toSet[i] < minSet[i]) {
                         if (rangeRec.type == 'exclude') {
                             victim.errorMessage(code: 'chartSectionRange.exclude.max.low', args: [section.toString(), toSet[i], i + 1, minSet[i]],
-                                    default: "Section ${section.toString()} exclusion maximum of ${toSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
+                                default: "Section ${section.toString()} exclusion maximum of ${toSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
                         } else {
                             victim.errorMessage(code: 'chartSectionRange.disallow.max.low', args: [section.toString(), toSet[i], i + 1, rangeTest[0][0]],
-                                    default: "Section ${section.toString()} disallowed maximum of ${toSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
+                                default: "Section ${section.toString()} disallowed maximum of ${toSet[i]} for segment ${i + 1} is below the overall minimum of ${minSet[i]}")
                         }
 
                         return false
@@ -235,7 +234,7 @@ class BookService {
             // Check that the exclusions have not removed all account ranges
             if (!rangeList) {
                 victim.errorMessage(code: 'chartSectionRange.excludes.all', args: [section.toString(), accountSegmentIndex + 1],
-                        default: "Section ${section.toString()} exclusions for segment ${accountSegmentIndex + 1} have excluded all possible account code values")
+                    default: "Section ${section.toString()} exclusions for segment ${accountSegmentIndex + 1} have excluded all possible account code values")
 
                 return false
             }
@@ -245,7 +244,7 @@ class BookService {
             for (s in sections) {
                 if (CodeRange.rangesOverlap(rangeList, createAccountRanges(s))) {
                     victim.errorMessage(code: 'chartSectionRange.overlap', args: [section.toString(), s.toString()],
-                            default: "The account codes permitted in section ${section.toString()} overlap those permitted in section ${s.toString()}")
+                        default: "The account codes permitted in section ${section.toString()} overlap those permitted in section ${s.toString()}")
                     return false
                 }
             }
@@ -343,13 +342,13 @@ class BookService {
             }
 
             // Need to add in the sizes of all range objects. Also
-			// protect everything by making it unmodifiable.
+            // protect everything by making it unmodifiable.
             for (int i = 0; i < elements.size(); i++) {
                 ranges = rangeTests[i]
-				rangeTests[i] = Collections.unmodifiableList(ranges)
+                rangeTests[i] = Collections.unmodifiableList(ranges)
                 for (range in ranges) {
-					length += range.size()
-					range.modifiable = false
+                    length += range.size()
+                    range.modifiable = false
                 }
             }
 
@@ -395,12 +394,12 @@ class BookService {
         for (int i = 0; i < accountSegments.size(); i++) {
             if (!accountSegments[i]) {
                 return message(code: 'account.code.no.type', args: [i + 1, accountSegments[i]],
-                        default: "Account code segment ${i + 1} is blank")
+                    default: "Account code segment ${i + 1} is blank")
             }
 
             if (!isNumeric(accountSegments[i]) && !isAlphabetic(accountSegments[i])) {
                 return message(code: 'account.code.bad.type', args: [i + 1, accountSegments[i]],
-                        default: "Account code segment ${i + 1} with the value of ${accountSegments[i]} is neither alphabetic nor numeric")
+                    default: "Account code segment ${i + 1} with the value of ${accountSegments[i]} is neither alphabetic nor numeric")
             }
         }
 
@@ -455,7 +454,7 @@ class BookService {
                             def elementValue = CodeElementValue.findByElementAndCode(element, effectiveSegments[i])
                             if (!elementValue) {
                                 return message(code: 'account.code.elementValue', args: [section.name, i + 1, effectiveSegments[i], element.name],
-                                        default: "Error in section ${section.name}: Code segment ${i + 1} with a value of ${effectiveSegments[i]} could not be found as a value for element ${element.name}")
+                                    default: "Error in section ${section.name}: Code segment ${i + 1} with a value of ${effectiveSegments[i]} could not be found as a value for element ${element.name}")
                             }
 
                             account."element${element.elementNumber}" = elementValue
@@ -472,12 +471,12 @@ class BookService {
                         }
 
                         name = message(code: 'account.code.bad.save', args: [section.name, effectiveCode],
-                                default: "Error in section ${section.name}: Unable to save new account with code ${effectiveCode}")
+                            default: "Error in section ${section.name}: Unable to save new account with code ${effectiveCode}")
                         log.error(name)
                         return name
                     } else {
                         return message(code: 'account.code.no.dynamic', args: [effectiveCode, section.name],
-                                default: "Account ${effectiveCode} could not be created since dynamic creation is not allowed in section ${section.name}")
+                            default: "Account ${effectiveCode} could not be created since dynamic creation is not allowed in section ${section.name}")
                     }
                 }
             }
@@ -528,7 +527,7 @@ class BookService {
                         }
                     } else {
                         return message(code: 'account.code.excluded', args: [section.name, i + 1, codeSegments[i]],
-                                default: "Error in section ${section.name}: Code segment ${i + 1} with a value of ${codeSegments[i]} is not within the permitted range of values for this section")
+                            default: "Error in section ${section.name}: Code segment ${i + 1} with a value of ${codeSegments[i]} is not within the permitted range of values for this section")
                     }
                 }
             }
@@ -577,7 +576,7 @@ class BookService {
 
                     // No specific message, so construct one
                     return message(code: 'account.code.disallowed', args: [effectiveCode, section.name],
-                            default: "The code combination of ${effectiveCode} is specifically disallowed for section ${section.name}")
+                        default: "The code combination of ${effectiveCode} is specifically disallowed for section ${section.name}")
                 }
             }
 
@@ -697,7 +696,7 @@ class BookService {
         if (CodeElementValue.findByElementAndCode(element, segmentValues[segmentIndex])) return null
 
         return message(code: 'account.code.not.exist', args: [section.name, segmentIndex + 1, segmentValues[segmentIndex], element.name],
-                default: "Error in section ${section.name}: Code segment ${segmentIndex + 1} with a value of ${segmentValues[segmentIndex]} does not exist as a value for element ${element.name}")
+            default: "Error in section ${section.name}: Code segment ${segmentIndex + 1} with a value of ${segmentValues[segmentIndex]} does not exist as a value for element ${element.name}")
     }
 
     // Checks that account code segments match the pattern segments, returning the account segements if they do
@@ -979,24 +978,24 @@ class BookService {
 
     // Delete a company.
     def deleteCompany(company) {
-		
-		// We need to check if the current user is a member of the given company and,
-		// if so, delete the companyUser link manually to stop Hibernate trying to
-		// add the link back in.
-		def currentUser = utilService.currentUser()
-		def companyUser
-		for (member in currentUser.companies) {
-			if (member.company.id == company.id) {
-				companyUser = member
-				break
-			}
-		}
-		
-		if (companyUser) {
-			currentUser.removeFromCompanies(companyUser)
-			companyUser.delete(flush: true)
-		}
-		
+
+        // We need to check if the current user is a member of the given company and,
+        // if so, delete the companyUser link manually to stop Hibernate trying to
+        // add the link back in.
+        def currentUser = utilService.currentUser()
+        def companyUser
+        for (member in currentUser.companies) {
+            if (member.company.id == company.id) {
+                companyUser = member
+                break
+            }
+        }
+
+        if (companyUser) {
+            currentUser.removeFromCompanies(companyUser)
+            companyUser.delete(flush: true)
+        }
+
         company.delete(flush: true)
         synchronized (companyLocks) {
             companyLocks.remove(company.securityCode.toString())
@@ -1173,24 +1172,24 @@ class BookService {
                 switch (field) {
                     case 'value':
                         value = getLineValue(context, line, contextCurrency, displayCurrency, companyCurrency,
-                                line.documentValue, line.accountValue, line.generalValue, line.companyValue)
+                            line.documentValue, line.accountValue, line.generalValue, line.companyValue)
                         break
 
                     case 'tax':
                         value = getLineValue(context, line, contextCurrency, displayCurrency, companyCurrency,
-                                line.documentTax, line.accountTax, line.generalTax, line.companyTax)
+                            line.documentTax, line.accountTax, line.generalTax, line.companyTax)
                         break
 
                     case 'total':
                         value = getLineValue(context, line, contextCurrency, displayCurrency, companyCurrency,
-                                makeTotal(line.documentValue, line.documentTax), makeTotal(line.accountValue, line.accountTax),
-                                makeTotal(line.generalValue, line.generalTax), makeTotal(line.companyValue, line.companyTax))
+                            makeTotal(line.documentValue, line.documentTax), makeTotal(line.accountValue, line.accountTax),
+                            makeTotal(line.generalValue, line.generalTax), makeTotal(line.companyValue, line.companyTax))
                         break
 
                     case 'nett':
                         value = getLineValue(context, line, contextCurrency, displayCurrency, companyCurrency,
-                                makeNett(line.documentValue, line.documentTax), makeNett(line.accountValue, line.accountTax),
-                                makeNett(line.generalValue, line.generalTax), makeNett(line.companyValue, line.companyTax))
+                            makeNett(line.documentValue, line.documentTax), makeNett(line.accountValue, line.accountTax),
+                            makeNett(line.generalValue, line.generalTax), makeNett(line.companyValue, line.companyTax))
                         break
 
                     case 'unallocated':
@@ -1390,7 +1389,7 @@ class BookService {
                 dtl = "'${dt}'"
             }
         }
-		
+
         def documentTypeList = DocumentType.findAll('from DocumentType as dt where dt.company = ? and dt.type.code in (' + dtl + ')', [utilService.currentCompany()])
         if (params.type?.id && params.code) {
             def type = DocumentType.get(params.type.id)
@@ -1413,10 +1412,8 @@ class BookService {
             def sysType = documentInstance.type.type
             if (documentInstance.securityCode == utilService.currentCompany().securityCode && docTypes.contains(sysType.code) && utilService.permitted(sysType.activity.code)) {
                 analysisIsDebit = sysType.analysisIsDebit
-                if (displayCurrency &&
-                        displayCurrency.id != documentInstance.currency.id &&
-                        displayCurrency.id != utilService.companyCurrency().id &&
-                        displayCurrency.id != getSubLedgerCurrencyId(documentInstance)) {
+                if (displayCurrency && displayCurrency.id != documentInstance.currency.id &&
+                    displayCurrency.id != utilService.companyCurrency().id && displayCurrency.id != getSubLedgerCurrencyId(documentInstance)) {
                     displayCurrencyClass = 'conversion'
                 }
             } else {
@@ -1554,12 +1551,12 @@ class BookService {
 
         return -1
     }
-	
-	private static getForcedLocale() {
-		try {
-			return RequestContextUtils.getLocale(RequestContextHolder.currentRequestAttributes().getCurrentRequest())
-		} catch (Exception ex) {
-			return Locale.US
-		}
-	}
+
+    private static getForcedLocale() {
+        try {
+            return RequestContextUtils.getLocale(RequestContextHolder.currentRequestAttributes().getCurrentRequest())
+        } catch (Exception ex) {
+            return Locale.US
+        }
+    }
 }

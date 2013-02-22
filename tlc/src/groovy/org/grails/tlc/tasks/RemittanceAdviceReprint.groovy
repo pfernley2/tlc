@@ -50,7 +50,7 @@ public class RemittanceAdviceReprint extends TaskExecutable {
                 reportParams.codes = message(code: 'generic.not.applicable', default: 'n/a')
                 reportParams.noSummary = true
             } else {
-            	completionMessage = utilService.standardMessage('not.found', 'supplier', params.supplier)
+                completionMessage = utilService.standardMessage('not.found', 'supplier', params.supplier)
                 return false
             }
         } else {
@@ -150,7 +150,7 @@ public class RemittanceAdviceReprint extends TaskExecutable {
                 def pdfFile = createReportPDF('Remittances', reportParams)
                 yield()
                 mailService.sendMail {
-					multipart true
+                    multipart true
                     to user.email
                     subject "${title} (${rpt}/${batch})"
                     body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])

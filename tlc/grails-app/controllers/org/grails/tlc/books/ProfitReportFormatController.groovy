@@ -24,7 +24,7 @@ class ProfitReportFormatController {
 
     // Injected services
     def utilService
-	def postingService
+    def postingService
     def sessionFactory
 
     // Security settings
@@ -76,7 +76,7 @@ class ProfitReportFormatController {
             redirect(action: 'list')
         } else {
             return [profitReportFormatInstance: profitReportFormatInstance,
-                    chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance)]
+                chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance)]
         }
     }
 
@@ -86,14 +86,14 @@ class ProfitReportFormatController {
             if (version != null && profitReportFormatInstance.version > version) {
                 profitReportFormatInstance.errorMessage(code: 'locking.failure', domain: 'profitReportFormat')
                 render(view: 'edit', model: [profitReportFormatInstance: profitReportFormatInstance,
-                        chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance)])
+                            chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance)])
                 return
             }
 
             profitReportFormatInstance.properties['name', 'title', 'subTitle', 'column1Heading', 'column1SubHeading', 'column1PrimaryData', 'column1Calculation', 'column1SecondaryData',
-                    'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
-                    'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
-                    'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
+                'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
+                'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
+                'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
             def hasTotalPercentage = (profitReportFormatInstance.column1Calculation == 'percentage' ||
                     profitReportFormatInstance.column2Calculation == 'percentage' ||
                     profitReportFormatInstance.column3Calculation == 'percentage' ||
@@ -149,7 +149,7 @@ class ProfitReportFormatController {
                 }
             } else {
                 render(view: 'edit', model: [profitReportFormatInstance: profitReportFormatInstance,
-                        chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance, sections)])
+                            chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance, sections)])
             }
         } else {
             flash.message = utilService.standardMessage('not.found', 'profitReportFormat', params.id)
@@ -166,9 +166,9 @@ class ProfitReportFormatController {
     def save() {
         def profitReportFormatInstance = new ProfitReportFormat()
         profitReportFormatInstance.properties['name', 'title', 'subTitle', 'column1Heading', 'column1SubHeading', 'column1PrimaryData', 'column1Calculation', 'column1SecondaryData',
-                'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
-                'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
-                'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
+            'column2Heading', 'column2SubHeading', 'column2PrimaryData', 'column2Calculation', 'column2SecondaryData',
+            'column3Heading', 'column3SubHeading', 'column3PrimaryData', 'column3Calculation', 'column3SecondaryData',
+            'column4Heading', 'column4SubHeading', 'column4PrimaryData', 'column4Calculation', 'column4SecondaryData'] = params
         profitReportFormatInstance.company = utilService.currentCompany()   // Ensure correct company
         def hasTotalPercentage = (profitReportFormatInstance.column1Calculation == 'percentage' ||
                 profitReportFormatInstance.column2Calculation == 'percentage' ||
@@ -185,7 +185,7 @@ class ProfitReportFormatController {
             }
         } else {
             if (sections) profitReportFormatInstance.errorMessage(field: 'percentages', code: 'profitReportFormat.no.percentages',
-                    default: 'You may not specify Total Percentage Section(s) unless at least one column uses a Total Percentage Calculation')
+            default: 'You may not specify Total Percentage Section(s) unless at least one column uses a Total Percentage Calculation')
         }
 
         if (!profitReportFormatInstance.hasErrors() && profitReportFormatInstance.save(flush: true)) {     // With deep validation
@@ -197,7 +197,7 @@ class ProfitReportFormatController {
             }
         } else {
             render(view: 'create', model: [profitReportFormatInstance: profitReportFormatInstance,
-                    chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance, sections)])
+                        chartSectionInstanceList: createChartSectionList(), percentageSections: createPercentageSectionList(profitReportFormatInstance, sections)])
         }
     }
 
@@ -262,7 +262,7 @@ class ProfitReportFormatController {
                 for (item in items) {
                     if (seen.contains(item)) {
                         line.errorMessage(field: 'accumulation', code: 'profitReportLine.dup.reference', args: [line.lineNumber.toString(), item],
-                                default: "Report Format line number ${line.lineNumber} contains a duplicate Accumulation reference to ${item}")
+                        default: "Report Format line number ${line.lineNumber} contains a duplicate Accumulation reference to ${item}")
                         valid = false
                         break
                     }
@@ -271,7 +271,7 @@ class ProfitReportFormatController {
                     if (item.isInteger()) {    // It's a line number
                         if (!valueLines.contains(item.toInteger())) {
                             line.errorMessage(field: 'accumulation', code: 'profitReportLine.bad.reference', args: [line.lineNumber.toString(), item],
-                                    default: "Report Format line number ${line.lineNumber} refers to line number ${item} which is not a line that can be accumulated")
+                            default: "Report Format line number ${line.lineNumber} refers to line number ${item} which is not a line that can be accumulated")
                             valid = false
                             break
                         }
@@ -482,7 +482,7 @@ class ProfitReportFormatController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private createChartSectionList() {
         return ChartSection.findAll('from ChartSection where company = ? and type = ? and accountSegment > ? order by treeSequence', [utilService.currentCompany(), 'ie', (byte) 0])

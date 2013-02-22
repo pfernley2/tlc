@@ -34,7 +34,7 @@ class Customer {
 
     static belongsTo = [company: Company, taxCode: TaxCode, country: SystemCountry, currency: ExchangeCurrency, accessCode: AccessCode]
     static hasMany = [transactions: GeneralTransaction, turnovers: CustomerTurnover, templates: TemplateDocument, templateLines: TemplateLine,
-		recurringLines: RecurringLine, addresses: CustomerAddress, addressUsages: CustomerAddressUsage, statements: Statement]
+        recurringLines: RecurringLine, addresses: CustomerAddress, addressUsages: CustomerAddressUsage, statements: Statement]
 
     String code
     String name

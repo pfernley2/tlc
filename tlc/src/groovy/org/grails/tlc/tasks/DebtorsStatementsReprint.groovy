@@ -152,7 +152,7 @@ public class DebtorsStatementsReprint extends TaskExecutable {
                 def pdfFile = createReportPDF('Statements', reportParams)
                 yield()
                 mailService.sendMail {
-					multipart true
+                    multipart true
                     to user.email
                     subject "${title} (${rpt}/${batch})"
                     body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])

@@ -78,7 +78,7 @@ class PostingActivityReport extends TaskExecutable {
         yield()
         if (pdfFile) {
             mailService.sendMail {
-				multipart true
+                multipart true
                 to user.email
                 subject title
                 body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])

@@ -33,7 +33,7 @@ class BankController {
 
     // Security settings
     def activities = [default: 'banktempl', template: 'bankentry', transact: 'bankentry', lines: 'bankentry',
-            auto: 'bankentry', transacting: 'bankentry', enquire: 'enquire']
+        auto: 'bankentry', transacting: 'bankentry', enquire: 'enquire']
 
     // List of actions with specific request types
     static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', templateLines: 'POST', lines: 'POST', auto: 'POST', transacting: 'POST']
@@ -268,7 +268,7 @@ class BankController {
         model
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private postDocument(documentInstance, params) {
         def company = utilService.currentCompany()
@@ -294,7 +294,7 @@ class BankController {
         def valid = !documentInstance.hasErrors()
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshDocumentLines(documentInstance, params)
         if (num) {
             documentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")
@@ -344,7 +344,7 @@ class BankController {
                         bankRate = utilService.getExchangeRate(documentInstance.currency, bankAccount.currency, now)
                         if (!bankRate) {
                             documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, bankAccount.currency.code],
-                                    default: "No exchange rate available from ${documentInstance.currency.code} to ${bankAccount.currency.code}")
+                            default: "No exchange rate available from ${documentInstance.currency.code} to ${bankAccount.currency.code}")
                             valid = false
                         }
                     }
@@ -365,7 +365,7 @@ class BankController {
                     companyRate = utilService.getExchangeRate(documentInstance.currency, companyCurrency, now)
                     if (!companyRate) {
                         documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, companyCurrency.code],
-                                default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
+                        default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
                         valid = false
                     }
                 }
@@ -524,7 +524,7 @@ class BankController {
                             temp = utilService.getExchangeRate(documentInstance.currency, account.currency, now)
                             if (!temp) {
                                 documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, account.currency.code],
-                                        default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
+                                default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
                                 valid = false
                                 break
                             }
@@ -550,7 +550,7 @@ class BankController {
                                 temp = utilService.getExchangeRate(documentInstance.currency, account.currency, now)
                                 if (!temp) {
                                     documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, account.currency.code],
-                                            default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
+                                    default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
                                     valid = false
                                     break
                                 }
@@ -581,8 +581,8 @@ class BankController {
 
         // Create the total line, remove any 'blank' lines and then post the document
         if (valid) {
-			def doc = new Total(description: documentInstance.description, documentValue: documentTotal, generalValue: bankTotal, companyValue: companyTotal)
-			doc.account = bankAccount
+            def doc = new Total(description: documentInstance.description, documentValue: documentTotal, generalValue: bankTotal, companyValue: companyTotal)
+            doc.account = bankAccount
             documentInstance.addToTotal(doc)
 
             for (line in removables) {
@@ -619,7 +619,7 @@ class BankController {
         settings.codeEdit = documentInstance.type?.allowEdit
         settings.decimals = documentInstance.currency.decimals
         return [documentInstance: documentInstance, bankAccountList: bankAccountList, documentTypeList: documentTypeList,
-                periodList: periodList, currencyList: currencyList, settings: settings]
+            periodList: periodList, currencyList: currencyList, settings: settings]
     }
 
     private updateTransientLineData(line, isTemplate = false) {
@@ -668,7 +668,7 @@ class BankController {
         def settings = [:]
         settings.decimals = templateDocumentInstance.currency.decimals
         return [templateDocumentInstance: templateDocumentInstance, bankAccountList: bankAccountList, documentTypeList: documentTypeList,
-                currencyList: currencyList, settings: settings]
+            currencyList: currencyList, settings: settings]
     }
 
     private saveTemplate(templateDocumentInstance, params) {
@@ -682,7 +682,7 @@ class BankController {
         def suppliers = [:]
 
         // Load the template lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshTemplateLines(templateDocumentInstance, params)
         if (num) {
             templateDocumentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")

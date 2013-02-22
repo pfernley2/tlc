@@ -131,7 +131,7 @@ public class ProfitAndLossReport extends TaskExecutable {
                 if (val && bookService.createElementAccessFragment('x', val, company, user) != null) {
                     groupings << val
                 } else {
-					completionMessage = utilService.standardMessage('not.found', 'codeElement', valueId)
+                    completionMessage = utilService.standardMessage('not.found', 'codeElement', valueId)
                     return false
                 }
             } else {
@@ -149,8 +149,8 @@ public class ProfitAndLossReport extends TaskExecutable {
         }
 
         if (!loadData(session, format, baseSelectedPID, extraSelectedPID, baseComparativePID, extraComparativePID,
-                selectedPeriod, comparativePeriod, selectedPeriodList, comparativePeriodList, selectedElementValueList,
-                needExtraSelected, needBaseComparative, needExtraComparative, groupings)) {
+            selectedPeriod, comparativePeriod, selectedPeriodList, comparativePeriodList, selectedElementValueList,
+            needExtraSelected, needBaseComparative, needExtraComparative, groupings)) {
             completionMessage = message(code: 'report.no.access', default: 'You do not have permission to access any accounts and therefore cannot run this report.')
             return false
         }
@@ -160,8 +160,8 @@ public class ProfitAndLossReport extends TaskExecutable {
         def accumulators = [:]
         def baseList = SystemWorkarea.findAllByProcess(baseSelectedPID)
         for (rec in baseList) {
-            if (!createInterimData(session, rec, format, baseSelectedPID, extraSelectedPID, baseComparativePID, extraComparativePID, interimPID,
-                    totals, needExtraSelected, needBaseComparative, needExtraComparative)) {
+            if (!createInterimData(session, rec, format, baseSelectedPID, extraSelectedPID, baseComparativePID,
+                extraComparativePID, interimPID, totals, needExtraSelected, needBaseComparative, needExtraComparative)) {
                 clearWorkarea([baseSelectedPID, extraSelectedPID, baseComparativePID, extraComparativePID, interimPID])
                 completionMessage = message(code: 'generic.workarea', default: 'Unable to update the work table')
                 return false
@@ -228,7 +228,7 @@ public class ProfitAndLossReport extends TaskExecutable {
         yield()
 
         mailService.sendMail {
-			multipart true
+            multipart true
             to user.email
             subject title
             body(view: '/emails/genericReport', model: [companyInstance: company, systemUserInstance: user, title: title])
@@ -243,36 +243,36 @@ public class ProfitAndLossReport extends TaskExecutable {
 
     private usesBaseSelected(format) {
         return (BASE_SELECTED_DATA.contains(format.column1PrimaryData) || BASE_SELECTED_DATA.contains(format.column1SecondaryData) ||
-                BASE_SELECTED_DATA.contains(format.column2PrimaryData) || BASE_SELECTED_DATA.contains(format.column2SecondaryData) ||
-                BASE_SELECTED_DATA.contains(format.column3PrimaryData) || BASE_SELECTED_DATA.contains(format.column3SecondaryData) ||
-                BASE_SELECTED_DATA.contains(format.column4PrimaryData) || BASE_SELECTED_DATA.contains(format.column4SecondaryData))
+            BASE_SELECTED_DATA.contains(format.column2PrimaryData) || BASE_SELECTED_DATA.contains(format.column2SecondaryData) ||
+            BASE_SELECTED_DATA.contains(format.column3PrimaryData) || BASE_SELECTED_DATA.contains(format.column3SecondaryData) ||
+            BASE_SELECTED_DATA.contains(format.column4PrimaryData) || BASE_SELECTED_DATA.contains(format.column4SecondaryData))
     }
 
     private usesExtraSelected(format) {
         return (EXTRA_SELECTED_DATA.contains(format.column1PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column1SecondaryData) ||
-                EXTRA_SELECTED_DATA.contains(format.column2PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column2SecondaryData) ||
-                EXTRA_SELECTED_DATA.contains(format.column3PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column3SecondaryData) ||
-                EXTRA_SELECTED_DATA.contains(format.column4PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column4SecondaryData))
+            EXTRA_SELECTED_DATA.contains(format.column2PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column2SecondaryData) ||
+            EXTRA_SELECTED_DATA.contains(format.column3PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column3SecondaryData) ||
+            EXTRA_SELECTED_DATA.contains(format.column4PrimaryData) || EXTRA_SELECTED_DATA.contains(format.column4SecondaryData))
     }
 
     private usesBaseComparative(format) {
         return (BASE_COMPARATIVE_DATA.contains(format.column1PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column1SecondaryData) ||
-                BASE_COMPARATIVE_DATA.contains(format.column2PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
-                BASE_COMPARATIVE_DATA.contains(format.column3PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
-                BASE_COMPARATIVE_DATA.contains(format.column4PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column4SecondaryData))
+            BASE_COMPARATIVE_DATA.contains(format.column2PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
+            BASE_COMPARATIVE_DATA.contains(format.column3PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
+            BASE_COMPARATIVE_DATA.contains(format.column4PrimaryData) || BASE_COMPARATIVE_DATA.contains(format.column4SecondaryData))
     }
 
     private usesExtraComparative(format) {
         return (EXTRA_COMPARATIVE_DATA.contains(format.column1PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column1SecondaryData) ||
-                EXTRA_COMPARATIVE_DATA.contains(format.column2PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
-                EXTRA_COMPARATIVE_DATA.contains(format.column3PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
-                EXTRA_COMPARATIVE_DATA.contains(format.column4PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column4SecondaryData))
+            EXTRA_COMPARATIVE_DATA.contains(format.column2PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column2SecondaryData) ||
+            EXTRA_COMPARATIVE_DATA.contains(format.column3PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column3SecondaryData) ||
+            EXTRA_COMPARATIVE_DATA.contains(format.column4PrimaryData) || EXTRA_COMPARATIVE_DATA.contains(format.column4SecondaryData))
     }
 
     // Loads system workarea table with the raw data needed to fill the report. Returns true if succeeded or false if the user has no access rights
     private loadData(session, format, baseSelectedPID, extraSelectedPID, baseComparativePID, extraComparativePID,
-                     selectedPeriod, comparativePeriod, selectedPeriodList, comparativePeriodList, selectedElementValueList,
-                     needExtraSelected, needBaseComparative, needExtraComparative, groupings) {
+        selectedPeriod, comparativePeriod, selectedPeriodList, comparativePeriodList, selectedElementValueList,
+        needExtraSelected, needBaseComparative, needExtraComparative, groupings) {
 
         // At the time of writing there was a fault in Hibernate which stopped us using HQL for the following.
         // We therefore use raw SQL - ugly, but it works! Hibernate was translating the HQL to SQL incorrectly.
@@ -399,8 +399,8 @@ public class ProfitAndLossReport extends TaskExecutable {
     }
 
     // Create the interim data to be used by the report and return true. Return false if could not save the data.
-    private createInterimData(session, baseSelected, format, baseSelectedPID, extraSelectedPID, baseComparativePID, extraComparativePID, interimPID,
-                              totals, needExtraSelected, needBaseComparative, needExtraComparative) {
+    private createInterimData(session, baseSelected, format, baseSelectedPID, extraSelectedPID, baseComparativePID,
+        extraComparativePID, interimPID, totals, needExtraSelected, needBaseComparative, needExtraComparative) {
         def extraSelected, baseComparative, extraComparative
         if (needExtraSelected) extraSelected = SystemWorkarea.findByProcessAndIdentifier(extraSelectedPID, baseSelected.identifier)
         if (needBaseComparative) baseComparative = SystemWorkarea.findByProcessAndIdentifier(baseComparativePID, baseSelected.identifier)

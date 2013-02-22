@@ -48,8 +48,8 @@ class SystemCurrency {
         name(blank: false, size: 1..30)
         decimals(range: 0..3)
         securityCode(validator: {val, obj ->
-                return (val == 0)
-            })
+            return (val == 0)
+        })
     }
 
     def afterInsert() {

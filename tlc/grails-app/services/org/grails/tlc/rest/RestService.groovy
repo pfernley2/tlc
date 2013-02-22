@@ -53,8 +53,9 @@ class RestService {
     private static final REST_SECRET_LENGTH = 40
 
     // The activity codes required for permissions to post the given document types
-    private static final postingActivities = [SI: 'arinvoice', SC: 'arinvoice', PI: 'apinvoice', PC: 'apinvoice', BP: 'bankentry', BR: 'bankentry', CP: 'cashentry', CR: 'cashentry',
-            GLJ: 'gljournal', FJ: 'finjournal', ARJ: 'arjournal', APJ: 'apjournal', SOJ: 'sojournal', AC: 'provision', PR: 'provision']
+    private static final postingActivities = [SI: 'arinvoice', SC: 'arinvoice', PI: 'apinvoice', PC: 'apinvoice',
+        BP: 'bankentry', BR: 'bankentry', CP: 'cashentry', CR: 'cashentry', GLJ: 'gljournal', FJ: 'finjournal',
+        ARJ: 'arjournal', APJ: 'apjournal', SOJ: 'sojournal', AC: 'provision', PR: 'provision']
 
     // Checks whether a request is a RESTful request and, if not, returns false.
     // Returns true if the request is a valid RESTful request (in which case the
@@ -472,8 +473,8 @@ class RestService {
                         targetDoc = Document.findByTypeAndCode(targetType, getString(alloc.code))
                         if (!targetDoc) return message(code: 'rest.total.target', default: 'Invalid document specified in total line allocation')
                         targetLine = total.customer ?
-                            GeneralTransaction.findByDocumentAndCustomer(targetDoc, total.customer) :
-                            GeneralTransaction.findByDocumentAndSupplier(targetDoc, total.supplier)
+                                GeneralTransaction.findByDocumentAndCustomer(targetDoc, total.customer) :
+                                GeneralTransaction.findByDocumentAndSupplier(targetDoc, total.supplier)
                         if (!targetLine?.accountValue) return message(code: 'rest.total.target', default: 'Invalid document specified in total line allocation')
                         fieldName = 'allocations.value'
                         val = getDecimal(alloc.value)
@@ -515,19 +516,19 @@ class RestService {
                 if (docline.customer) {
                     if (!arAllowed) return message(code: 'rest.no.customer', args: [lineNum], default: "Line ${lineNum} specifies a customer account which is not allowed at this point")
                     if (duplicateCustomers.put(docline.customer.code, true)) return message(code: 'rest.duplicate.customer', args: [lineNum],
-                            default: "Line ${lineNum} contains a duplicate customer account. Please combine in to a single line.")
+                        default: "Line ${lineNum} contains a duplicate customer account. Please combine in to a single line.")
                     docline.onHold = hold
                     docline.affectsTurnover = turnover
                 } else if (docline.supplier) {
                     if (!apAllowed) return message(code: 'rest.no.supplier', args: [lineNum], default: "Line ${lineNum} specifies a supplier account which is not allowed at this point")
                     if (duplicateSuppliers.put(docline.supplier.code, true)) return message(code: 'rest.duplicate.supplier', args: [lineNum],
-                            default: "Line ${lineNum} contains a duplicate supplier account. Please combine in to a single line.")
+                        default: "Line ${lineNum} contains a duplicate supplier account. Please combine in to a single line.")
                     docline.onHold = hold
                     docline.affectsTurnover = turnover
                 } else {
                     if (!glAllowed) return message(code: 'rest.no.general', args: [lineNum], default: "Line ${lineNum} specifies a GL account which is not allowed at this point")
                     if (docline.account.code == forbiddenAccount?.code) return message(code: 'rest.invalid.general', args: [lineNum],
-                            default: "Line ${lineNum} specifies an invalid general ledger account")
+                        default: "Line ${lineNum} specifies an invalid general ledger account")
                 }
 
                 fieldName = 'description'
@@ -562,7 +563,7 @@ class RestService {
                         taxRates.put(val, docline.taxPercentage)
                         val = new Tax(taxCode: docline.taxCode, taxPercentage: docline.taxPercentage, companyValue: 0.0, companyTax: 0.0,
                                 documentValue: 0.0, documentTax: 0.0, generalValue: 0.0, generalTax: 0.0)
-						val.account = taxControl
+                        val.account = taxControl
                         if (isInvoice) {
                             val.accountValue = 0.0
                             val.accountTax = 0.0
@@ -579,10 +580,10 @@ class RestService {
                 // (if any) is consistent with the customer/supplier account
                 if (isInvoice) {
                     if ((docline.taxCode && invoiceAccount.taxCode && docline.taxCode.authority.id != invoiceAccount.taxCode.authority.id) ||
-                            (docline.taxCode && !invoiceAccount.taxCode && docline.taxCode.authority.usage != 'ad-hoc') ||
-                            (!docline.taxCode && invoiceAccount.taxCode && invoiceAccount.taxCode.authority.usage == 'mandatory')) {
+                        (docline.taxCode && !invoiceAccount.taxCode && docline.taxCode.authority.usage != 'ad-hoc') ||
+                        (!docline.taxCode && invoiceAccount.taxCode && invoiceAccount.taxCode.authority.usage == 'mandatory')) {
                         return message(code: 'rest.bad.tax', args: [lineNum],
-                                default: "The tax code for line ${lineNum} is inconsistent with the tax status of the account that the document total is being posted to")
+                            default: "The tax code for line ${lineNum} is inconsistent with the tax status of the account that the document total is being posted to")
                     }
                 }
 
@@ -657,7 +658,7 @@ class RestService {
                 val = getBoolean(line.auto)
                 if (val) {
                     if (docline.customer || docline.supplier) {
-                            autoAllocations << (docline.customer ?: docline.supplier)
+                        autoAllocations << (docline.customer ?: docline.supplier)
                     } else {
                         return message(code: 'rest.line.auto', args: [lineNum], default: "Line ${lineNum} specifies an auto allocation but is not being posted to an AR/AP account")
                     }
@@ -665,7 +666,7 @@ class RestService {
 
                 if (line.allocations) {
                     if (!docline.customer && !docline.supplier) return message(code: 'rest.line.alloc', args: [lineNum],
-                            default: "Line ${lineNum} specifies allocations but is not being posted to an AR/AP account")
+                        default: "Line ${lineNum} specifies allocations but is not being posted to an AR/AP account")
                     def targetType, targetDoc, targetLine
                     for (alloc in line.allocations) {
                         fieldName = 'allocations.type'
@@ -675,13 +676,13 @@ class RestService {
                         targetDoc = Document.findByTypeAndCode(targetType, getString(alloc.code))
                         if (!targetDoc) return message(code: 'rest.line.target', args: [lineNum], default: "Invalid document specified in line ${lineNum} allocation")
                         targetLine = docline.customer ?
-                            GeneralTransaction.findByDocumentAndCustomer(targetDoc, docline.customer) :
-                            GeneralTransaction.findByDocumentAndSupplier(targetDoc, docline.supplier)
+                                GeneralTransaction.findByDocumentAndCustomer(targetDoc, docline.customer) :
+                                GeneralTransaction.findByDocumentAndSupplier(targetDoc, docline.supplier)
                         if (!targetLine?.accountValue) return message(code: 'rest.line.target', args: [lineNum], default: "Invalid document specified in line ${lineNum} allocation")
                         fieldName = 'allocations.value'
                         val = getDecimal(alloc.value)
                         if (!val || val != utilService.round(val, documentCurrency.decimals)) return message(code: 'rest.line.value', args: [lineNum],
-                                default: "Invalid value specified in line ${lineNum} allocation")
+                            default: "Invalid value specified in line ${lineNum} allocation")
                         if (accountCurrency.code == documentCurrency.code) {
                             rate = 1.0
                         } else if (accountCurrency.code == companyCurrency.code) {
@@ -776,16 +777,16 @@ class RestService {
 
             // Add in the reversal lines
             for (line in doc.lines) {
-				val = new Line(description: line.description, documentValue: line.documentValue,
+                val = new Line(description: line.description, documentValue: line.documentValue,
                         generalValue: line.generalValue, companyValue: line.companyValue, adjustment: line.adjustment)
-				val.account = line.account
+                val.account = line.account
                 reversal.addToLines(val)
             }
 
             // Add in the total line
-			val = new Total(description: total.description, documentValue: total.documentValue,
+            val = new Total(description: total.description, documentValue: total.documentValue,
                     generalValue: total.generalValue, companyValue: total.companyValue, adjustment: total.adjustment)
-			val.account = total.account
+            val.account = total.account
             reversal.addToTotal(val)
         }
 
@@ -858,7 +859,7 @@ class RestService {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private getRandomString(length) {
         def rnd = new SecureRandom()
@@ -909,7 +910,7 @@ class RestService {
         if (!rate) {
             rate = utilService.getExchangeRate(from, to, today)
             if (!rate) return message(code: 'document.bad.exchangeRate', args: [from.code, to.code],
-                    default: "No exchange rate available from ${from.code} to ${to.code}")
+                default: "No exchange rate available from ${from.code} to ${to.code}")
             rates.put(to.code, rate)
         }
 

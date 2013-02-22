@@ -127,7 +127,8 @@ class ReportAccumulationGrouping extends ReportGrouping {
         parameters.addAll(sectionIds)
 
         // Get our summary total(s)
-        def sql = 'select ' + (groupingClause ? groupingClause + ', ' : '') + 'sum(decimal1), sum(decimal2), sum(decimal3), sum(decimal4), ' +
+        def sql = 'select ' + (groupingClause ? groupingClause + ', ' : '') +
+                'sum(decimal1), sum(decimal2), sum(decimal3), sum(decimal4), ' +
                 'sum(decimal5), sum(decimal6), sum(decimal7), sum(decimal8), ' +
                 'sum(decimal9), sum(decimal10), sum(decimal11), sum(decimal12) ' +
                 'from SystemWorkarea where process = ? and long1 in ' + inClause
@@ -219,7 +220,7 @@ class ReportAccumulationGrouping extends ReportGrouping {
         return results
     }
 
-// Construct a string key from a list of long values
+    // Construct a string key from a list of long values
     private makeKey(list) {
         def key = ''
         for (item in list) {

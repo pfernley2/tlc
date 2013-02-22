@@ -24,7 +24,7 @@ import org.springframework.beans.PropertyEditorRegistry
 
 class BasicDatePropertyEditorRegistrar implements PropertyEditorRegistrar {
 
-	void registerCustomEditors(PropertyEditorRegistry registry) {
+    void registerCustomEditors(PropertyEditorRegistry registry) {
         registry.registerCustomEditor(Date.class, new BasicDatePropertyEditor())
     }
 }

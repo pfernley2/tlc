@@ -21,7 +21,7 @@ package org.grails.tlc.books
 
 public class CodeRange {
 
-	def modifiable = true
+    def modifiable = true
     def type
     def length
     def from
@@ -33,16 +33,16 @@ public class CodeRange {
         this.from = (from == '*') ? makeMin(type, length) : from
         this.to = (to == '*') ? makeMax(type, length) : to
     }
-	
-	public setFrom(val) {
-		if (!modifiable) throw new UnsupportedOperationException("Attempt to modify the 'from' value of an unmodifiable CodeRange")
-		from = val
-	}
-	
-	public setTo(val) {
-		if (!modifiable) throw new UnsupportedOperationException("Attempt to modify the 'to' value of an unmodifiable CodeRange")
-		to = val
-	}
+
+    public setFrom(val) {
+        if (!modifiable) throw new UnsupportedOperationException("Attempt to modify the 'from' value of an unmodifiable CodeRange")
+        from = val
+    }
+
+    public setTo(val) {
+        if (!modifiable) throw new UnsupportedOperationException("Attempt to modify the 'to' value of an unmodifiable CodeRange")
+        to = val
+    }
 
     public size() {
         return type.length() + 1 + from.length() + to.length()
@@ -59,9 +59,7 @@ public class CodeRange {
 
         // Skip all ranges below us
         def pos = 0;
-        while (from > list[pos].to) {
-            pos++
-        }
+        while (from > list[pos].to) pos++
 
         // Done if we fit in to an existing gap in the ranges
         if (to < list[pos].from) return
@@ -70,9 +68,7 @@ public class CodeRange {
         if (from <= list[pos].from) {
 
             // Chop out any element completely covered by us
-            while (pos < list.size() && to >= list[pos].to) {
-                list.remove(pos)
-            }
+            while (pos < list.size() && to >= list[pos].to) list.remove(pos)
 
             // If our end point is within an element, adjust that element's start point
             if (pos < list.size() && to >= list[pos].from) list[pos].from = incrementCode(to)
@@ -92,9 +88,7 @@ public class CodeRange {
             pos++
 
             // Chop out any element completely covered by us
-            while (pos < list.size() && to >= list[pos].to) {
-                list.remove(pos)
-            }
+            while (pos < list.size() && to >= list[pos].to) list.remove(pos)
 
             // If our end point is within an element, adjust that element's start point
             if (pos < list.size() && to >= list[pos].from) list[pos].from = incrementCode(to)
@@ -133,30 +127,30 @@ public class CodeRange {
     }
 
     // Limits the list of ranges to this range for testing purposes. This
-	// method can return either the original list (which is probably
-	// immutable) or a new list if modifications were required. The 'list'
-	// input parameter must be a list of CodeRange objects (i.e. not
-	// 'disallowed' tests).
+    // method can return either the original list (which is probably
+    // immutable) or a new list if modifications were required. The 'list'
+    // input parameter must be a list of CodeRange objects (i.e. not
+    // 'disallowed' tests).
     public includeOnly(list) {
-		def results = []
+        def results = []
         if (!list) return results                                  	// Nothing in the list
         if (from <= list[0].from && to >= list[-1].to) return list	// Completely overlaps the ranges in the list
         if (to < list[0].from || from > list[-1].to) return results	// Completely below or above the ranges in the list
 
-		def result
+        def result
         for (range in list) {
             if (to < range.from || from > range.to) continue		// We can ignore this since it's completely outside of our range
-			
-			// Here, we effectively clone the current CodeRange
-			// object allowing it to be modifiable (on the
-			// assumption that it isn't).
-			result = new CodeRange(range.type, range.length, range.from, range.to)
+
+            // Here, we effectively clone the current CodeRange
+            // object allowing it to be modifiable (on the
+            // assumption that it isn't).
+            result = new CodeRange(range.type, range.length, range.from, range.to)
             if (from > result.from) result.from = from
             if (to < result.to) result.to = to
-			results << result
+            results << result
         }
-		
-		return results
+
+        return results
     }
 
     // Returns true if the 'from' value is the minimum possible value

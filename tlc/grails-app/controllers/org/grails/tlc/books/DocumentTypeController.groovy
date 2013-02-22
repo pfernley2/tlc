@@ -112,8 +112,8 @@ class DocumentTypeController {
 
             // If they've changed the auto-payment currencies allowed
             if (valid && oldBank && documentTypeInstance.autoBankAccount && !documentTypeInstance.autoForeignCurrency &&
-                    (oldFlag || oldBank.currency.id != documentTypeInstance.autoBankAccount.currency.id) &&
-                    Supplier.countByDocumentTypeAndCurrencyNotEqual(documentTypeInstance, documentTypeInstance.autoBankAccount.currency)) {
+            (oldFlag || oldBank.currency.id != documentTypeInstance.autoBankAccount.currency.id) &&
+            Supplier.countByDocumentTypeAndCurrencyNotEqual(documentTypeInstance, documentTypeInstance.autoBankAccount.currency)) {
                 if (oldFlag) {
                     documentTypeInstance.errorMessage(field: 'autoForeignCurrency', code: 'documentType.auto.flag',
                             default: 'The change of the foreign currency flag would invalidate suppliers using this document type for their auto-payments')

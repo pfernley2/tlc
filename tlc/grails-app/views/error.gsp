@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="main-content" role="main">
-	<g:renderException exception="${exception}"/>
+    <g:renderException exception="${exception}"/>
 </div>
 </body>
 </html>

@@ -55,16 +55,16 @@ class SystemMenuController {
             try {
                 SystemMenu.withTransaction {status ->
                     utilService.deleteWithMessages(systemMenuInstance, [
-                            [prefix: 'menu.option', code: systemMenuInstance.path],
-                            [prefix: 'menu.crumb', code: systemMenuInstance.path],
-                            [prefix: 'menu.submenu', code: systemMenuInstance.path]
+                        [prefix: 'menu.option', code: systemMenuInstance.path],
+                        [prefix: 'menu.crumb', code: systemMenuInstance.path],
+                        [prefix: 'menu.submenu', code: systemMenuInstance.path]
                     ], status)
 
                     for (child in dependents) {
                         utilService.deleteWithMessages(child, [
-                                [prefix: 'menu.option', code: child.path],
-                                [prefix: 'menu.crumb', code: child.path],
-                                [prefix: 'menu.submenu', code: child.path]
+                            [prefix: 'menu.option', code: child.path],
+                            [prefix: 'menu.crumb', code: child.path],
+                            [prefix: 'menu.submenu', code: child.path]
                         ], status)
                     }
                 }
@@ -120,8 +120,8 @@ class SystemMenuController {
                 def dependents = (oldType == 'submenu' && systemMenuInstance.type == 'submenu' &&
                         (oldPath != systemMenuInstance.path || oldSequencer != systemMenuInstance.sequencer)) ? SystemMenu.findAllByPathLike(oldPath + '.%', [sort: 'path']) : null
                 def translatables = [
-                        [prefix: 'menu.option', code: systemMenuInstance.path, oldCode: oldPath, field: 'title'],
-                        [prefix: 'menu.crumb', code: systemMenuInstance.path, oldCode: oldPath, text: (systemMenuInstance.path.indexOf('.') == -1) ? systemMenuInstance.path : systemMenuInstance.path.substring(systemMenuInstance.path.lastIndexOf('.') + 1)]
+                    [prefix: 'menu.option', code: systemMenuInstance.path, oldCode: oldPath, field: 'title'],
+                    [prefix: 'menu.crumb', code: systemMenuInstance.path, oldCode: oldPath, text: (systemMenuInstance.path.indexOf('.') == -1) ? systemMenuInstance.path : systemMenuInstance.path.substring(systemMenuInstance.path.lastIndexOf('.') + 1)]
                 ]
 
                 if (systemMenuInstance.type == 'submenu' && systemMenuInstance.parameters) {
@@ -144,8 +144,8 @@ class SystemMenuController {
                                 oldPath = child.path
                                 child.path = systemMenuInstance.path + child.path.substring(len)
                                 translatables = [
-                                        [prefix: 'menu.option', code: child.path, oldCode: oldPath, field: 'title'],
-                                        [prefix: 'menu.crumb', code: child.path, oldCode: oldPath, text: child.path.substring(child.path.lastIndexOf('.') + 1)]
+                                    [prefix: 'menu.option', code: child.path, oldCode: oldPath, field: 'title'],
+                                    [prefix: 'menu.crumb', code: child.path, oldCode: oldPath, text: child.path.substring(child.path.lastIndexOf('.') + 1)]
                                 ]
 
                                 if (child.type == 'submenu' && child.parameters) {
@@ -208,8 +208,8 @@ class SystemMenuController {
         }
 
         def translatables = [
-                [prefix: 'menu.option', code: systemMenuInstance.path, field: 'title'],
-                [prefix: 'menu.crumb', code: systemMenuInstance.path, text: (systemMenuInstance.path.indexOf('.') == -1) ? systemMenuInstance.path : systemMenuInstance.path.substring(systemMenuInstance.path.lastIndexOf('.') + 1)]
+            [prefix: 'menu.option', code: systemMenuInstance.path, field: 'title'],
+            [prefix: 'menu.crumb', code: systemMenuInstance.path, text: (systemMenuInstance.path.indexOf('.') == -1) ? systemMenuInstance.path : systemMenuInstance.path.substring(systemMenuInstance.path.lastIndexOf('.') + 1)]
         ]
 
         if (systemMenuInstance.type == 'submenu' && systemMenuInstance.parameters) {

@@ -93,7 +93,7 @@ class AccountController {
             def currencyList = hasTransactions ? null : ExchangeCurrency.findAllByCompany(utilService.currentCompany(), [cache: true])
             def revaluationAccountList = Account.findAll('from Account as x where x.securityCode = ? and x.type.code = ? order by x.code', [utilService.currentCompany().securityCode, 'glRevalue'])
             return [accountInstance: accountInstance, chartSectionList: createSectionList(), currencyList: currencyList,
-                    hasTransactions: hasTransactions, revaluationAccountList: revaluationAccountList]
+                hasTransactions: hasTransactions, revaluationAccountList: revaluationAccountList]
         }
     }
 
@@ -106,7 +106,7 @@ class AccountController {
                 def currencyList = hasTransactions ? null : ExchangeCurrency.findAllByCompany(utilService.currentCompany(), [cache: true])
                 def revaluationAccountList = Account.findAll('from Account as x where x.securityCode = ? and x.type.code = ? order by x.code', [utilService.currentCompany().securityCode, 'glRevalue'])
                 render(view: 'edit', model: [accountInstance: accountInstance, chartSectionList: createSectionList(), currencyList: currencyList,
-                        hasTransactions: hasTransactions, revaluationAccountList: revaluationAccountList])
+                            hasTransactions: hasTransactions, revaluationAccountList: revaluationAccountList])
                 return
             }
 
@@ -209,7 +209,7 @@ class AccountController {
                 def currencyList = hasTransactions ? null : ExchangeCurrency.findAllByCompany(utilService.currentCompany(), [cache: true])
                 def revaluationAccountList = Account.findAll('from Account as x where x.securityCode = ? and x.type.code = ? order by x.code', [utilService.currentCompany().securityCode, 'glRevalue'])
                 render(view: 'edit', model: [accountInstance: accountInstance, chartSectionList: createSectionList(), currencyList: currencyList,
-                        hasTransactions: hasTransactions, revaluationAccountList: revaluationAccountList])
+                            hasTransactions: hasTransactions, revaluationAccountList: revaluationAccountList])
             }
         } else {
             flash.message = utilService.standardMessage('not.found', 'account', params.id)
@@ -222,7 +222,7 @@ class AccountController {
         accountInstance.currency = utilService.companyCurrency()
         def revaluationAccountList = Account.findAll('from Account as x where x.securityCode = ? and x.type.code = ? order by x.code', [utilService.currentCompany().securityCode, 'glRevalue'])
         return [accountInstance: accountInstance, chartSectionList: createSectionList(),
-                currencyList: ExchangeCurrency.findAllByCompany(utilService.currentCompany(), [cache: true]), revaluationAccountList: revaluationAccountList]
+            currencyList: ExchangeCurrency.findAllByCompany(utilService.currentCompany(), [cache: true]), revaluationAccountList: revaluationAccountList]
     }
 
     def save() {
@@ -265,7 +265,7 @@ class AccountController {
         } else {
             def revaluationAccountList = Account.findAll('from Account as x where x.securityCode = ? and x.type.code = ? order by x.code', [utilService.currentCompany().securityCode, 'glRevalue'])
             render(view: 'create', model: [accountInstance: accountInstance, chartSectionList: createSectionList(),
-                    currencyList: ExchangeCurrency.findAllByCompany(utilService.currentCompany(), [cache: true]), revaluationAccountList: revaluationAccountList])
+                        currencyList: ExchangeCurrency.findAllByCompany(utilService.currentCompany(), [cache: true]), revaluationAccountList: revaluationAccountList])
         }
     }
 
@@ -534,8 +534,8 @@ class AccountController {
         }
 
         [accountInstance: accountInstance, balanceInstance: balanceInstance, transactionInstanceList: transactionInstanceList,
-                transactionInstanceTotal: transactionInstanceTotal, currencyList: currencyList, periodList: periodList,
-                displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass, displayPeriod: displayPeriod]
+                    transactionInstanceTotal: transactionInstanceTotal, currencyList: currencyList, periodList: periodList,
+                    displayCurrency: displayCurrency, displayCurrencyClass: displayCurrencyClass, displayPeriod: displayPeriod]
     }
 
     // --------------------------------------------- Support Methods ---------------------------------------------
@@ -551,8 +551,8 @@ class AccountController {
         }
 
         if (account.code.startsWith(bookService.SEGMENT_DELIMITER) ||
-                account.code.endsWith(bookService.SEGMENT_DELIMITER) ||
-                account.code.indexOf(bookService.SEGMENT_DELIMITER + bookService.SEGMENT_DELIMITER) >= 0) {
+        account.code.endsWith(bookService.SEGMENT_DELIMITER) ||
+        account.code.indexOf(bookService.SEGMENT_DELIMITER + bookService.SEGMENT_DELIMITER) >= 0) {
             account.errorMessage(field: 'code', code: 'account.code.malformed', default: 'Account code is malformed')
             return false
         }
@@ -568,8 +568,8 @@ class AccountController {
         def accountSegments = code.split("\\${BookService.SEGMENT_DELIMITER}")
         def patternSegments = account.section.pattern.split("\\${BookService.SEGMENT_DELIMITER}")
         def effectiveSegments = (accountSegments.size() == patternSegments.size()) ?
-            bookService.verifyAccountCode(patternSegments, accountSegments) :
-            bookService.completeAccountCode(patternSegments, accountSegments)
+                bookService.verifyAccountCode(patternSegments, accountSegments) :
+                bookService.completeAccountCode(patternSegments, accountSegments)
         if (!effectiveSegments) {
             account.errorMessage(field: 'code', code: 'account.code.bad.verify', default: 'Unable to verify the account code')
             return false
@@ -603,12 +603,12 @@ class AccountController {
                     value = new CodeElementValue(element: element, code: effectiveSegments[i], shortName: effectiveSegments[i], name: effectiveSegments[i])
                     if (!value.saveThis()) {
                         account.errorMessage(field: 'code', code: 'account.code.autoCreate', args: [i + 1, effectiveSegments[i], element.name],
-                                "Code segment ${i + 1} with a value of ${effectiveSegments[i]} could not be created as a value for element ${element.name}")
+                        "Code segment ${i + 1} with a value of ${effectiveSegments[i]} could not be created as a value for element ${element.name}")
                         return false
                     }
                 } else {
                     account.errorMessage(field: 'code', code: 'account.code.not.exist', args: [account.section.name, i + 1, effectiveSegments[i], element.name],
-                            "Error in section ${account.section.name}: Code segment ${i + 1} with a value of ${effectiveSegments[i]} does not exist as a value for element ${element.name}")
+                    "Error in section ${account.section.name}: Code segment ${i + 1} with a value of ${effectiveSegments[i]} does not exist as a value for element ${element.name}")
                     return false
                 }
             }
@@ -674,12 +674,12 @@ class AccountController {
                 def disallowed = false
                 for (int i = 0; i < codeSet.size(); i++) {
                     if (fromSet[i] == '*' && toSet[i] == '*') continue
-                    if ((fromSet[i] == '*' || fromSet[i] <= codeSet[i]) && (toSet[i] == '*' || toSet[i] >= codeSet[i])) {
-                        disallowed = true
-                    } else {
-                        disallowed = false
-                        break
-                    }
+                        if ((fromSet[i] == '*' || fromSet[i] <= codeSet[i]) && (toSet[i] == '*' || toSet[i] >= codeSet[i])) {
+                            disallowed = true
+                        } else {
+                            disallowed = false
+                            break
+                        }
                 }
 
                 if (disallowed) return true

@@ -25,9 +25,10 @@ import java.util.concurrent.atomic.AtomicLong
 
 class BalanceReportFormat {
 
-    static final DATA_OPTIONS = ['selectedPeriodMovement', 'selectedPeriodBudget', 'selectedYearBalance', 'selectedYearMovement', 'selectedYearBudget',
-            'comparativePeriodMovement', 'comparativePeriodBudget', 'comparativeYearBalance', 'comparativeYearMovement', 'comparativeYearBudget']
     static final CALC_OPTIONS = ['difference', 'variance']
+    static final DATA_OPTIONS = ['selectedPeriodMovement', 'selectedPeriodBudget', 'selectedYearBalance',
+        'selectedYearMovement', 'selectedYearBudget', 'comparativePeriodMovement', 'comparativePeriodBudget',
+        'comparativeYearBalance', 'comparativeYearMovement', 'comparativeYearBudget']
 
     static traceInsertCode = new AtomicLong()
     static traceUpdateCode = new AtomicLong()
@@ -117,7 +118,7 @@ class BalanceReportFormat {
             if (val) {
                 if (!obj.column2Heading) return 'balanceReportFormat.columnPrimaryData.no.heading'
                 if (val == obj.column1PrimaryData && obj.column2Calculation == obj.column1Calculation && obj.column2SecondaryData == obj.column1SecondaryData) {
-					return 'balanceReportFormat.columnPrimaryData.dup.data'
+                    return 'balanceReportFormat.columnPrimaryData.dup.data'
                 }
             }
 
@@ -149,11 +150,11 @@ class BalanceReportFormat {
             if (val) {
                 if (!obj.column3Heading) return 'balanceReportFormat.columnPrimaryData.no.heading'
                 if (val == obj.column1PrimaryData && obj.column3Calculation == obj.column1Calculation && obj.column3SecondaryData == obj.column1SecondaryData) {
-					return 'balanceReportFormat.columnPrimaryData.dup.data'
+                    return 'balanceReportFormat.columnPrimaryData.dup.data'
                 }
-				
+
                 if (val == obj.column2PrimaryData && obj.column3Calculation == obj.column2Calculation && obj.column3SecondaryData == obj.column2SecondaryData) {
-					return 'balanceReportFormat.columnPrimaryData.dup.data'
+                    return 'balanceReportFormat.columnPrimaryData.dup.data'
                 }
             }
 
@@ -185,15 +186,15 @@ class BalanceReportFormat {
             if (val) {
                 if (!obj.column4Heading) return 'balanceReportFormat.columnPrimaryData.no.heading'
                 if (val == obj.column1PrimaryData && obj.column4Calculation == obj.column1Calculation && obj.column4SecondaryData == obj.column1SecondaryData) {
-					return 'balanceReportFormat.columnPrimaryData.dup.data'
+                    return 'balanceReportFormat.columnPrimaryData.dup.data'
                 }
-				
+
                 if (val == obj.column2PrimaryData && obj.column4Calculation == obj.column2Calculation && obj.column4SecondaryData == obj.column2SecondaryData) {
-					return 'balanceReportFormat.columnPrimaryData.dup.data'
+                    return 'balanceReportFormat.columnPrimaryData.dup.data'
                 }
-				
+
                 if (val == obj.column3PrimaryData && obj.column4Calculation == obj.column3Calculation && obj.column4SecondaryData == obj.column3SecondaryData) {
-					return 'balanceReportFormat.columnPrimaryData.dup.data'
+                    return 'balanceReportFormat.columnPrimaryData.dup.data'
                 }
             }
 

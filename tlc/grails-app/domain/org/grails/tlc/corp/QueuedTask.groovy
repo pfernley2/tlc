@@ -60,9 +60,9 @@ class QueuedTask {
         completedAt(nullable: true, range: UtilService.validDateRange())
         completionMessage(nullable: true, size: 1..200)
         securityCode(validator: {val, obj ->
-                obj.securityCode = obj.task.securityCode
-                return true
-            })
+            obj.securityCode = obj.task.securityCode
+            return true
+        })
     }
 
     def afterInsert() {

@@ -26,19 +26,19 @@
     <r:require module="dynatree"/>
     <r:script>
         $(function() {
-        	$("#tree").dynatree({
-	            noLink: true,
-	            initAjax: {
-	                url: "${createLink(action: 'dynatree')}",
-	                data: {id: 0}
-	            },
+            $("#tree").dynatree({
+                noLink: true,
+                initAjax: {
+                    url: "${createLink(action: 'dynatree')}",
+                    data: {id: 0}
+                },
                 onLazyRead: function(node) {
                     node.appendAjax({
                         url: "${createLink(action: 'dynatree')}",
                         data: {id: node.data.id}
                     });
                 },
-        	});
+            });
         });
     </r:script>
 </head>

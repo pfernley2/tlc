@@ -104,7 +104,7 @@ class GeneralBalanceController {
 
                 if (valid) {
                     params.p_stringId = generalBalanceInstance.period.id.toString()
-					params.p_omitZero = params.omitZero ? 'true' : 'false'
+                    params.p_omitZero = params.omitZero ? 'true' : 'false'
                     params.p_scope = params.scope.code
                     params.p_scopeId = scopeId
                 }
@@ -131,7 +131,7 @@ class GeneralBalanceController {
             if (!generalBalanceInstance.period) generalBalanceInstance.period = bookService.selectPeriod(periodInstanceList)
             periodInstanceList = periodInstanceList.reverse()
             render(view: 'detailedPostings', model: [generalBalanceInstance: generalBalanceInstance, periodInstanceList: periodInstanceList,
-                    scopeList: getScopeList(), scope: [code: params.scope.code], selector: params.selector, omitZero: params.omitZero])
+                        scopeList: getScopeList(), scope: [code: params.scope.code], selector: params.selector, omitZero: params.omitZero])
         }
     }
 
@@ -162,7 +162,7 @@ class GeneralBalanceController {
         groupingList.addAll(codeElementInstanceList)
 
         [incomeReportInstance: incomeReportInstance, formatInstanceList: formatInstanceList, periodInstanceList: periodInstanceList,
-                codeElementInstanceList: codeElementInstanceList, valueLists: valueLists, groupingList: groupingList]
+                    codeElementInstanceList: codeElementInstanceList, valueLists: valueLists, groupingList: groupingList]
     }
 
     def incomeReporting(IncomeReport incomeReportInstance) {
@@ -188,7 +188,7 @@ class GeneralBalanceController {
                                     params."p_element${key}" = val.id.toString()
                                 }
                             } else {
-								incomeReportInstance.errorMessage(field: 'element', code: 'not.found', domain: 'codeElementValue', value: val.id)
+                                incomeReportInstance.errorMessage(field: 'element', code: 'not.found', domain: 'codeElementValue', value: val.id)
                                 valid = false
                                 break
                             }
@@ -206,7 +206,7 @@ class GeneralBalanceController {
                                             if (incomeReportInstance.grouping3) {
                                                 if (bookService.createElementAccessFragment('x', incomeReportInstance.grouping3) != null) {
                                                     if (incomeReportInstance.grouping3.id != incomeReportInstance.grouping1.id &&
-                                                            incomeReportInstance.grouping3.id != incomeReportInstance.grouping2.id) {
+                                                    incomeReportInstance.grouping3.id != incomeReportInstance.grouping2.id) {
                                                         params.p_grouping3 = incomeReportInstance.grouping3.id.toString()
                                                     } else {
                                                         incomeReportInstance.errorMessage(field: 'grouping3', code: 'incomeReport.duplicate',
@@ -214,7 +214,7 @@ class GeneralBalanceController {
                                                         valid = false
                                                     }
                                                 } else {
-													incomeReportInstance.errorMessage(field: 'grouping3', code: 'not.found', domain: 'codeElementValue', value: incomeReportInstance.grouping3.id)
+                                                    incomeReportInstance.errorMessage(field: 'grouping3', code: 'not.found', domain: 'codeElementValue', value: incomeReportInstance.grouping3.id)
                                                     valid = false
                                                 }
                                             }
@@ -224,7 +224,7 @@ class GeneralBalanceController {
                                             valid = false
                                         }
                                     } else {
-										incomeReportInstance.errorMessage(field: 'grouping2', code: 'not.found', domain: 'codeElementValue', value: incomeReportInstance.grouping2.id)
+                                        incomeReportInstance.errorMessage(field: 'grouping2', code: 'not.found', domain: 'codeElementValue', value: incomeReportInstance.grouping2.id)
                                         valid = false
                                     }
                                 } else if (incomeReportInstance.grouping3) {
@@ -233,7 +233,7 @@ class GeneralBalanceController {
                                     valid = false
                                 }
                             } else {
-								incomeReportInstance.errorMessage(field: 'grouping1', code: 'not.found', domain: 'codeElementValue', value: incomeReportInstance.grouping1.id)
+                                incomeReportInstance.errorMessage(field: 'grouping1', code: 'not.found', domain: 'codeElementValue', value: incomeReportInstance.grouping1.id)
                                 valid = false
                             }
                         } else if (incomeReportInstance.grouping2 || incomeReportInstance.grouping3) {
@@ -243,11 +243,11 @@ class GeneralBalanceController {
                         }
                     }
                 } else {
-					incomeReportInstance.errorMessage(field: 'period', code: 'not.found', domain: 'period', value: incomeReportInstance.period?.id)
+                    incomeReportInstance.errorMessage(field: 'period', code: 'not.found', domain: 'period', value: incomeReportInstance.period?.id)
                     valid = false
                 }
             } else {
-				incomeReportInstance.errorMessage(field: 'format', code: 'not.found', domain: 'profitReportFormat', value: incomeReportInstance.format?.id)
+                incomeReportInstance.errorMessage(field: 'format', code: 'not.found', domain: 'profitReportFormat', value: incomeReportInstance.format?.id)
                 valid = false
             }
         }
@@ -287,7 +287,7 @@ class GeneralBalanceController {
             groupingList.addAll(codeElementInstanceList)
 
             def model = [incomeReportInstance: incomeReportInstance, formatInstanceList: formatInstanceList, periodInstanceList: periodInstanceList,
-                    codeElementInstanceList: codeElementInstanceList, valueLists: valueLists, groupingList: groupingList]
+                        codeElementInstanceList: codeElementInstanceList, valueLists: valueLists, groupingList: groupingList]
             render(view: 'incomeReport', model: model)
         }
     }
@@ -320,16 +320,16 @@ class GeneralBalanceController {
                         if (balanceReportInstance.grouping1.securityCode == company.securityCode && balanceReportInstance.grouping1.elementNumber == (byte) 1) {
                             params.p_grouping1 = balanceReportInstance.grouping1.id.toString()
                         } else {
-							balanceReportInstance.errorMessage(field: 'grouping1', code: 'not.found', domain: 'codeElementValue', value: balanceReportInstance.grouping1.id)
+                            balanceReportInstance.errorMessage(field: 'grouping1', code: 'not.found', domain: 'codeElementValue', value: balanceReportInstance.grouping1.id)
                             valid = false
                         }
                     }
                 } else {
-					balanceReportInstance.errorMessage(field: 'period', code: 'not.found', domain: 'period', value: balanceReportInstance.period?.id)
+                    balanceReportInstance.errorMessage(field: 'period', code: 'not.found', domain: 'period', value: balanceReportInstance.period?.id)
                     valid = false
                 }
             } else {
-				balanceReportInstance.errorMessage(field: 'format', code: 'not.found', domain: 'balanceReportFormat', value: balanceReportInstance.format?.id)
+                balanceReportInstance.errorMessage(field: 'format', code: 'not.found', domain: 'balanceReportFormat', value: balanceReportInstance.format?.id)
                 valid = false
             }
         }

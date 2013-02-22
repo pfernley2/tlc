@@ -50,7 +50,7 @@ class SupplierContactController {
         }
 
         [supplierContactInstanceList: supplierContactInstanceList, supplierContactInstanceTotal: supplierContactInstanceTotal,
-			ddSource: ddSource, supplierAddressLines: supplierAddressLines]
+                    ddSource: ddSource, supplierAddressLines: supplierAddressLines]
     }
 
     def show() {
@@ -177,7 +177,7 @@ class SupplierContactController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private createTransferList(contact) {
         def types = SystemSupplierContactType.list()

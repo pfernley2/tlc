@@ -29,7 +29,7 @@ class SystemRoleController {
 
     // Security settings
     def activities = [default: 'sysadmin', display: 'coadmin', edits: 'coadmin', adjust: 'coadmin', listing: 'coadmin', members: 'coadmin',
-            membership: 'coadmin', process: 'coadmin']
+        membership: 'coadmin', process: 'coadmin']
 
     // List of actions with specific request types
     static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', link: 'POST', adjust: 'POST', process: 'POST']
@@ -118,22 +118,22 @@ class SystemRoleController {
             }
 
             def oldCode = systemRoleInstance.code
-			def oldSystemOnly = systemRoleInstance.systemOnly
+            def oldSystemOnly = systemRoleInstance.systemOnly
             systemRoleInstance.properties['code', 'name', 'systemOnly'] = params
             if (oldCode == 'companyAdmin' && systemRoleInstance.code != oldCode) {
                 systemRoleInstance.errorMessage(field: 'code', code: 'systemRole.admin.change', default: 'The companyAdmin role cannot have its code changed')
                 render(view: 'edit', model: [systemRoleInstance: systemRoleInstance])
             } else {
-				if (systemRoleInstance.systemOnly && !oldSystemOnly) {
-					def systemCompany = Company.findBySystemOnly(true)
-					def removables = []
-					for (companyUser in systemRoleInstance.users) {
-						if (companyUser.company.id != systemCompany.id) removables << companyUser
-					}
-					
-					for (companyUser in removables) systemRoleInstance.removeFromUsers(companyUser)
-				}
-				
+                if (systemRoleInstance.systemOnly && !oldSystemOnly) {
+                    def systemCompany = Company.findBySystemOnly(true)
+                    def removables = []
+                    for (companyUser in systemRoleInstance.users) {
+                        if (companyUser.company.id != systemCompany.id) removables << companyUser
+                    }
+
+                    for (companyUser in removables) systemRoleInstance.removeFromUsers(companyUser)
+                }
+
                 if (utilService.saveWithMessages(systemRoleInstance, [prefix: 'role.name', code: systemRoleInstance.code, oldCode: oldCode, field: 'name'])) {
                     utilService.cacheService.clearThis('userActivity')
                     flash.message = utilService.standardMessage('updated', systemRoleInstance)
@@ -220,7 +220,7 @@ class SystemRoleController {
 
     def edits() {
         def ddSource = utilService.reSource('companyUser.display', [origin: 'display'])
-		def allRoles = utilService.currentCompany().systemOnly ? SystemRole.list() : SystemRole.findAllBySystemOnly(false)
+        def allRoles = utilService.currentCompany().systemOnly ? SystemRole.list() : SystemRole.findAllBySystemOnly(false)
         [allRoles: allRoles, userRoles: SystemRole.selectList(action: 'display'), ddSource: ddSource]
     }
 
@@ -242,8 +242,8 @@ class SystemRoleController {
         }
 
         // Work through the new roles
-		def newRole
-		def isSystemCompany = utilService.currentCompany().systemOnly
+        def newRole
+        def isSystemCompany = utilService.currentCompany().systemOnly
         for (role in roles) {
             def found = false
 
@@ -257,11 +257,11 @@ class SystemRoleController {
 
             // Add the new role if it wasn't in the existing roles
             if (!found) {
-				newRole = SystemRole.get(role)
-				if (!newRole.systemOnly || isSystemCompany) {
-	                ddSource.addToRoles(newRole)
-	                modified = true
-				}
+                newRole = SystemRole.get(role)
+                if (!newRole.systemOnly || isSystemCompany) {
+                    ddSource.addToRoles(newRole)
+                    modified = true
+                }
             }
         }
 
@@ -282,8 +282,8 @@ class SystemRoleController {
     def listing() {
         params.max = utilService.max
         params.sort = ['code'].contains(params.sort) ? params.sort : 'code'
-		def map = [:]
-		if (!utilService.currentCompany().systemOnly) map.where = 'x.systemOnly = false'
+        def map = [:]
+        if (!utilService.currentCompany().systemOnly) map.where = 'x.systemOnly = false'
         [systemRoleInstanceList: SystemRole.selectList(map), systemRoleInstanceTotal: SystemRole.selectCount()]
     }
 

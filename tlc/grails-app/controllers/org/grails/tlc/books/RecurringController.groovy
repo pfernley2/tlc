@@ -171,8 +171,8 @@ class RecurringController {
         }
 
         recurringInstance.properties['account', 'currency', 'type', 'sourceCode', 'reference', 'description', 'totalTransactions',
-			'initialDate', 'initialValue', 'recursFrom', 'recurrenceType', 'recurrenceInterval', 'lastDayOfMonth', 'recurringValue',
-			'finalValue', 'autoAllocate', 'nextDue'] = params
+            'initialDate', 'initialValue', 'recursFrom', 'recurrenceType', 'recurrenceInterval', 'lastDayOfMonth', 'recurringValue',
+            'finalValue', 'autoAllocate', 'nextDue'] = params
 
         // Load the document lines from the request parameters
         postingService.refreshRecurringLines(recurringInstance, params)
@@ -189,7 +189,7 @@ class RecurringController {
         render(view: params.view, model: getModel(utilService.currentCompany(), recurringInstance))
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private updateTransientLineData(line, settings, initialValue) {
         def dataFound = false
@@ -218,8 +218,8 @@ class RecurringController {
 
         if (dataFound) {
             if (settings.isComplete ||
-                    (settings.disableInitial && (line.initialValue || (line.recurringValue && !initialValue))) ||
-                    (settings.disableRecurring && line.recurringValue)) {
+            (settings.disableInitial && (line.initialValue || (line.recurringValue && !initialValue))) ||
+            (settings.disableRecurring && line.recurringValue)) {
                 line.used = true
             }
         }
@@ -283,8 +283,8 @@ class RecurringController {
     private saveInstance(recurringInstance, params) {
         def company = utilService.currentCompany()
         recurringInstance.properties['account', 'currency', 'type', 'sourceCode', 'reference', 'description', 'totalTransactions',
-			'initialDate', 'initialValue', 'recursFrom', 'recurrenceType', 'recurrenceInterval', 'lastDayOfMonth', 'recurringValue',
-			'finalValue', 'autoAllocate', 'nextDue'] = params
+            'initialDate', 'initialValue', 'recursFrom', 'recurrenceType', 'recurrenceInterval', 'lastDayOfMonth', 'recurringValue',
+            'finalValue', 'autoAllocate', 'nextDue'] = params
         def valid = !recurringInstance.hasErrors()
         def removables = []
         def documentDecs = recurringInstance.currency?.decimals
@@ -296,7 +296,7 @@ class RecurringController {
         def finalTotal = 0.0
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = postingService.refreshRecurringLines(recurringInstance, params)
         if (num) {
             recurringInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")

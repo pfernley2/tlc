@@ -85,7 +85,7 @@ class RemittanceLineController {
                 flash.message = message(code: 'remittanceLine.unchanged', default: 'No changes made')
             }
         } else {
-			flash.message = utilService.standardMessage('not.found', 'remittance', ddSource?.id)
+            flash.message = utilService.standardMessage('not.found', 'remittance', ddSource?.id)
             redirect(controller: 'remittance', action: 'list')
             return
         }
@@ -179,7 +179,7 @@ class RemittanceLineController {
                             }
                         } else {
                             remittanceLineInstance.errorMessage(code: 'supplier.bad.tran', args: [ddSource.supplier.code],
-                                    default: "Unable to update the GL transaction for supplier ${ddSource.supplier.code}")
+                            default: "Unable to update the GL transaction for supplier ${ddSource.supplier.code}")
                             status.setRollbackOnly()
                             valid = false
                         }

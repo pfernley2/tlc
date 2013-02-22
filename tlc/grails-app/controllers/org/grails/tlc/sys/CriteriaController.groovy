@@ -79,8 +79,8 @@ class CriteriaController {
             flash.message = message(code: 'criteria.invalid', default: 'Invalid criteria, no changes made')
         }
 
-		// Clean up the params map removing some of the odd
-		// things Grails automatically adds to it.
+        // Clean up the params map removing some of the odd
+        // things Grails automatically adds to it.
         test = params.keySet().iterator()
         while (test.hasNext()) {
             value = params.get(test.next())

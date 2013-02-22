@@ -176,7 +176,7 @@ class CustomerContactController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private createTransferList(contact) {
         def types = SystemCustomerContactType.list()

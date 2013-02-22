@@ -49,7 +49,7 @@ class TaskExecutable implements Runnable {
     public static final Logger log = Logger.getLogger(TaskExecutable)    // A logger
     static GrailsApplication grailsApplication  // The application in which we are running
     static UtilService utilService              // Our util service (gives access to other services as well)
-	static MailService mailService              // The mail plugin service
+    static MailService mailService              // The mail plugin service
     static BookService bookService              // Our bookkeeping service
     static PostingService postingService        // Our posting service
 
@@ -261,8 +261,8 @@ class TaskExecutable implements Runnable {
     def getPriorRun(completed = null, scheduled = null) {
         setPriorQueued(completed, scheduled)
         return runPriorQueued ? [task: runPriorQueued.task, user: runPriorQueued.user, submittedAt: runPriorQueued.dateCreated,
-                scheduled: runPriorQueued.scheduled, currentStatus: runPriorQueued.currentStatus, preferredStart: runPriorQueued.preferredStart,
-                startedAt: runPriorQueued.startedAt, completedAt: runPriorQueued.completedAt, completionMessage: runPriorQueued.completionMessage] : null
+            scheduled: runPriorQueued.scheduled, currentStatus: runPriorQueued.currentStatus, preferredStart: runPriorQueued.preferredStart,
+            startedAt: runPriorQueued.startedAt, completedAt: runPriorQueued.completedAt, completionMessage: runPriorQueued.completionMessage] : null
     }
 
     // Returns the parameters associated with the prior run - which must
@@ -303,11 +303,11 @@ class TaskExecutable implements Runnable {
     public void setUtilService(UtilService utilService) {
         this.utilService = utilService
     }
-	
-	// Used by Spring to inject the mail service from the mail plugin
-	public void setMailService(MailService mailService) {
-		this.mailService = mailService
-	}
+
+    // Used by Spring to inject the mail service from the mail plugin
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService
+    }
 
     // Used by Spring to inject our bookkeeping service
     public void setBookService(BookService bookService) {

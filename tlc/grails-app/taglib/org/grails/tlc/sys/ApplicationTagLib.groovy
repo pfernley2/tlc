@@ -24,29 +24,29 @@ import java.util.concurrent.atomic.AtomicInteger
 class ApplicationTagLib {
 
     private static final AtomicInteger helpCount = new AtomicInteger(0)
-	private static final userAgents = ['Chrome', 'MSIE', 'Firefox', 'Safari', 'Opera', 'SeaMonkey', 'BlackBerry']
-	
-	static returnObjectForTags = ['util', 'browser']
+    private static final userAgents = ['Chrome', 'MSIE', 'Firefox', 'Safari', 'Opera', 'SeaMonkey', 'BlackBerry']
+
+    static returnObjectForTags = ['util', 'browser']
 
     def utilService
-	def grailsLinkGenerator
-	
-	// Return the utilService that can be used in a 'set' tag thus
-	// making it accessible in the rest of the gsp.
-	def util = {
-		return utilService
-	}
-	
-	// Returns the name of the user's browser (e.g. Chrome, MSIE, Firefox etc)
-	// or an empty String if the user agent is not recognized
-	def browser = {
-		def userAgent = request.getHeader('user-agent')
-		if (userAgent) {
-			for (agent in userAgents) if (userAgent.indexOf(agent) != -1) return agent
-		}
-		
-		return ''
-	}
+    def grailsLinkGenerator
+
+    // Return the utilService that can be used in a 'set' tag thus
+    // making it accessible in the rest of the gsp.
+    def util = {
+        return utilService
+    }
+
+    // Returns the name of the user's browser (e.g. Chrome, MSIE, Firefox etc)
+    // or an empty String if the user agent is not recognized
+    def browser = {
+        def userAgent = request.getHeader('user-agent')
+        if (userAgent) {
+            for (agent in userAgents) if (userAgent.indexOf(agent) != -1) return agent
+        }
+
+        return ''
+    }
 
     // Outputs the current user name, HTML encoded
     def userName = {
@@ -82,15 +82,15 @@ class ApplicationTagLib {
 
     // Wrapper around the standard message tag that ensures HTML encoding. Does not
     // support the 'internal-use' error argument. Auto-detects if this is a request
-	// for a 'Grails standard message' as initially defined in messages.properties
+    // for a 'Grails standard message' as initially defined in messages.properties
     def msg = {attrs, body ->
-		
-		// If it's a 'Grails standard message'
-		if (attrs.domain) {
-			out << utilService.standardMessage(attrs.code, attrs.domain, attrs.value, attrs.forDomain).encodeAsHTML()
-		} else {
-        	out << message(code: attrs.code, args: attrs.args, default: attrs.default, encodeAs: 'HTML')
-		}
+
+        // If it's a 'Grails standard message'
+        if (attrs.domain) {
+            out << utilService.standardMessage(attrs.code, attrs.domain, attrs.value, attrs.forDomain).encodeAsHTML()
+        } else {
+            out << message(code: attrs.code, args: attrs.args, default: attrs.default, encodeAs: 'HTML')
+        }
     }
 
     // Replaces the standard Grails renderErrors tag
@@ -119,28 +119,28 @@ class ApplicationTagLib {
             def content = attrs.content ?: ''
             def code = attrs.code
             def suffix = attrs.suffix ?: '.help'
-			def lnk = helpCount.incrementAndGet()
+            def lnk = helpCount.incrementAndGet()
 
             if (!title && code) {
-				title = message(code: code + '.label')
-				if (!title) title = message(code: code, default: code)
+                title = message(code: code + '.label')
+                if (!title) title = message(code: code, default: code)
             }
-			
+
             if (!content && code) content = message(code: code + suffix, default: message(code: 'generic.not.applicable', default: 'n/a'))
 
             title = title.encodeAsHTML()
             content = content.encodeAsHTML()
 
-			out << """<a class="fieldHelp" href="#hb${lnk}" rel="#hb${lnk}" title="${title}" tabindex="-1" style="display:inline;">"""
-			out << """<img class="borderless" src="${resource(dir: 'images', file: 'balloon-icon.png')}" width="14" height="14" alt="${g.msg(code: 'fieldHelp.open.label', default: 'Open')}"/>"""
-			out << """</a>"""
-			out << """<span id="hb${lnk}" style="display:none;">${content}</span>"""
+            out << """<a class="fieldHelp" href="#hb${lnk}" rel="#hb${lnk}" title="${title}" tabindex="-1" style="display:inline;">"""
+            out << """<img class="borderless" src="${resource(dir: 'images', file: 'balloon-icon.png')}" width="14" height="14" alt="${g.msg(code: 'fieldHelp.open.label', default: 'Open')}"/>"""
+            out << """</a>"""
+            out << """<span id="hb${lnk}" style="display:none;">${content}</span>"""
         }
     }
 
     // Special tag for displaying the current user profile settings and date/time and number formatting
     def formatHelp = {attrs, body ->
-		def lnk = helpCount.incrementAndGet()
+        def lnk = helpCount.incrementAndGet()
         def now = new Date()
         def num = 1234567.89
         def locale = utilService.currentLocale()
@@ -167,24 +167,24 @@ class ApplicationTagLib {
 <p class="center" style="margin-top:2em;"><img class="borderless" src="${resource(dir: 'images/flags', file: utilService.currentFlag() + '.gif')}" alt="${msg(code: 'systemCountry.flag.label', default: 'Flag')}"/></p>
 <p class="center">${g.msg(code: 'formats.browser', args: [locale.getLanguage(), locale.getCountry()], default: "Your current locale is ${locale.getLanguage()}${locale.getCountry()}")}</p>
 """
-		out << """<a class="fieldHelp" href="#hb${lnk}" rel="#hb${lnk}" title="${title}" tabindex="-1">"""
-		out << """<img class="borderless" src="${resource(dir: 'images', file: 'balloon-icon.png')}" width="14" height="14" alt="${g.msg(code: 'fieldHelp.open.label', default: 'Open')}"/>"""
-		out << """</a>"""
-		out << """<span id="hb${lnk}" style="display:none;">${content}</span>"""
+        out << """<a class="fieldHelp" href="#hb${lnk}" rel="#hb${lnk}" title="${title}" tabindex="-1">"""
+        out << """<img class="borderless" src="${resource(dir: 'images', file: 'balloon-icon.png')}" width="14" height="14" alt="${g.msg(code: 'fieldHelp.open.label', default: 'Open')}"/>"""
+        out << """</a>"""
+        out << """<span id="hb${lnk}" style="display:none;">${content}</span>"""
     }
 
     // Outputs a page tile as an '<h1>' or, if page help text is available, as a link to popup that help
     def pageTitle = {attrs, body ->
         if (attrs.code) {
             def code
-			if (attrs.help) {
-				code = attrs.help
-			} else if (attrs.domain) {
-				code = attrs.domain + '.' + attrs.code
-			} else {
-				code = attrs.code
-			}
-			
+            if (attrs.help) {
+                code = attrs.help
+            } else if (attrs.domain) {
+                code = attrs.domain + '.' + attrs.code
+            } else {
+                code = attrs.code
+            }
+
             if (utilService.hasPageHelp(code)) {
                 out << '<div class=pageHelpTitle><a href="javascript:openPageHelp(\''
                 out << createLink(controller: 'systemPageHelp', action: 'display')
@@ -221,8 +221,8 @@ class ApplicationTagLib {
             out << '<img src="'
             out << resource(dir: 'images', file: "${value}.png")
             out << '" alt="'
-			out << g.msg(code: "default.boolean.${value}", default: "${value}")
-			out << '" class="borderless"/>'
+            out << g.msg(code: "default.boolean.${value}", default: "${value}")
+            out << '" class="borderless"/>'
         } else {
             out << utilService.format(value, scale, grouped, attrs.locale).encodeAsHTML()
         }
@@ -243,8 +243,8 @@ class ApplicationTagLib {
         if (attrs.params) map.putAll(attrs.params)
 
         out << g.link(controller: attrs.controller, action: action, params: map) {
-			setLink(attrs, 'drilldown.png', g.msg(code: 'generic.drilldown.alt.text', default: 'Drill-down indicator'), 'borderless')
-		}
+            setLink(attrs, 'drilldown.png', g.msg(code: 'generic.drilldown.alt.text', default: 'Drill-down indicator'), 'borderless')
+        }
     }
 
     // Output a drilldown return tag
@@ -270,7 +270,7 @@ class ApplicationTagLib {
 
     // Output the HTML for the criteria form
     def criteria = {attrs, body ->
-		def parameters = attrs.params ?: [:]	// Grab any additional parameters they have asked to be passed on
+        def parameters = attrs.params ?: [:]	// Grab any additional parameters they have asked to be passed on
         def options = [:]
         if (attrs.domain) options.domain = attrs.domain[0].toUpperCase(Locale.US) + attrs.domain[1..-1]
         def specifiedFields = [:]
@@ -295,13 +295,13 @@ class ApplicationTagLib {
         def props = utilService.criteriaService.getDomainProperties(params, options)
         def verification = ''
         if (props) {
-			
-			// Translate the names for display to the user and then sort the properties in to display name order
-			for (prop in props) prop.display = message(code: prop.code + '.label', default: prop.default)
-			utilService.collate(props) {it.display}
-			
-			// Append any special characters to the end of the display name, if required, and then HTML
-			// encode it. Also create a verification string.
+
+            // Translate the names for display to the user and then sort the properties in to display name order
+            for (prop in props) prop.display = message(code: prop.code + '.label', default: prop.default)
+            utilService.collate(props) {it.display}
+
+            // Append any special characters to the end of the display name, if required, and then HTML
+            // encode it. Also create a verification string.
             def specified
             for (it in props) {
                 verification += (verification) ? ",${it.name}" : it.name
@@ -311,11 +311,11 @@ class ApplicationTagLib {
                 } else if (specified) {
                     it.display += ' *'  // A field that the user sees and was marked as being a translation
                 }
-				
-				it.display = it.display.encodeAsHTML()
+
+                it.display = it.display.encodeAsHTML()
             }
 
-			// Make sure the verification string is at least 50 characters long and then begin the output
+            // Make sure the verification string is at least 50 characters long and then begin the output
             while (verification.length() < 50) verification += "${CacheService.IMPOSSIBLE_VALUE}${params.controller}${params.action}";
             out << '<form action="' + grailsLinkGenerator.link(controller: 'criteria', action: 'apply') + '" method="post">\n'
             out << '  <input type="hidden" name="crController" value="' + params.controller + '"/>\n'
@@ -326,7 +326,7 @@ class ApplicationTagLib {
             if (params.offset && !parameters.containsKey('offset')) out << '  <input type="hidden" name="offset" value="' + params.offset + '"/>\n'
             if (params.sort && !parameters.containsKey('sort')) out << '  <input type="hidden" name="sort" value="' + params.sort + '"/>\n'
             if (params.order && !parameters.containsKey('order')) out << '  <input type="hidden" name="order" value="' + params.order + '"/>\n'
-			out << g.mapAsFields(params: parameters)	// Output any additional parameters they have passed to us
+            out << g.mapAsFields(params: parameters)	// Output any additional parameters they have passed to us
             out << '  <span class="criteriaLabel">' + g.msg(code: "criteria.criteria.label", default: "Criteria") + '</span>\n'
             out << '  <select name="property">\n'
 
@@ -418,7 +418,7 @@ class ApplicationTagLib {
 
             def path, crumb, dflt
             def img = '&nbsp;<img src="' + (attrs.image ?: g.resource(dir: 'images', file: 'crumb.png')) +
-				'" alt="' + g.msg(code: 'generic.crumb.alt.text', default: 'Next crumb indicator') + '" class="borderless"/>&nbsp;'
+                    '" alt="' + g.msg(code: 'generic.crumb.alt.text', default: 'Next crumb indicator') + '" class="borderless"/>&nbsp;'
             for (int i = 0; i < nodes.size(); i++) {
                 out << img
                 path = nodes[i].path
@@ -446,7 +446,8 @@ class ApplicationTagLib {
 
         def path, crumb, dflt
         def img = '&nbsp;<img src="' + (attrs.image ?: g.resource(dir: 'images', file: 'crumb.png')) +
-			'" alt="' + g.msg(code: 'generic.crumb.alt.text', default: 'Next crumb indicator') + '" class="borderless"/>&nbsp;'
+                '" alt="' + g.msg(code: 'generic.crumb.alt.text', default: 'Next crumb indicator') +
+                '" class="borderless"/>&nbsp;'
         for (int i = 0; i < nodes.size(); i++) {
             out << img
             path = nodes[i].path
@@ -471,36 +472,41 @@ class ApplicationTagLib {
         g.criteriaReset()
     }
 
-    // An alternative to the standard Grails select list for use with domain objects (i.e. not suitable for strings, integers etc
-    // but can be used with maps or expandos that have the appearance of a domain object) that allows for translations & multiple
-    // display fields etc. Unrecognized attributes are passed through to the HTML tag. If either one of 'name' or 'id' is supplied,
-    // but the other is not supplied, the 'name' and 'id' will be set to the same value based on which ever one is supplied. One
-    // or other of them MUST be supplied. The recognized attributes are as follows:
+    // An alternative to the standard Grails select list for use with domain objects (i.e. not suitable for strings,
+    // integers etc but can be used with maps or expandos that have the appearance of a domain object) that allows for
+    // translations & multiple display fields etc. Unrecognized attributes are passed through to the HTML tag. If either
+    // one of 'name' or 'id' is supplied, but the other is not supplied, the 'name' and 'id' will be set to the same
+    // value based on which ever one is supplied. One or other of them MUST be supplied. The recognized attributes are
+    // as follows:
     //
-    //      options     Required. The list of options to select from.
-    //      selected    Optional. If a List (even an empty one) this will be a multiple select otherwise it will be a single select.
-    //      returns     Optional. The name of the property to be returned. Also used for testing selected values against option values.
-    //                            Defaults to 'id'
-    //      displays    Optional. The property (or properties, if a List) to be displayed in the selection list. Defaults to the 'returns'
-    //                            property unless a 'code' is specified in which case the 'default' property of the code will be used or
-    //                            the 'code' property itself when there is no default.
-    //      prefix      Optional. If a message lookup is to be performed, the prefix to which a dot and the 'code' will be added. If there
-    //                            is no 'code' attribute then the translation will be done on the 'displays' property (or the first one in
-    //                            the list if 'displays' is a List.)
-    //      code        Optional. The name of the property whose value is to be appended to the end of the 'prefix' for a message lookup.
-    //                            If a 'default' property is specified and the default property is not included in the 'displays' attribute,
-    //                            the 'default' property will be appended to the 'displays' list otherwise, if no 'default' property is
-    //                            specified and the 'code' property is not in the 'displays' list, the 'code' property will be appended to
-    //                            the 'displays' list instead.
-    //      default     Optional. The name of the property to be used as a default if a code translation is requested but the code
-    //                            cannot be found.
-    //      delimiter   Optional. If 'displays' is a List, the String to use to separate properties being displayed. Defaults to ' - '
-    //      noSelection Optional. Same as in the standard Grails select tag
-    //      sort        Optional. If set to 'false', no sorting will be done. If set to a property name, will sort by that property.
-    //                            Defaults to sorting by the result of evaluating the 'displays' argument
+    //      options     Required    The list of options to select from.
+    //      selected    Optional    If a List (even an empty one) this will be a multiple select otherwise it will be a
+    //                              single select.
+    //      returns     Optional    The name of the property to be returned. Also used for testing selected values
+    //                              against option values. Defaults to 'id'
+    //      displays    Optional    The property (or properties, if a List) to be displayed in the selection list.
+    //                              Defaults to the 'returns' property unless a 'code' is specified in which case the
+    //                              'default' property of the code will be used or the 'code' property itself when there
+    //                              is no default.
+    //      prefix      Optional    If a message lookup is to be performed, the prefix to which a dot and the 'code'
+    //                              will be added. If there is no 'code' attribute then the translation will be done on
+    //                              the 'displays' property (or the first one in the list if 'displays' is a List.)
+    //      code        Optional    The name of the property whose value is to be appended to the end of the 'prefix'
+    //                              for a message lookup. If a 'default' property is specified and the default property
+    //                              is not included in the 'displays' attribute, the 'default' property will be appended
+    //                              to the 'displays' list otherwise, if no 'default' property is specified and the
+    //                              'code' property is not in the 'displays' list, the 'code' property will be appended
+    //                              to the 'displays' list instead.
+    //      default     Optional    The name of the property to be used as a default if a code translation is requested
+    //                              but the code cannot be found.
+    //      delimiter   Optional    If 'displays' is a List, the String to use to separate properties being displayed.
+    //                              Defaults to ' - '
+    //      noSelection Optional    Same as in the standard Grails select tag
+    //      sort        Optional    If set to 'false', no sorting will be done. If set to a property name, will sort by
+    //                              that property. Defaults to sorting by the result of evaluating the 'displays' argument
     //
-    // The list displayed to the user is automatically sorted by the property(ies) being show to them. Consequently, the caller need not
-    // have previously specified any sorting themselves (such as in the database select statement).
+    // The list displayed to the user is automatically sorted by the property(ies) being show to them. Consequently, the
+    // caller need not have previously specified any sorting themselves (such as in the database select statement).
     def domainSelect = {attrs, body ->
 
         // Grab the recognized attributes
@@ -526,24 +532,24 @@ class ApplicationTagLib {
             } else if (id && !name) {
                 name = id
             }
-			
-			// Clean up any disabled non-setting
-			if (attrs.containsKey('disabled')) {
-				if (!attrs.disabled || attrs.disabled.toString().equalsIgnoreCase('false')) {
-					attrs.remove('disabled')
-				} else {
-					attrs.disabled = 'disabled'
-				}
-			}
-			
-			// Do the same for the autofocus attribute
-			if (attrs.containsKey('autofocus')) {
-				if (!attrs.autofocus || attrs.autofocus.toString().equalsIgnoreCase('false')) {
-					attrs.remove('autofocus')
-				} else {
-					attrs.autofocus = 'autofocus'
-				}
-			}
+
+            // Clean up any disabled non-setting
+            if (attrs.containsKey('disabled')) {
+                if (!attrs.disabled || attrs.disabled.toString().equalsIgnoreCase('false')) {
+                    attrs.remove('disabled')
+                } else {
+                    attrs.disabled = 'disabled'
+                }
+            }
+
+            // Do the same for the autofocus attribute
+            if (attrs.containsKey('autofocus')) {
+                if (!attrs.autofocus || attrs.autofocus.toString().equalsIgnoreCase('false')) {
+                    attrs.remove('autofocus')
+                } else {
+                    attrs.autofocus = 'autofocus'
+                }
+            }
 
             // Determine if this is a multiple selection and ensure that
             // 'selected' is always a List - even if its only a single item
@@ -559,7 +565,9 @@ class ApplicationTagLib {
             // If there are options available
             if (options) {
 
-                def selectedIsPrimitive = (selected && (selected[0] instanceof String || selected[0] instanceof Number || selected[0] instanceof Date || selected[0] instanceof Boolean))
+                def selectedIsPrimitive = (selected &&
+                    (selected[0] instanceof String || selected[0] instanceof Number ||
+                        selected[0] instanceof Date || selected[0] instanceof Boolean))
 
                 // Ensure the display attribute is in the form of a list
                 if (displays) {
@@ -575,10 +583,10 @@ class ApplicationTagLib {
                         displays = [returns]
                     }
                 }
-				
-				// Note whether the list is to be sorted or not
-				def toBeSorted = !sort.toString().equalsIgnoreCase('false')
-				if (toBeSorted && sort.toString().equalsIgnoreCase('true')) sort = ''
+
+                // Note whether the list is to be sorted or not
+                def toBeSorted = !sort.toString().equalsIgnoreCase('false')
+                if (toBeSorted && sort.toString().equalsIgnoreCase('true')) sort = ''
 
                 // If there's a prefix then clean it up and ensure there's a code and default
                 if (prefix) {
@@ -598,7 +606,7 @@ class ApplicationTagLib {
 
                 // Work through the options creating the selection list
                 def list = []
-				def map, text, codeval, dfltval, propval
+                def map, text, codeval, dfltval, propval
                 for (option in options) {
 
                     // Create the map element and add in the return value for this option
@@ -613,23 +621,23 @@ class ApplicationTagLib {
                         if (text) text += delimiter
 
                         // Perform a message lookup if required. The test is based on the property name
-						// specified as the default, rather than the property name specified in the code,
-						// because when asking for a translation, the user would typically specify something
-						// like... prefix="currency.name" code="code" default="name" ...which means that it's
-						// the default property value that's actually important. This breaks down if they choose
-						// to use the currency code as the default on a message lookup failure, but that would
-						// be illogical since it's better to show the actual value of the name property in the
-						// database rather than the code when a message lookup fails.
+                        // specified as the default, rather than the property name specified in the code,
+                        // because when asking for a translation, the user would typically specify something
+                        // like... prefix="currency.name" code="code" default="name" ...which means that it's
+                        // the default property value that's actually important. This breaks down if they choose
+                        // to use the currency code as the default on a message lookup failure, but that would
+                        // be illogical since it's better to show the actual value of the name property in the
+                        // database rather than the code when a message lookup fails.
                         if (prefix && display == dflt) {
                             codeval = option."${code}"
                             dfltval = option."${dflt}"
-							propval = message(code: "${prefix}${codeval}", default: "${dfltval}")
+                            propval = message(code: "${prefix}${codeval}", default: "${dfltval}")
                             text += propval
-							
-							// Need to check if we will be sorting on the 'dflt' property
-							// value and, if so, set its 'sort' value here since this has
-							// been translated by the message lookup
-							if (toBeSorted && sort == dflt) map.sort = propval
+
+                            // Need to check if we will be sorting on the 'dflt' property
+                            // value and, if so, set its 'sort' value here since this has
+                            // been translated by the message lookup
+                            if (toBeSorted && sort == dflt) map.sort = propval
                         } else {    // Just an ordinary property, so use its value
                             propval = option."${display}"
                             text += "${propval}"
@@ -640,7 +648,7 @@ class ApplicationTagLib {
                     map.displays = text
 
                     // If they want a sort, store the sort value unless it has already been
-					// set when we did a message lookup.
+                    // set when we did a message lookup.
                     if (toBeSorted && map.sort == null) map.sort = sort ? option."${sort}" : text
 
                     // See if it is one of the selected options
@@ -656,16 +664,16 @@ class ApplicationTagLib {
 
                 // Sort the list if required
                 if (toBeSorted && list.size() > 1) {
-					
-					// If we are doing an alphabetic sort, use the more
-					// accurate collate method from utilService. We only
-					// need to check the first element in the list since
-					// all elements should be of the same type
-					if (list[0].sort instanceof CharSequence) {
-						utilService.collate(list) {it.sort}
-					} else {	// Not an alphabetic sort, so use Groovy's in-built sort
-						list.sort {it.sort}
-					}
+
+                    // If we are doing an alphabetic sort, use the more
+                    // accurate collate method from utilService. We only
+                    // need to check the first element in the list since
+                    // all elements should be of the same type
+                    if (list[0].sort instanceof CharSequence) {
+                        utilService.collate(list) {it.sort}
+                    } else {	// Not an alphabetic sort, so use Groovy's in-built sort
+                        list.sort {it.sort}
+                    }
                 }
 
                 // Now do the output
@@ -731,27 +739,27 @@ class ApplicationTagLib {
     def appVersion = {attrs, body ->
         out << grailsApplication.metadata.'app.version'
     }
-	
-	// Outputs 'true' if the system is in demo mode, else false
-	def isDemoSystem = {attrs, body ->
-		out << utilService.systemSetting('isDemoSystem', false)
-	}
-	
-	// Forces Internet Explorer to squeeze down it's display of a table just like Firefox does by default
-	def compressor = {attrs, body ->
-		out << '<table style="padding:0;margin:0;border:none;"><tr><td style="padding:0;margin:0;">'
-		out << body()
-		out << '</td><td style="padding:0;margin:0;min-width:0.1%;max-width:90%;"></td></tr></table>'
-	}
-	
-	// Output a map as a series of hidden input fields for inclusion as submitted form data
-	def mapAsFields = {attrs, body ->
-		if (attrs.params instanceof Map) {
-			for (entry in attrs.params) {
-				out << """<input type="hidden" name="${entry.key.encodeAsHTML()}" value="${entry.value?.encodeAsHTML() ?: ''}"/>\n"""
-			}
-		}
-	}
+
+    // Outputs 'true' if the system is in demo mode, else false
+    def isDemoSystem = {attrs, body ->
+        out << utilService.systemSetting('isDemoSystem', false)
+    }
+
+    // Forces Internet Explorer to squeeze down it's display of a table just like Firefox does by default
+    def compressor = {attrs, body ->
+        out << '<table style="padding:0;margin:0;border:none;"><tr><td style="padding:0;margin:0;">'
+        out << body()
+        out << '</td><td style="padding:0;margin:0;min-width:0.1%;max-width:90%;"></td></tr></table>'
+    }
+
+    // Output a map as a series of hidden input fields for inclusion as submitted form data
+    def mapAsFields = {attrs, body ->
+        if (attrs.params instanceof Map) {
+            for (entry in attrs.params) {
+                out << """<input type="hidden" name="${entry.key.encodeAsHTML()}" value="${entry.value?.encodeAsHTML() ?: ''}"/>\n"""
+            }
+        }
+    }
 
     // --------------------------------------------- Support Methods ---------------------------------------------
 

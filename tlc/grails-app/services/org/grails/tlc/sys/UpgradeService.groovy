@@ -41,10 +41,10 @@ class UpgradeService {
         if (dataVersion.value == '1.2') {
             if (!upgradeTo_1_3(dataVersion, to, servletContext)) return false
         }
-		
-		if (dataVersion.value == '1.3') {
-			if (!upgradeTo_2_0(dataVersion, to, servletContext)) return false
-		}
+
+        if (dataVersion.value == '1.3') {
+            if (!upgradeTo_2_0(dataVersion, to, servletContext)) return false
+        }
 
         return true
     }
@@ -67,17 +67,20 @@ class UpgradeService {
         Allocation.withTransaction {status ->
             if (valid && !SystemAccountType.findByCode('glRevalue')) {
                 if (!createAccountType(code: 'glRevalue', name: 'GL revaluation account', sectionType: 'bs',
-                        singleton: false, changeable: true, allowInvoices: false, allowCash: false, allowProvisions: false, allowJournals: true)) valid = false
+                    singleton: false, changeable: true, allowInvoices: false, allowCash: false, allowProvisions: false,
+                    allowJournals: true)) valid = false
             }
 
             if (valid && !SystemAccountType.findByCode('arRevalue')) {
                 if (!createAccountType(code: 'arRevalue', name: 'AR revaluation account', sectionType: 'bs',
-                        singleton: true, changeable: true, allowInvoices: false, allowCash: false, allowProvisions: false, allowJournals: true)) valid = false
+                    singleton: true, changeable: true, allowInvoices: false, allowCash: false, allowProvisions: false,
+                    allowJournals: true)) valid = false
             }
 
             if (valid && !SystemAccountType.findByCode('apRevalue')) {
                 if (!createAccountType(code: 'apRevalue', name: 'AP revaluation account', sectionType: 'bs',
-                        singleton: true, changeable: true, allowInvoices: false, allowCash: false, allowProvisions: false, allowJournals: true)) valid = false
+                    singleton: true, changeable: true, allowInvoices: false, allowCash: false, allowProvisions: false,
+                    allowJournals: true)) valid = false
             }
 
             if (valid) {
@@ -173,104 +176,104 @@ class UpgradeService {
         dataVersion.value = '1.3'
         return dataVersion.saveThis()
     }
-	
-	static upgradeTo_2_0(dataVersion, to, servletContext) {
-		
-		// Correct the system messages that were (and still are as of Grails 2.2.0) using illogical locale
-		// values. We have renamed the standard Grails property files for TLC version 2.0 onwards.
-		SystemMessage.executeUpdate("update SystemMessage set locale = 'pt' where locale = 'ptPT'")
-		SystemMessage.executeUpdate("update SystemMessage set locale = 'zh' where locale = 'zhCN'")
-		
-		// Also handle the change of locale cz to cs
-		SystemMessage.executeUpdate("update SystemMessage set locale = 'cs' where locale = 'cz'")
-		
-		// Add any new tlc specific messages
-		importMessageFile(servletContext, 'tlc')
-		
-		// Add new system messages
-		def messageLocales = ['', 'cs', 'da', 'de', 'es', 'fr', 'it', 'ja', 'nb', 'nl', 'pl', 'ptBR', 'pt', 'ru', 'sv', 'th', 'zh']
-		def locale
-		for (loc in messageLocales) {
-			if (!loc) {
-				locale = null
-			} else if (loc.length() == 2) {
-				locale = new Locale(loc)
-			} else {
-				locale = new Locale(loc.substring(0, 2), loc.substring(2))
-			}
-			
-			importMessageFile(servletContext, 'messages', locale)
-		}
-		
-		// Clean up the old messages that have been replaced by '.label' equivalents
-		for (msg in SystemMessage.findAllByLocaleAndCodeLike('*', '%.%.label')) {
-			if (!msg.code.startsWith('default.')) SystemMessage.executeUpdate('delete from SystemMessage where code = ?', [msg.code - '.label'])
-		}
-		
-		// Clean up the redundant messages that have been replaced by standard messages
-		def standards = [:]
-		def sql
-		standards.created = ['taskResult.name.autopay.created', 'taskResult.name.fxRates.created', 'document.created', 'remittance.created']
-		standards.updated = ['company.logo.updated', 'operation.updated']
-		standards.deleted = ['remittance.not.deleted', 'remittanceLine.deleted', 'remittance.deleted']
-		standards.'not.deleted' = ['remittance.not.deleted']
-		standards.'not.found' = ['customer.statement.not.found']
-		standards.'optimistic.locking.failure' = null
-		standards.list = ['budget.list', 'documentSearch.list', 'menu.crumb.Customer.Reports.List', 'menu.crumb.Supplier.Reports.List',
-			'menu.option.Customer.Reports.List', 'menu.option.Supplier.Reports.List', 'queuedTask.list', 'queuedTask.sys.list',
-			'queuedTask.usr.list', 'reconciliationLineDetail.list', 'remittanceLine.list', 'templateDocument.apj.list',
-			'templateDocument.arj.list', 'templateDocument.bank.list', 'templateDocument.cash.list', 'templateDocument.fj.list',
-			'templateDocument.glj.list', 'templateDocument.pi.list', 'templateDocument.provn.list', 'templateDocument.si.list',
-			'templateDocument.so.list']
-		standards.'list.for' = ['queuedTaskParam.list.for', 'queuedTaskResult.list.for', 'reconciliation.list.for',
-			'remittanceLine.list.for', 'systemRole.list.for']
-		standards.add = ['generic.add']
-		standards.new = ['year.no.new', 'remittanceLine.new', 'period.status.new']
-		standards.create = null
-		standards.show = ['queuedTask.sys.show']
-		standards.edit = ['queuedTaskParam.wait.edit', 'queuedTask.sys.edit', 'queuedTask.wait.edit']
-		for (entry in standards) {
-			sql = "delete from SystemMessage where code like '%.${entry.key}' and code not like 'default.%'"
-			if (entry.value) {
-				sql += ' and code not in ('
-				for (int i = 0; i < entry.value.size(); i++) {
-					if (i) sql += ', '
-					sql += "'${entry.value[i]}'"
-				}
-				
-				sql += ')'
-			}
-			
-			SystemMessage.executeUpdate(sql)
-		}
-		
-		// Load new page help texts
-		setPageHelp(servletContext, 'taxAuthority')
-		setPageHelp(servletContext, 'taxCode')
-		setPageHelp(servletContext, 'translation')
-		
-		// Link in the new translation system to the menu and roles
-		SystemRole.executeUpdate('update SystemRole set systemOnly = true')
-		def role = new SystemRole(code: 'translator', name: 'Translator', systemOnly: true)
-		role.saveThis()
-		def activity = SystemActivity.findByCode('systran')
-		if (activity) {
-			role.addToActivities(activity)
-	        if (role.save(flush: true))	{	// With deep validation
-	        	new SystemMessage(code: 'role.name.translator', locale: '*', text: 'Translator').saveThis()
-	        }
-			
-			def menu = new SystemMenu(path: 'Translation', title: 'Translation', sequencer: 20, activity: activity, type: 'action', command: 'translation.translate', parameters: null)
-			if (menu.saveThis()) {
-				new SystemMessage(code: 'menu.option.Translation', locale: '*', text: 'Translation').saveThis()
-				new SystemMessage(code: "menu.crumb.Translation", locale: '*', text: 'Translation').saveThis()
-			}
-		}
+
+    static upgradeTo_2_0(dataVersion, to, servletContext) {
+
+        // Correct the system messages that were (and still are as of Grails 2.2.0) using illogical locale
+        // values. We have renamed the standard Grails property files for TLC version 2.0 onwards.
+        SystemMessage.executeUpdate("update SystemMessage set locale = 'pt' where locale = 'ptPT'")
+        SystemMessage.executeUpdate("update SystemMessage set locale = 'zh' where locale = 'zhCN'")
+
+        // Also handle the change of locale cz to cs
+        SystemMessage.executeUpdate("update SystemMessage set locale = 'cs' where locale = 'cz'")
+
+        // Add any new tlc specific messages
+        importMessageFile(servletContext, 'tlc')
+
+        // Add new system messages
+        def messageLocales = ['', 'cs', 'da', 'de', 'es', 'fr', 'it', 'ja', 'nb', 'nl', 'pl', 'ptBR', 'pt', 'ru', 'sv', 'th', 'zh']
+        def locale
+        for (loc in messageLocales) {
+            if (!loc) {
+                locale = null
+            } else if (loc.length() == 2) {
+                locale = new Locale(loc)
+            } else {
+                locale = new Locale(loc.substring(0, 2), loc.substring(2))
+            }
+
+            importMessageFile(servletContext, 'messages', locale)
+        }
+
+        // Clean up the old messages that have been replaced by '.label' equivalents
+        for (msg in SystemMessage.findAllByLocaleAndCodeLike('*', '%.%.label')) {
+            if (!msg.code.startsWith('default.')) SystemMessage.executeUpdate('delete from SystemMessage where code = ?', [msg.code - '.label'])
+        }
+
+        // Clean up the redundant messages that have been replaced by standard messages
+        def standards = [:]
+        def sql
+        standards.created = ['taskResult.name.autopay.created', 'taskResult.name.fxRates.created', 'document.created', 'remittance.created']
+        standards.updated = ['company.logo.updated', 'operation.updated']
+        standards.deleted = ['remittance.not.deleted', 'remittanceLine.deleted', 'remittance.deleted']
+        standards.'not.deleted' = ['remittance.not.deleted']
+        standards.'not.found' = ['customer.statement.not.found']
+        standards.'optimistic.locking.failure' = null
+        standards.list = ['budget.list', 'documentSearch.list', 'menu.crumb.Customer.Reports.List', 'menu.crumb.Supplier.Reports.List',
+            'menu.option.Customer.Reports.List', 'menu.option.Supplier.Reports.List', 'queuedTask.list', 'queuedTask.sys.list',
+            'queuedTask.usr.list', 'reconciliationLineDetail.list', 'remittanceLine.list', 'templateDocument.apj.list',
+            'templateDocument.arj.list', 'templateDocument.bank.list', 'templateDocument.cash.list', 'templateDocument.fj.list',
+            'templateDocument.glj.list', 'templateDocument.pi.list', 'templateDocument.provn.list', 'templateDocument.si.list',
+            'templateDocument.so.list']
+        standards.'list.for' = ['queuedTaskParam.list.for', 'queuedTaskResult.list.for', 'reconciliation.list.for',
+            'remittanceLine.list.for', 'systemRole.list.for']
+        standards.add = ['generic.add']
+        standards.new = ['year.no.new', 'remittanceLine.new', 'period.status.new']
+        standards.create = null
+        standards.show = ['queuedTask.sys.show']
+        standards.edit = ['queuedTaskParam.wait.edit', 'queuedTask.sys.edit', 'queuedTask.wait.edit']
+        for (entry in standards) {
+            sql = "delete from SystemMessage where code like '%.${entry.key}' and code not like 'default.%'"
+            if (entry.value) {
+                sql += ' and code not in ('
+                for (int i = 0; i < entry.value.size(); i++) {
+                    if (i) sql += ', '
+                    sql += "'${entry.value[i]}'"
+                }
+
+                sql += ')'
+            }
+
+            SystemMessage.executeUpdate(sql)
+        }
+
+        // Load new page help texts
+        setPageHelp(servletContext, 'taxAuthority')
+        setPageHelp(servletContext, 'taxCode')
+        setPageHelp(servletContext, 'translation')
+
+        // Link in the new translation system to the menu and roles
+        SystemRole.executeUpdate('update SystemRole set systemOnly = true')
+        def role = new SystemRole(code: 'translator', name: 'Translator', systemOnly: true)
+        role.saveThis()
+        def activity = SystemActivity.findByCode('systran')
+        if (activity) {
+            role.addToActivities(activity)
+            if (role.save(flush: true))	{	// With deep validation
+                new SystemMessage(code: 'role.name.translator', locale: '*', text: 'Translator').saveThis()
+            }
+
+            def menu = new SystemMenu(path: 'Translation', title: 'Translation', sequencer: 20, activity: activity, type: 'action', command: 'translation.translate', parameters: null)
+            if (menu.saveThis()) {
+                new SystemMessage(code: 'menu.option.Translation', locale: '*', text: 'Translation').saveThis()
+                new SystemMessage(code: "menu.crumb.Translation", locale: '*', text: 'Translation').saveThis()
+            }
+        }
 
         // Update the data version number
         dataVersion.value = '2.0'
         return dataVersion.saveThis()
-	}
+    }
 
     // Imports a message file to the database. DOES NOT modify existing
     // records. The name should not include any locale suffix, the optional
@@ -335,7 +338,7 @@ class UpgradeService {
         }
     }
 
-	// Create a new account type. Caller should handle transactions.
+    // Create a new account type. Caller should handle transactions.
     static createAccountType(map) {
         if (new SystemAccountType(map).saveThis()) {
             if (new SystemMessage(code: "systemAccountType.name.${map.code}", locale: '*', text: map.name).saveThis()) return true
@@ -343,12 +346,12 @@ class UpgradeService {
 
         return false
     }
-	
-	// Add a new system message, if possible. Caller should handle transactions if required
-	static addNewMessage(code, text) {
-		if (SystemMessage.countByCode(code)) return true	// If they already use this code, there is nothing we can do, so just carry on
-		if (new SystemMessage(code: code, locale: '*', text: text).saveThis()) return true
-		
-		return false
-	}
+
+    // Add a new system message, if possible. Caller should handle transactions if required
+    static addNewMessage(code, text) {
+        if (SystemMessage.countByCode(code)) return true	// If they already use this code, there is nothing we can do, so just carry on
+        if (new SystemMessage(code: code, locale: '*', text: text).saveThis()) return true
+
+        return false
+    }
 }

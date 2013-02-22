@@ -33,7 +33,7 @@ import org.springframework.web.servlet.support.RequestContextUtils
 
 public class DatabaseMessageSource extends AbstractMessageSource implements ResourceLoaderAware {
 
-	private static final log = Logger.getLogger(DatabaseMessageSource)
+    private static final log = Logger.getLogger(DatabaseMessageSource)
     private static final String CACHE_CODE = 'message'
     private static UtilService utilService
     private static SessionFactory sessionFactory
@@ -49,11 +49,11 @@ public class DatabaseMessageSource extends AbstractMessageSource implements Reso
     protected String resolveCodeWithoutArguments(String code, Locale locale) {
         return getBaseText(code, locale)
     }
-	
-	// Our default messages should already be fully resolved
-	protected String renderDefaultMessage(String defaultMessage, Object[] args, Locale locale) {
-		return defaultMessage
-	}
+
+    // Our default messages should already be fully resolved
+    protected String renderDefaultMessage(String defaultMessage, Object[] args, Locale locale) {
+        return defaultMessage
+    }
 
     // Used by Spring to inject our util service
     public void setUtilService(UtilService utilService) {
@@ -73,35 +73,35 @@ public class DatabaseMessageSource extends AbstractMessageSource implements Reso
     // below: getMessageText and setError
     private String getBaseText(String code, Locale locale, Long securityCode = null) {
 
-		// Forget it if no code supplied
-		if (!code) return null
-		
-		// Avoid clogging up the cache with Grails' automatic attempt to get a message code based on
-		// the package name. Grails does this to allow plugins to use the same domain and property
-		// names. We do not use this facility since we are not a plugin.
-		if (code.startsWith('org.grails.tlc.')) return null
-		
-		// Fix the legacy pagination texts that are still (as of Grails 2.2.0) still requested
-		// by the pagination system before asking for the newer 'default' texts.
-		if (code == 'paginate.next' || code == 'paginate.prev') code = 'default.' + code
-		
-		// A message starting with a special character of CacheService.DUMMY_VALUE will be taken to
-		// be a code which, if not found, need only be logged at debug level rather that at info
-		// level. This is used by the utilService.errorMessage() method to identify its attempts to
-		// find an available message but not wanting to clutter up the log with unnecessary messages.
-		// The dummy value is stripped off once it has been detected so that the plain code still
-		// works as normal.
-		def debugOnly = false
-		if (code.startsWith(CacheService.DUMMY_VALUE) && code.length() > 1) {
-			code = code.substring(1)
-			debugOnly = true
-		}
-		
-		// Grab the cache service
+        // Forget it if no code supplied
+        if (!code) return null
+
+        // Avoid clogging up the cache with Grails' automatic attempt to get a message code based on
+        // the package name. Grails does this to allow plugins to use the same domain and property
+        // names. We do not use this facility since we are not a plugin.
+        if (code.startsWith('org.grails.tlc.')) return null
+
+        // Fix the legacy pagination texts that are still (as of Grails 2.2.0) still requested
+        // by the pagination system before asking for the newer 'default' texts.
+        if (code == 'paginate.next' || code == 'paginate.prev') code = 'default.' + code
+
+        // A message starting with a special character of CacheService.DUMMY_VALUE will be taken to
+        // be a code which, if not found, need only be logged at debug level rather that at info
+        // level. This is used by the utilService.errorMessage() method to identify its attempts to
+        // find an available message but not wanting to clutter up the log with unnecessary messages.
+        // The dummy value is stripped off once it has been detected so that the plain code still
+        // works as normal.
+        def debugOnly = false
+        if (code.startsWith(CacheService.DUMMY_VALUE) && code.length() > 1) {
+            code = code.substring(1)
+            debugOnly = true
+        }
+
+        // Grab the cache service
         def cache = utilService.cacheService
-		
-		// Ensure we always have a security code, even if we have to
-		// default it to 0L (i.e. system level)
+
+        // Ensure we always have a security code, even if we have to
+        // default it to 0L (i.e. system level)
         if (securityCode == null) {
             def unbindRequest = false
             if (!RequestContextHolder.requestAttributes) {
@@ -114,53 +114,53 @@ public class DatabaseMessageSource extends AbstractMessageSource implements Reso
             if (unbindRequest) RequestContextHolder.setRequestAttributes(null)
         }
 
-		// Construct the cache key we're looking for
+        // Construct the cache key we're looking for
         def key = code + cache.IMPOSSIBLE_VALUE + locale.language + locale.country
-		
-		// Try and get it from the relevant cache.
+
+        // Try and get it from the relevant cache.
         def msg = cache.get(CACHE_CODE, securityCode, key)
-		
-		// If we didn't find it in the relevant cache
-		if (!msg) {
-			
-			// If it's a company specific search, try and find it in the
-			// company specific database table.
-			if (securityCode > 0L) {
-				def lst = Message.findAll(
-					"from Message as x where x.securityCode = ? and x.code = ? and x.locale in ('*', ?, ?) order by x.relevance desc",
-					[securityCode, code, locale.language, locale.language + locale.country], [max: 1])
-				if (lst) {
-					msg = lst[0].text
-					cache.put(CACHE_CODE, securityCode, key, msg)
-				}
-			}
-			
-			// If we didn't find it in the company specific database table
-			// OR it was not a company specific search in the first place
-			if (!msg) {
-				
-				// If it is a company specific search, we won't have looked
-				// in the system cache yet, so look there now. Note that we
-				// don't log this as a second cache miss in such cases.
-				if (securityCode > 0L) msg = cache.get(CACHE_CODE, 0L, key, false)
-				
-				// If we still can't find it, look in the system level database table
-				if (!msg) {
-					def lst = SystemMessage.findAll(
-						"from SystemMessage as x where x.code = ? and x.locale in ('*', ?, ?) order by x.relevance desc",
-						[code, locale.language, locale.language + locale.country], [max: 1])
-					if (lst) {
-						msg = lst[0].text
-					} else {
-						msg = cache.IMPOSSIBLE_VALUE
-						lst = "Unknown code '${code}' requested"
-						debugOnly ? log.debug(lst) : log.info(lst)
-					}
-					
-					cache.put(CACHE_CODE, securityCode, key, msg)
-				}
-			}
-		}
+
+        // If we didn't find it in the relevant cache
+        if (!msg) {
+
+            // If it's a company specific search, try and find it in the
+            // company specific database table.
+            if (securityCode > 0L) {
+                def lst = Message.findAll(
+                        "from Message as x where x.securityCode = ? and x.code = ? and x.locale in ('*', ?, ?) order by x.relevance desc",
+                        [securityCode, code, locale.language, locale.language + locale.country], [max: 1])
+                if (lst) {
+                    msg = lst[0].text
+                    cache.put(CACHE_CODE, securityCode, key, msg)
+                }
+            }
+
+            // If we didn't find it in the company specific database table
+            // OR it was not a company specific search in the first place
+            if (!msg) {
+
+                // If it is a company specific search, we won't have looked
+                // in the system cache yet, so look there now. Note that we
+                // don't log this as a second cache miss in such cases.
+                if (securityCode > 0L) msg = cache.get(CACHE_CODE, 0L, key, false)
+
+                // If we still can't find it, look in the system level database table
+                if (!msg) {
+                    def lst = SystemMessage.findAll(
+                            "from SystemMessage as x where x.code = ? and x.locale in ('*', ?, ?) order by x.relevance desc",
+                            [code, locale.language, locale.language + locale.country], [max: 1])
+                    if (lst) {
+                        msg = lst[0].text
+                    } else {
+                        msg = cache.IMPOSSIBLE_VALUE
+                        lst = "Unknown code '${code}' requested"
+                        debugOnly ? log.debug(lst) : log.info(lst)
+                    }
+
+                    cache.put(CACHE_CODE, securityCode, key, msg)
+                }
+            }
+        }
 
         return (msg == cache.IMPOSSIBLE_VALUE) ? null : msg
     }
@@ -181,16 +181,16 @@ public class DatabaseMessageSource extends AbstractMessageSource implements Reso
         }
 
         def msg
-		if (parameters.domain) {
-			msg = utilService.standardMessage(parameters.code, parameters.domain, parameters.value, parameters.forDomain)
-		} else {
-			msg = getBaseText(parameters.code, locale, parameters.securityCode)
-	        if (msg) {
-	            if (parameters.args) msg = new MessageFormat(msg.replace("'", "''"), locale).format(parameters.args as Object[])
-	        } else {
-	            msg = parameters.default
-	        }
-		}
+        if (parameters.domain) {
+            msg = utilService.standardMessage(parameters.code, parameters.domain, parameters.value, parameters.forDomain)
+        } else {
+            msg = getBaseText(parameters.code, locale, parameters.securityCode)
+            if (msg) {
+                if (parameters.args) msg = new MessageFormat(msg.replace("'", "''"), locale).format(parameters.args as Object[])
+            } else {
+                msg = parameters.default
+            }
+        }
 
         if (unbindRequest) RequestContextHolder.setRequestAttributes(null)
         if (msg && parameters.encodeAs) {
@@ -247,7 +247,7 @@ public class DatabaseMessageSource extends AbstractMessageSource implements Reso
 
         def rec, txt
         def counts = [imported: 0, skipped: 0]
-		for (key in props.stringPropertyNames()) {
+        for (key in props.stringPropertyNames()) {
             txt = props.getProperty(key)
             if (key && key.length() <= 250 && txt && txt.length() <= 2000) {
                 if (company) {

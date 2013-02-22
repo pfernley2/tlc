@@ -57,7 +57,7 @@ class YearController {
         def yearInstance = Year.findByIdAndCompany(params.id, utilService.currentCompany())
         if (yearInstance) {
             if (Year.countByCompanyAndValidFromGreaterThan(utilService.currentCompany(), yearInstance.validTo) &&
-                    Year.countByCompanyAndValidToLessThan(utilService.currentCompany(), yearInstance.validFrom)) {
+            Year.countByCompanyAndValidToLessThan(utilService.currentCompany(), yearInstance.validFrom)) {
                 flash.message = message(code: 'year.delete.gap', default: 'Deleting this year would leave a gap in the date ranges.')
                 redirect(action: 'show', id: params.id)
             } else if (Period.countByYearAndStatusInList(yearInstance, ['open', 'adjust'])) {
@@ -106,7 +106,7 @@ class YearController {
         def yearInstance = Year.findByIdAndCompany(params.id, utilService.currentCompany())
         if (yearInstance) {
             if (version != null && yearInstance.version > version) {
-				yearInstance.errorMessage(code: 'locking.failure', domain: 'year')
+                yearInstance.errorMessage(code: 'locking.failure', domain: 'year')
                 render(view: 'edit', model: [yearInstance: yearInstance])
                 return
             }
@@ -260,7 +260,7 @@ class YearController {
         redirect(action: 'list')
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private newYearIsProhibited() {
         def years = Year.findAllByCompany(utilService.currentCompany(), [sort: 'validFrom', order: 'desc', max: 1])

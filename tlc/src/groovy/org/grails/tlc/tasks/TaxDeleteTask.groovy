@@ -30,7 +30,7 @@ class TaxDeleteTask extends TaskExecutable {
         // Make sure the tax statement is ok
         def taxStatement = TaxStatement.get(params.stringId)
         if (!taxStatement || taxStatement.securityCode != company.securityCode || taxStatement.finalized) {
-			completionMessage = utilService.standardMessage('not.found', 'taxStatement', params.stringId)
+            completionMessage = utilService.standardMessage('not.found', 'taxStatement', params.stringId)
             return false
         }
 

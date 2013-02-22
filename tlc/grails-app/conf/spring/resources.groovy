@@ -110,7 +110,7 @@ beans = {
                     // If there limitations stored within the selector for this controller and action
                     if (selector?.members) {
                         for (item in selector.members) {
-							member = item.value
+                            member = item.value
                             def prefix = 'x'
                             def join = member.get('joinProperty')
                             if (join) {

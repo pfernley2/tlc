@@ -28,7 +28,7 @@ class CompanyUserController {
 
     // Security settings
     def activities = [default: 'sysadmin', select: 'login', attach: 'login', change: 'attached', proceed: 'attached', display: 'coadmin', add: 'coadmin',
-            adding: 'coadmin', inspect: 'coadmin', remove: 'coadmin', terminate: 'coadmin']
+        adding: 'coadmin', inspect: 'coadmin', remove: 'coadmin', terminate: 'coadmin']
 
     // List of actions with specific request types
     static allowedMethods = [delete: 'POST', save: 'POST', update: 'POST', adding: 'POST', remove: 'POST', terminate: 'POST']
@@ -42,7 +42,7 @@ class CompanyUserController {
         params.remove('order')
         def ddSource = utilService.source('systemUser.list')
         def companyUserInstanceList = CompanyUser.selectList()
-		utilService.collate(companyUserInstanceList) {it.company.name}
+        utilService.collate(companyUserInstanceList) {it.company.name}
         [companyUserInstanceList: companyUserInstanceList, ddSource: ddSource]
     }
 
@@ -148,7 +148,7 @@ class CompanyUserController {
 
     def select() {
         def companyUserInstanceList = CompanyUser.findAllByUser(utilService.currentUser())
-		utilService.collate(companyUserInstanceList) {it.company.name}
+        utilService.collate(companyUserInstanceList) {it.company.name}
         return [companyUserInstanceList: companyUserInstanceList]
     }
 
@@ -166,7 +166,7 @@ class CompanyUserController {
 
     def change() {
         def companyUserInstanceList = CompanyUser.findAllByUserAndCompanyNotEqual(utilService.currentUser(), utilService.currentCompany())
-		utilService.collate(companyUserInstanceList) {it.company.name}
+        utilService.collate(companyUserInstanceList) {it.company.name}
         return [companyUserInstanceList: companyUserInstanceList]
     }
 
@@ -301,7 +301,7 @@ class CompanyUserController {
         }
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     private canBeRemoved(companyUserInstance) {
 
@@ -315,7 +315,7 @@ class CompanyUserController {
         // Check if owns task definitions in this company
         if (Task.countByCompanyAndUser(companyUserInstance.company, companyUserInstance.user) > 0) {
             companyUserInstance.errorMessage(code: 'systemUser.owns.tasks', args: [companyUserInstance.user.name],
-                    default: "User ${companyUserInstance.user.name} owns task definitions. These tasks must be re-assigned to another user before continuing.")
+            default: "User ${companyUserInstance.user.name} owns task definitions. These tasks must be re-assigned to another user before continuing.")
             return false
         }
 
@@ -324,7 +324,7 @@ class CompanyUserController {
         // Check if owns queued tasks in this company that are awaiting execution
         if (QueuedTask.executeQuery(qry, [companyUserInstance.user.id, 'waiting', companyUserInstance.company.id])[0] > 0) {
             companyUserInstance.errorMessage(code: 'systemUser.waiting.tasks', args: [companyUserInstance.user.name],
-                    default: "User ${companyUserInstance.user.name} has tasks in the queue awaiting execution. These tasks must be deleted, executed or re-assigned before continuing.")
+            default: "User ${companyUserInstance.user.name} has tasks in the queue awaiting execution. These tasks must be deleted, executed or re-assigned before continuing.")
             return false
         }
 
@@ -341,7 +341,7 @@ class CompanyUserController {
         // If there is only one company administrator and it's this user, complain
         if (coAdmins.size() == 1 && coAdmins[0].id == companyUserInstance.id) {
             companyUserInstance.errorMessage(code: 'systemUser.last.company.admin', args: [companyUserInstance.user.name, companyUserInstance.company.name],
-                    default: "User ${companyUserInstance.user.name} is the last administrator in company ${companyUserInstance.company.name} and may not be deleted")
+            default: "User ${companyUserInstance.user.name} is the last administrator in company ${companyUserInstance.company.name} and may not be deleted")
             return false
         }
 

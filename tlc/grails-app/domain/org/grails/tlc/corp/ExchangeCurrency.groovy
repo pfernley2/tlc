@@ -30,8 +30,8 @@ class ExchangeCurrency {
     static traceDeleteCode = new AtomicLong()
 
     static belongsTo = [company: Company]
-    static hasMany = [exchangeRates: ExchangeRate, documents: Document, accounts: Account, suppliers: Supplier, customers: Customer,
-            templates: TemplateDocument, recurrences: Recurring]
+    static hasMany = [exchangeRates: ExchangeRate, documents: Document, accounts: Account, suppliers: Supplier,
+        customers: Customer, templates: TemplateDocument, recurrences: Recurring]
 
     static transients = ['currentRateDate', 'currentRateValue', 'currentRateUpdatable']
 

@@ -36,8 +36,8 @@ class ReconciliationLineDetailController {
     def list() {
         def reconciliationLineInstance = utilService.source('reconciliation.edit')
         if (reconciliationLineInstance?.securityCode == utilService.currentCompany().securityCode &&
-                bookService.hasAccountAccess(reconciliationLineInstance.reconciliation.bankAccount) &&
-                !reconciliationLineInstance.reconciliation.finalizedDate) {
+        bookService.hasAccountAccess(reconciliationLineInstance.reconciliation.bankAccount) &&
+        !reconciliationLineInstance.reconciliation.finalizedDate) {
             def reconciliationInstance = reconciliationLineInstance.reconciliation
             params.max = utilService.max
             params.offset = utilService.offset
@@ -63,8 +63,8 @@ class ReconciliationLineDetailController {
             }
 
             [reconciliationInstance: reconciliationInstance, reconciliationLineInstance: reconciliationLineInstance, reconciliationLineDetailInstanceList: reconciliationLineDetailInstanceList,
-                    reconciliationLineDetailInstanceTotal: reconciliationLineDetailInstanceTotal, unreconciled: utilService.format(unrec, decimals),
-                    subtotal: utilService.format(subtot, decimals), difference: utilService.format(diff, decimals), decimals: decimals, canFinalize: (diff == 0.0)]
+                        reconciliationLineDetailInstanceTotal: reconciliationLineDetailInstanceTotal, unreconciled: utilService.format(unrec, decimals),
+                        subtotal: utilService.format(subtot, decimals), difference: utilService.format(diff, decimals), decimals: decimals, canFinalize: (diff == 0.0)]
         } else {
             flash.message = message(code: 'reconciliation.line.invalid', default: 'Line not found')
             redirect(controller: 'reconciliation', action: 'list')
@@ -76,8 +76,8 @@ class ReconciliationLineDetailController {
         def errMessage, reconciliationInstance
         def reconciliationLineInstance = utilService.reSource('reconciliation.edit')
         if (reconciliationLineInstance?.securityCode == utilService.currentCompany().securityCode &&
-                bookService.hasAccountAccess(reconciliationLineInstance.reconciliation.bankAccount) &&
-                !reconciliationLineInstance.reconciliation.finalizedDate) {
+        bookService.hasAccountAccess(reconciliationLineInstance.reconciliation.bankAccount) &&
+        !reconciliationLineInstance.reconciliation.finalizedDate) {
             def reconciliationLineDetailInstance = ReconciliationLineDetail.get(params.lineId)
             if (reconciliationLineDetailInstance?.line?.id == reconciliationLineInstance.id) {
                 reconciliationInstance = reconciliationLineInstance.reconciliation
@@ -130,8 +130,8 @@ class ReconciliationLineDetailController {
     def display() {
         def reconciliationLineInstance = utilService.source('reconciliation.display')
         if (reconciliationLineInstance?.securityCode == utilService.currentCompany().securityCode &&
-                bookService.hasAccountAccess(reconciliationLineInstance.reconciliation.bankAccount) &&
-                reconciliationLineInstance.reconciliation.finalizedDate) {
+        bookService.hasAccountAccess(reconciliationLineInstance.reconciliation.bankAccount) &&
+        reconciliationLineInstance.reconciliation.finalizedDate) {
             def reconciliationInstance = reconciliationLineInstance.reconciliation
             params.max = utilService.max
             params.offset = utilService.offset
@@ -157,8 +157,8 @@ class ReconciliationLineDetailController {
             }
 
             [reconciliationInstance: reconciliationInstance, reconciliationLineInstance: reconciliationLineInstance, reconciliationLineDetailInstanceList: reconciliationLineDetailInstanceList,
-                    reconciliationLineDetailInstanceTotal: reconciliationLineDetailInstanceTotal, unreconciled: utilService.format(unrec, decimals),
-                    subtotal: utilService.format(subtot, decimals), difference: utilService.format(diff, decimals), decimals: decimals]
+                        reconciliationLineDetailInstanceTotal: reconciliationLineDetailInstanceTotal, unreconciled: utilService.format(unrec, decimals),
+                        subtotal: utilService.format(subtot, decimals), difference: utilService.format(diff, decimals), decimals: decimals]
         } else {
             flash.message = message(code: 'reconciliation.line.invalid', default: 'Line not found')
             redirect(controller: 'reconciliation', action: 'list')

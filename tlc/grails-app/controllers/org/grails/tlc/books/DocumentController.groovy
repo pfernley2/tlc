@@ -353,7 +353,7 @@ class DocumentController {
                         generalBudget = utilService.round(companyBudget * rate, 0)
                     } else {
                         errMessage = message(code: 'document.bad.exchangeRate', args: [utilService.companyCurrency().code, bal.account.currency.code],
-                                default: "No exchange rate available from ${utilService.companyCurrency().code} to ${bal.account.currency.code}")
+                        default: "No exchange rate available from ${utilService.companyCurrency().code} to ${bal.account.currency.code}")
                     }
                 }
 
@@ -378,7 +378,7 @@ class DocumentController {
                 }
             }
         } else {
-			errMessage = utilService.standardMessage('not.found', 'generalBalance', params.balanceId)
+            errMessage = utilService.standardMessage('not.found', 'generalBalance', params.balanceId)
         }
 
         if (errMessage) {
@@ -509,15 +509,15 @@ class DocumentController {
         }
 
         def searchMap = ['type.id': documentSearchInstance.type.id, code: documentSearchInstance.code, reference: documentSearchInstance.reference,
-                description: documentSearchInstance.description, documentFrom: utilService.format(documentSearchInstance.documentFrom, 1),
-                documentTo: utilService.format(documentSearchInstance.documentTo, 1), postedFrom: utilService.format(documentSearchInstance.postedFrom, 1),
-                postedTo: utilService.format(documentSearchInstance.postedTo, 1)]
+                    description: documentSearchInstance.description, documentFrom: utilService.format(documentSearchInstance.documentFrom, 1),
+                    documentTo: utilService.format(documentSearchInstance.documentTo, 1), postedFrom: utilService.format(documentSearchInstance.postedFrom, 1),
+                    postedTo: utilService.format(documentSearchInstance.postedTo, 1)]
         def documentInstanceList = Document.findAll(sql + ' order by documentDate desc, id desc', parameters, [max: params.max, offset: params.offset])
         def documentInstanceTotal = Document.executeQuery('select count(*) ' + sql, parameters)[0]
         [documentInstanceList: documentInstanceList, documentInstanceTotal: documentInstanceTotal, searchMap: searchMap]
     }
 
-// --------------------------------------------- Support Methods ---------------------------------------------
+    // --------------------------------------------- Support Methods ---------------------------------------------
 
     // Return null if a GL account can be posted by the given meta-type or an error message if not
     private checkPostability(account, type) {

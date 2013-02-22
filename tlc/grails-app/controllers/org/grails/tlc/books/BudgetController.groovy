@@ -101,8 +101,8 @@ class BudgetController {
         }
 
         [yearInstanceList: yearInstanceList, yearInstance: yearInstance, periodInstanceList: periodInstanceList, selectedPeriods: selectedPeriods, sectionType: sectionType,
-                chartSectionInstanceList: chartSectionInstanceList, chartSectionInstance: chartSectionInstance, codeElementInstanceList: codeElementInstanceList,
-                valueLists: valueLists, selectedValues: selectedValues, target: params.target, targetName: message(code: 'budget.' + params.target, default: params.target)]
+                    chartSectionInstanceList: chartSectionInstanceList, chartSectionInstance: chartSectionInstance, codeElementInstanceList: codeElementInstanceList,
+                    valueLists: valueLists, selectedValues: selectedValues, target: params.target, targetName: message(code: 'budget.' + params.target, default: params.target)]
     }
 
     def apply() {
@@ -249,7 +249,7 @@ class BudgetController {
         }
 
         [accountInstanceList: accountInstanceList, accountInstanceTotal: accountInstanceTotal, periodInstanceList: periodInstanceList,
-                generalBalanceInstanceList: generalBalanceInstanceList, currencyCode: currency.code, decimals: currency.decimals, fieldWidth: fieldWidth]
+                    generalBalanceInstanceList: generalBalanceInstanceList, currencyCode: currency.code, decimals: currency.decimals, fieldWidth: fieldWidth]
     }
 
     def imports() {
@@ -373,7 +373,7 @@ class BudgetController {
                                             if (budget != null) {
                                                 balance = GeneralBalance.findByAccountAndPeriod(account, periods[i])
                                                 if (!balance) {
-													flash.message = utilService.standardMessage('not.found', 'generalBalance', account.code + '/' + period.code)
+                                                    flash.message = utilService.standardMessage('not.found', 'generalBalance', account.code + '/' + period.code)
                                                     status.setRollbackOnly()
                                                     valid = false
                                                     break
@@ -431,7 +431,7 @@ class BudgetController {
         def company = utilService.currentCompany()
         def yearInstance = Year.findByIdAndCompany(filterValues.year, company)
         if (!yearInstance) {
-			flash.message = utilService.standardMessage('not.found', 'year', filterValues.year)
+            flash.message = utilService.standardMessage('not.found', 'year', filterValues.year)
             redirect(action: 'filterSettings', params: [target: 'list'])
             return
         }
@@ -592,11 +592,11 @@ class BudgetController {
         }
 
         [yearInstanceList: yearInstanceList, yearInstance: yearInstance, periodInstanceList: periodInstanceList, selectedPeriods: selectedPeriods,
-                targetYearInstanceList: targetYearInstanceList, targetYearInstance: targetYearInstance, targetPeriodInstanceList: targetPeriodInstanceList,
-                targetSelectedPeriods: targetSelectedPeriods, sectionType: sectionType, chartSectionInstanceList: chartSectionInstanceList,
-                chartSectionInstance: chartSectionInstance, codeElementInstanceList: codeElementInstanceList, valueLists: valueLists, selectedValues: selectedValues,
-                sourceDataInstanceList: sourceDataInstanceList, sourceDataInstance: sourceDataInstance, adjustmentTypeInstanceList: adjustmentTypeInstanceList,
-                adjustmentTypeInstance: adjustmentTypeInstance, adjustmentValue: adjustmentValue, adjustmentScale: adjustmentScale]
+                    targetYearInstanceList: targetYearInstanceList, targetYearInstance: targetYearInstance, targetPeriodInstanceList: targetPeriodInstanceList,
+                    targetSelectedPeriods: targetSelectedPeriods, sectionType: sectionType, chartSectionInstanceList: chartSectionInstanceList,
+                    chartSectionInstance: chartSectionInstance, codeElementInstanceList: codeElementInstanceList, valueLists: valueLists, selectedValues: selectedValues,
+                    sourceDataInstanceList: sourceDataInstanceList, sourceDataInstance: sourceDataInstance, adjustmentTypeInstanceList: adjustmentTypeInstanceList,
+                    adjustmentTypeInstance: adjustmentTypeInstance, adjustmentValue: adjustmentValue, adjustmentScale: adjustmentScale]
     }
 
     def adjusting() {
@@ -956,7 +956,7 @@ class BudgetController {
                 rates.put(account.currency.code, rate)
             } else {
                 throw new IllegalArgumentException(message(code: 'document.bad.exchangeRate', args: [currency.code, account.currency.code],
-                        default: "No exchange rate available from ${currency.code} to ${account.currency.code}"))
+                default: "No exchange rate available from ${currency.code} to ${account.currency.code}"))
             }
         }
 

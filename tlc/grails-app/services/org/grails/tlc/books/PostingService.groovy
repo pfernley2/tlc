@@ -97,7 +97,7 @@ class PostingService {
                     line.balance = GeneralBalance.findByAccountAndPeriod(line.account, document.period)
                 }
             }
-			
+
             for (line in document.taxes) {
                 if (line.balance) {
                     line.balance.refresh()
@@ -111,7 +111,7 @@ class PostingService {
                     line.balance = GeneralBalance.findByAccountAndPeriod(line.account, document.period)
                 }
             }
-			
+
             for (line in document.total) {
                 if (line.balance) {
                     line.balance.refresh()
@@ -208,7 +208,7 @@ class PostingService {
         def valid = !documentInstance.hasErrors()
 
         // Load the document lines from the request parameters and check for data binding errors
-		// in the line at the same time. We do this whether the header had a fault or not
+        // in the line at the same time. We do this whether the header had a fault or not
         def num = refreshDocumentLines(documentInstance, params)
         if (num) {
             documentInstance.errorMessage(code: 'document.line.data', args: [num], default: "Line ${num} has a 'data type' error")
@@ -268,7 +268,7 @@ class PostingService {
                         accountRate = utilService.getExchangeRate(documentInstance.currency, subAccount.currency, now)
                         if (!accountRate) {
                             documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, subAccount.currency.code],
-                                    default: "No exchange rate available from ${documentInstance.currency.code} to ${subAccount.currency.code}")
+                                default: "No exchange rate available from ${documentInstance.currency.code} to ${subAccount.currency.code}")
                             valid = false
                         }
                     }
@@ -280,7 +280,7 @@ class PostingService {
                             companyRate = utilService.getExchangeRate(documentInstance.currency, companyCurrency, now)
                             if (!companyRate) {
                                 documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, companyCurrency.code],
-                                        default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
+                                    default: "No exchange rate available from ${documentInstance.currency.code} to ${companyCurrency.code}")
                                 valid = false
                             }
                         }
@@ -408,8 +408,8 @@ class PostingService {
                     // Ensure that any line tax code is consistent with the subAccount tax code and that the usage is
                     // consitent with the tax authority usage.
                     if ((line.taxCode && subAccount.taxCode && line.taxCode.authority?.id != subAccount.taxCode.authority?.id) ||
-                            (line.taxCode && !subAccount.taxCode && line.taxCode.authority.usage != 'ad-hoc') ||
-                            (!line.taxCode && subAccount.taxCode && subAccount.taxCode.authority.usage == 'mandatory')) {
+                        (line.taxCode && !subAccount.taxCode && line.taxCode.authority.usage != 'ad-hoc') ||
+                        (!line.taxCode && subAccount.taxCode && subAccount.taxCode.authority.usage == 'mandatory')) {
                         temp = message(code: 'document.bad.taxCode', default: 'The tax code is inconsistent with the tax status of the account that the document total is being posted to')
                         documentInstance.errorMessage(code: 'document.line.message', args: [num, temp], default: "Line ${num}: ${temp}")
                         line.errors.rejectValue('taxCode', null)
@@ -491,7 +491,7 @@ class PostingService {
                             temp = utilService.getExchangeRate(documentInstance.currency, account.currency, now)
                             if (!temp) {
                                 documentInstance.errorMessage(code: 'document.bad.exchangeRate', args: [documentInstance.currency.code, account.currency.code],
-                                        default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
+                                    default: "No exchange rate available from ${documentInstance.currency.code} to ${account.currency.code}")
                                 valid = false
                                 break
                             }
@@ -577,7 +577,7 @@ class PostingService {
                         accountValue: lineAccountGoods + lineAccountTaxes, accountUnallocated: lineAccountGoods + lineAccountTaxes,
                         generalValue: lineCompanyGoods + lineCompanyTaxes, companyValue: lineCompanyGoods + lineCompanyTaxes,
                         companyUnallocated: lineCompanyGoods + lineCompanyTaxes, onHold: documentInstance.sourceHold, affectsTurnover: true)
-				line.account = account
+                line.account = account
 
                 if (ledger == 'customer') {
                     line.customer = subAccount
@@ -791,7 +791,7 @@ class PostingService {
             def fxAccount = bookService.getControlAccount(company, temp)
             if (!fxAccount) {
                 srcAllocation.errorMessage(field: 'accountDifference', code: 'document.no.control', args: [temp],
-                        default: "Could not find the ${temp} control account in the General Ledger")
+                    default: "Could not find the ${temp} control account in the General Ledger")
                 return false
             }
 
@@ -800,7 +800,7 @@ class PostingService {
             def ctrlAccount = bookService.getControlAccount(company, temp)
             if (!ctrlAccount) {
                 srcAllocation.errorMessage(field: 'accountDifference', code: 'document.no.control', args: [temp],
-                        default: "Could not find the ${temp} control account in the General Ledger")
+                    default: "Could not find the ${temp} control account in the General Ledger")
                 return false
             }
 
@@ -809,7 +809,7 @@ class PostingService {
             def period = bookService.selectPeriod(bookService.getOpenPeriods(company), now)
             if (!period) {
                 srcAllocation.errorMessage(field: 'accountDifference', code: 'document.no.period', args: [temp],
-                        default: 'Could not find an open period to post the document to')
+                    default: 'Could not find an open period to post the document to')
                 return false
             }
 
@@ -842,7 +842,7 @@ class PostingService {
 
             // Create a line in the document for the posting to the Customer/Supplier account
             fxAccountLine = new Line(description: description)
-			fxAccountLine.account = ctrlAccount
+            fxAccountLine.account = ctrlAccount
             if (accountIsCustomer) {
                 fxAccountLine.customer = account
             } else {
@@ -878,7 +878,7 @@ class PostingService {
             // Create the line in the manual fx difference document to post to the GL fx difference account
             def fxDifferenceLine = new Line(description: description, documentValue: -fxAccountLine.documentValue,
                     companyValue: -fxAccountLine.companyValue, generalValue: -fxAccountLine.generalValue)
-			fxDifferenceLine.account = fxAccount
+            fxDifferenceLine.account = fxAccount
 
             // Add the lines to the manual fx difference document
             fxDocument.addToLines(fxAccountLine)
@@ -988,123 +988,123 @@ class PostingService {
 
         return valid
     }
-	
-	// Create the lines of an input document being entered by the user. Returns zero if the
-	// lines are ok or the line number (one based) of the first line in error if a data binding
-	// errors occur on a line. NOTE that this method simply re-creates the lines each time
-	// without attempting to 'discard' any existing lines. This works because an accounting
-	// document is NEVER editable and so this method would never be called on an existing
-	// document (i.e. all the child lines are new and can be simply thrown away).
-	def refreshDocumentLines(document, params) {
-		document.lines = new ListOrderedSet()	// Throw away any attempt Grails might have made to load the lines - they get it wrong
-		def pos = 0
-		def err = 0
-		def line, map
-		while (true) {
-			map = params."lines[${pos++}]"	// Note we increment 'pos' at this point so that we can return 'base 1' line numbers
-			if (map == null) break	// No more lines[n] parameters, so we've done
-				
-			// Create a new document line, add in its transients and then add it to the document
-			line = new Line(map)
-			line.properties['documentTotal', 'documentDebit', 'documentCredit', 'accountCode', 'accountName', 'accountType'] = map
-			document.addToLines(line)
-			if (line.hasErrors()&& !err) err = pos
-		}
 
-		return err
-	}
+    // Create the lines of an input document being entered by the user. Returns zero if the
+    // lines are ok or the line number (one based) of the first line in error if a data binding
+    // errors occur on a line. NOTE that this method simply re-creates the lines each time
+    // without attempting to 'discard' any existing lines. This works because an accounting
+    // document is NEVER editable and so this method would never be called on an existing
+    // document (i.e. all the child lines are new and can be simply thrown away).
+    def refreshDocumentLines(document, params) {
+        document.lines = new ListOrderedSet()	// Throw away any attempt Grails might have made to load the lines - they get it wrong
+        def pos = 0
+        def err = 0
+        def line, map
+        while (true) {
+            map = params."lines[${pos++}]"	// Note we increment 'pos' at this point so that we can return 'base 1' line numbers
+            if (map == null) break	// No more lines[n] parameters, so we've done
+
+            // Create a new document line, add in its transients and then add it to the document
+            line = new Line(map)
+            line.properties['documentTotal', 'documentDebit', 'documentCredit', 'accountCode', 'accountName', 'accountType'] = map
+            document.addToLines(line)
+            if (line.hasErrors()&& !err) err = pos
+        }
+
+        return err
+    }
 
     // Create the lines of a template being entered. Returns zero if the lines are ok or the line
-	// number (one based) of the first line in error if a data binding errors occur on a line. We
-	// have to be careful with this since there may be existing lines being edited and therefore
-	// we can't just throw them away since Grails might try to save them as new lines. We do all
-	// this complicated messing around because Grails usually messes up the loading of child lines
-	// from the params map and so the only safe way to do it is to do it ourselves.
+    // number (one based) of the first line in error if a data binding errors occur on a line. We
+    // have to be careful with this since there may be existing lines being edited and therefore
+    // we can't just throw them away since Grails might try to save them as new lines. We do all
+    // this complicated messing around because Grails usually messes up the loading of child lines
+    // from the params map and so the only safe way to do it is to do it ourselves.
     def refreshTemplateLines(template, params) {
-		
-		// Get rid of anything Grails might have tried to do
-		for (line in template.lines) if (line) line.discard()
-		template.lines = new ListOrderedSet()	// Start afresh with our own child list
+
+        // Get rid of anything Grails might have tried to do
+        for (line in template.lines) if (line) line.discard()
+        template.lines = new ListOrderedSet()	// Start afresh with our own child list
         def pos = 0
         def err = 0
         def line, map
         while (true) {
             map = params."lines[${pos++}]"	// Note we increment 'pos' at this point so that we can return 'base 1' line numbers
             if (map == null) break
-			
-			// If an existing line record try and reload it, otherwise just set the line to null
-			line = map.ident?.isLong() ? TemplateLine.findByIdAndSecurityCode(map.ident.toLong(), template.securityCode) : null
-			if (!line) line = new TemplateLine(template: template)	// Create a new line if necessary
-			line.properties = map	// Set the new property values
-			line.properties['documentDebit', 'documentCredit', 'accountCode', 'accountName', 'accountType'] = map	// Transients
-			template.lines.add(line)
+
+            // If an existing line record try and reload it, otherwise just set the line to null
+            line = map.ident?.isLong() ? TemplateLine.findByIdAndSecurityCode(map.ident.toLong(), template.securityCode) : null
+            if (!line) line = new TemplateLine(template: template)	// Create a new line if necessary
+            line.properties = map	// Set the new property values
+            line.properties['documentDebit', 'documentCredit', 'accountCode', 'accountName', 'accountType'] = map	// Transients
+            template.lines.add(line)
             if (line.hasErrors()&& !err) err = pos
         }
 
         return err
     }
-	
+
     // Create the lines of a report format being entered. We have to be careful with this since
-	// there may be existing lines being edited and therefore we can't just throw them away since
-	// Grails might try to save them as new lines. We do all this complicated messing around
-	// because Grails usually messes up the loading of child lines from the params map and so the
-	// only safe way to do it is to do it ourselves.
-	def refreshReportLines(report, params, lineClass) {
-		
-		// Get rid of anything Grails might have tried to do
-		for (line in report.lines) if (line) line.discard()
-		report.lines = new ListOrderedSet()	// Start afresh with our own child list
+    // there may be existing lines being edited and therefore we can't just throw them away since
+    // Grails might try to save them as new lines. We do all this complicated messing around
+    // because Grails usually messes up the loading of child lines from the params map and so the
+    // only safe way to do it is to do it ourselves.
+    def refreshReportLines(report, params, lineClass) {
+
+        // Get rid of anything Grails might have tried to do
+        for (line in report.lines) if (line) line.discard()
+        report.lines = new ListOrderedSet()	// Start afresh with our own child list
         def pos = 0
         def err = 0
         def line, map
         while (true) {
             map = params."lines[${pos++}]"
             if (map == null) break
-			
-			// If an existing line record try and reload it, otherwise just set the line to null
-			line = map.ident?.isLong() ? lineClass.findByIdAndSecurityCode(map.ident.toLong(), report.securityCode) : null
-			
-			// Create a new line if necessary, not forgetting to set its parent report format
-			if (!line) {
-				line = lineClass.newInstance()
-				line.format = report
-			}
-			
-			line.properties = map	// Set the new property values
-			report.lines.add(line)
-        }
-	}
-	
-	// Create the lines of a recurring bank transaction being entered. Returns zero if the lines
-	// are ok or the line number (one based) of the first line in error if a data binding errors
-	// occur on a line. We have to be careful with this since there may be existing lines being
-	// edited and therefore we can't just throw them away since Grails might try to save them as
-	// new lines. We do all this complicated messing around because Grails usually messes up the
-	// loading of child lines from the params map and so the only safe way to do it is to do it
-	// ourselves.
-	def refreshRecurringLines(recurring, params) {
-		
-		// Get rid of anything Grails might have tried to do
-		for (line in recurring.lines) if (line) line.discard()
-		recurring.lines = new ListOrderedSet()	// Start afresh with our own child list
-		def pos = 0
-		def err = 0
-		def line, map
-		while (true) {
-			map = params."lines[${pos++}]"	// Note we increment 'pos' at this point so that we can return 'base 1' line numbers
-			if (map == null) break
-			
-			// If an existing line record try and reload it, otherwise just set the line to null
-			line = map.ident?.isLong() ? RecurringLine.findByIdAndSecurityCode(map.ident.toLong(), recurring.securityCode) : null
-			if (!line) line = new RecurringLine(recurrence: recurring)	// Create a new line if necessary
-			line.properties = map	// Set the new property values
-			line.properties['accountCode', 'accountName', 'accountType', 'used'] = map	// Transients
-			recurring.lines.add(line)
-			if (line.hasErrors()&& !err) err = pos
-		}
 
-		return err
-	}
+            // If an existing line record try and reload it, otherwise just set the line to null
+            line = map.ident?.isLong() ? lineClass.findByIdAndSecurityCode(map.ident.toLong(), report.securityCode) : null
+
+            // Create a new line if necessary, not forgetting to set its parent report format
+            if (!line) {
+                line = lineClass.newInstance()
+                line.format = report
+            }
+
+            line.properties = map	// Set the new property values
+            report.lines.add(line)
+        }
+    }
+
+    // Create the lines of a recurring bank transaction being entered. Returns zero if the lines
+    // are ok or the line number (one based) of the first line in error if a data binding errors
+    // occur on a line. We have to be careful with this since there may be existing lines being
+    // edited and therefore we can't just throw them away since Grails might try to save them as
+    // new lines. We do all this complicated messing around because Grails usually messes up the
+    // loading of child lines from the params map and so the only safe way to do it is to do it
+    // ourselves.
+    def refreshRecurringLines(recurring, params) {
+
+        // Get rid of anything Grails might have tried to do
+        for (line in recurring.lines) if (line) line.discard()
+        recurring.lines = new ListOrderedSet()	// Start afresh with our own child list
+        def pos = 0
+        def err = 0
+        def line, map
+        while (true) {
+            map = params."lines[${pos++}]"	// Note we increment 'pos' at this point so that we can return 'base 1' line numbers
+            if (map == null) break
+
+            // If an existing line record try and reload it, otherwise just set the line to null
+            line = map.ident?.isLong() ? RecurringLine.findByIdAndSecurityCode(map.ident.toLong(), recurring.securityCode) : null
+            if (!line) line = new RecurringLine(recurrence: recurring)	// Create a new line if necessary
+            line.properties = map	// Set the new property values
+            line.properties['accountCode', 'accountName', 'accountType', 'used'] = map	// Transients
+            recurring.lines.add(line)
+            if (line.hasErrors()&& !err) err = pos
+        }
+
+        return err
+    }
 
     // Checks whether a document line can be posted to the specified account. Returns true if posting is allowed or
     // false if not allowed. If posting is not allowed, the document will have an error message attached and the line
@@ -1331,14 +1331,14 @@ class PostingService {
             // Create the allocation of the automatic fx difference document to the target line
             allocation = new Allocation(targetType: line.document.type, targetCode: line.document.code, targetId: line.id,
                     period: period, accountValue: 0.0, companyValue: line.companyUnallocated)
-			allocation.accountZeroAllowed = true
+            allocation.accountZeroAllowed = true
             sourceAllocations << allocation
 
             // Create the inverse allocation of the target line to the automatic fx difference document.
             // Note that we can't fill in the targetId at this stage since we haven't posted our document yet
             allocation = new Allocation(targetType: settlementDocumentType, targetCode: settlementDocumentNumber.toString(),
                     period: line.document.period, accountValue: 0.0, companyValue: -line.companyUnallocated)
-			allocation.accountZeroAllowed = true
+            allocation.accountZeroAllowed = true
             targetAllocations << allocation
 
             // Update the line company unallocated amount, which will now be zero
@@ -1362,7 +1362,7 @@ class PostingService {
 
             // Create a line in the document for the posting to the Customer/Supplier account
             fxAccountLine = new Line(description: description)
-			fxAccountLine.account = ctrlAccount
+            fxAccountLine.account = ctrlAccount
             if (accountIsCustomer) {
                 fxAccountLine.customer = account
             } else {
@@ -1382,7 +1382,7 @@ class PostingService {
 
             // Create the line in the manual fx difference document to post to the GL fx difference account
             def fxDifferenceLine = new Line(description: description, documentValue: -difference, companyValue: -difference, generalValue: -difference)
-			fxDifferenceLine.account = fxAccount
+            fxDifferenceLine.account = fxAccount
 
             // Add the lines to the manual fx difference document
             fxDocument.addToLines(fxAccountLine)
@@ -1400,12 +1400,12 @@ class PostingService {
             def line1 = lines[1]
             allocation = new Allocation(targetType: line1.document.type, targetCode: line1.document.code, targetId: line1.id,
                     period: line0.document.period, accountValue: 0.0, companyValue: -line0.companyUnallocated)
-			allocation.accountZeroAllowed = true
-			targetAllocations[0] = allocation
+            allocation.accountZeroAllowed = true
+            targetAllocations[0] = allocation
             allocation = new Allocation(targetType: line0.document.type, targetCode: line0.document.code, targetId: line0.id,
                     period: line1.document.period, accountValue: 0.0, companyValue: -line1.companyUnallocated)
-			allocation.accountZeroAllowed = true
-			targetAllocations[1] = allocation
+            allocation.accountZeroAllowed = true
+            targetAllocations[1] = allocation
         }
 
         // Update the lines
@@ -1446,7 +1446,7 @@ class PostingService {
         }
 
         if (tot) throw new IllegalArgumentException((String) message(code: 'document.posting.error', args: [tot.toPlainString()],
-                default: "Posting failure. Document does not balance by ${tot.toPlainString()}"))
+            default: "Posting failure. Document does not balance by ${tot.toPlainString()}"))
 
         return true
     }
@@ -1526,7 +1526,7 @@ class PostingService {
             line.customer.companyCurrentBalance += line.companyValue
             if (!line.customer.saveThis()) {
                 document.errorMessage(code: 'document.customer.error', args: [line.customer.code],
-                        default: "Could not update customer account ${line.customer.code}")
+                    default: "Could not update customer account ${line.customer.code}")
                 return false
             }
 
@@ -1537,7 +1537,7 @@ class PostingService {
 
                 if (!rec.saveThis()) {
                     document.errorMessage(code: 'document.ar.turnover', args: [line.customer.code, document.period.code],
-                            default: "Unable to update the turnover record for customer ${line.customer.code} in period ${document.period.code}")
+                        default: "Unable to update the turnover record for customer ${line.customer.code} in period ${document.period.code}")
                     return false
                 }
             }
@@ -1547,7 +1547,7 @@ class PostingService {
             line.supplier.companyCurrentBalance -= line.companyValue
             if (!line.supplier.saveThis()) {
                 document.errorMessage(code: 'document.supplier.error', args: [line.supplier.code],
-                        default: "Could not update supplier account ${line.supplier.code}")
+                    default: "Could not update supplier account ${line.supplier.code}")
                 return false
             }
 
@@ -1558,7 +1558,7 @@ class PostingService {
 
                 if (!rec.saveThis()) {
                     document.errorMessage(code: 'document.ap.turnover', args: [line.supplier.code, document.period.code],
-                            default: "Unable to update the turnover record for supplier ${line.supplier.code} in period ${document.period.code}")
+                        default: "Unable to update the turnover record for supplier ${line.supplier.code} in period ${document.period.code}")
                     return false
                 }
             }

@@ -30,12 +30,12 @@ class QueuedTaskController {
 
     // Security settings
     def activities = [default: 'coadmin', queue: 'sysadmin', start: 'sysadmin', stop: 'sysadmin', pause: 'sysadmin', resize: 'sysadmin',
-            queueShow: 'sysadmin', queueDelete: 'sysadmin', queueEdit: 'sysadmin', queueUpdate: 'sysadmin', queueRerun: 'sysadmin',
-            usrList: 'attached', usrShow: 'attached', usrDelete: 'attached', usrEdit: 'attached', usrUpdate: 'attached']
+        queueShow: 'sysadmin', queueDelete: 'sysadmin', queueEdit: 'sysadmin', queueUpdate: 'sysadmin', queueRerun: 'sysadmin',
+        usrList: 'attached', usrShow: 'attached', usrDelete: 'attached', usrEdit: 'attached', usrUpdate: 'attached']
 
     // List of actions with specific request types
     static allowedMethods = [delete: 'POST', update: 'POST', start: 'POST', stop: 'POST', pause: 'POST', resize: 'POST',
-            queueDelete: 'POST', queueUpdate: 'POST', usrDelete: 'POST', usrUpdate: 'POST']
+        queueDelete: 'POST', queueUpdate: 'POST', usrDelete: 'POST', usrUpdate: 'POST']
 
     def index() { redirect(action: 'list', params: params) }
 
@@ -123,7 +123,7 @@ class QueuedTaskController {
             }
 
             if (valid && queuedTaskInstance.preferredStart &&
-                    (queuedTaskInstance.preferredStart.getTime() < System.currentTimeMillis() - 60000L || queuedTaskInstance.preferredStart > new Date() + 365)) {
+            (queuedTaskInstance.preferredStart.getTime() < System.currentTimeMillis() - 60000L || queuedTaskInstance.preferredStart > new Date() + 365)) {
                 queuedTaskInstance.errorMessage(field: 'preferredStart', code: 'queuedTask.preferredStart.invalid', default: 'Invalid preferred start date and time')
                 valid = false
             }
@@ -289,7 +289,7 @@ class QueuedTaskController {
             }
 
             if (valid && queuedTaskInstance.preferredStart &&
-                    (queuedTaskInstance.preferredStart.getTime() < System.currentTimeMillis() - 60000L || queuedTaskInstance.preferredStart > new Date() + 365)) {
+            (queuedTaskInstance.preferredStart.getTime() < System.currentTimeMillis() - 60000L || queuedTaskInstance.preferredStart > new Date() + 365)) {
                 queuedTaskInstance.errorMessage(field: 'preferredStart', code: 'queuedTask.preferredStart.invalid', default: 'Invalid preferred start date and time')
                 valid = false
             }
@@ -415,7 +415,7 @@ class QueuedTaskController {
             queuedTaskInstance.properties['completionMessage', 'preferredStart'] = params
             def valid = !queuedTaskInstance.hasErrors()
             if (valid && queuedTaskInstance.preferredStart &&
-                    (queuedTaskInstance.preferredStart.getTime() < System.currentTimeMillis() - 60000L || queuedTaskInstance.preferredStart > new Date() + 365)) {
+            (queuedTaskInstance.preferredStart.getTime() < System.currentTimeMillis() - 60000L || queuedTaskInstance.preferredStart > new Date() + 365)) {
                 queuedTaskInstance.errorMessage(field: 'preferredStart', code: 'queuedTask.preferredStart.invalid', default: 'Invalid preferred start date and time')
                 valid = false
             }
