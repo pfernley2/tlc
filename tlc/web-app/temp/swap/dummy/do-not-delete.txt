@@ -1,0 +1,3 @@
+This file is here because GIT does not honour the project directory
+structure by including empty directories, yet the parent 'swap'
+folder is needed by JasperReports for its swap files.
